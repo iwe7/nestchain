@@ -1,1 +1,1 @@
-export { Module } from '@nestjs/common';
+export { Module, Controller, Injectable } from '@nestjs/common';

@@ -19,6 +19,7 @@
       "ims-cli": ["packages/ims-cli/src/ims-cli"],
       "ims-block": ["packages/ims-block/src/ims-block"],
       "ims-peer": ["packages/ims-peer/src/ims-peer"],
+      "ims-rxjs": ["packages/ims-rxjs/src/ims-rxjs"],
       "ims-nest": ["packages/ims-nest/src/ims-nest"],
       "ims-typeorm": ["packages/ims-typeorm/src/ims-typeorm"],
       "ims-decorator": ["packages/ims-decorator/src/ims-decorator"],
@@ -28,6 +29,7 @@
       "ims-consensus": ["packages/ims-consensus/src/ims-consensus"]
     },
     "lib": ["dom", "es2016.array.include", "esnext"],
+    "types": ["node"],
     "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules"],
