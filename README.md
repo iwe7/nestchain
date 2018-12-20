@@ -6,7 +6,7 @@
 | [ims-peer](./packages/ims-peer/README.md)           | p2p网络           | 开发中 |
 | [ims-consensus](./packages/ims-consensus/README.md) | 共识算法          | 开发中 |
 | [ims-security](./packages/ims-security/README.md)   | 加密算法          | 开发中 |
-| [ims-chain](./packages/ims-chain/README.md)         | 区块功能          | 开发中 |
+| [ims-chain](./packages/ims-chain/README.md)         | 链功能            | 开发中 |
 | [ims-cli](./packages/ims-cli/README.md)             | 命令行            | 开发中 |
 | [ims-core](./packages/ims-core/README.md)           | 共用              | 开发中 |
 | [ims-decorator](./packages/ims-decorator/README.md) | 装饰器            | 开发中 |
