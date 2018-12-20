@@ -13,10 +13,13 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "ims-chain": ["packages/ims-chain/src"],
-      "ims-chain/*": ["packages/ims-chain/src/*"]
-    }
+      "ims-chain": ["packages/ims-chain"],
+      "ims-util": ["packages/ims-util"],
+      "ims-core": ["packages/ims-core"]
+    },
+    "lib": ["dom", "es2016.array.include", "esnext"],
+    "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules"],
-  "include": ["packages", "test", "src"]
+  "include": ["packages", "test", "src", "tools"]
 }
