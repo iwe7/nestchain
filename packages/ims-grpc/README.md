@@ -41,7 +41,6 @@ yarn add ims-grpc
 - `GrpcClient`用于客户端配置
 - `injector`依据配置文件生成响应功能实例
 
-[demo]('./__tests__/ims-grpc.test.ts)
 
 # 服务端
 
