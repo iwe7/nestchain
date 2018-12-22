@@ -1,6 +1,6 @@
 {
-  "watch": ["packages"],
+  "watch": ["src", "packages"],
   "ext": "ts",
   "ignore": ["packages/**/*.spec.ts"],
-  "exec": "ts-node -r tsconfig-paths/register packages/ims-chain/src/main.ts"
+  "exec": "ts-node -r tsconfig-paths/register src/main.ts"
 }

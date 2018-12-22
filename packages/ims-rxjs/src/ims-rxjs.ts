@@ -1,1 +1,1 @@
-export { Observable } from 'rxjs';
+export { switchMap, map } from 'rxjs/operators';
