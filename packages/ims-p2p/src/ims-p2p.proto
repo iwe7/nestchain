@@ -1,0 +1,4 @@
+syntax = "proto3";
+package ims-p2p;
+
+service ImsP2pService {}

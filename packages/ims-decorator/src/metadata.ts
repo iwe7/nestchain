@@ -19,6 +19,7 @@ export const metadataTable = new Table(
       'returnType',
       'parameters',
       'methodRuntime',
+      'visit'
     ],
     indices: [
       'target',

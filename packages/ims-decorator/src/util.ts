@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 const _getMetadata = (type: string) => (v: any, key?: string | symbol) => {
   return Reflect.getMetadata(type, v, key);
 };

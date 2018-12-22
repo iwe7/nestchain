@@ -3,9 +3,9 @@ export function compose(...args: any[]) {
     return dir => dir;
   }
   return args.reduce(
-    (acc, curr) => {
-      return target => curr(acc(target));
+    (acc: any, curr: any) => {
+      return (target: any) => curr(acc(target));
     },
-    dir => dir
+    (dir: any) => dir,
   );
 }

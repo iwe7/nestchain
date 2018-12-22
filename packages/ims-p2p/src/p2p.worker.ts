@@ -9,7 +9,6 @@ export class P2pWorker extends SCWorker {
     let httpServer = this.httpServer;
     let scServer = this.scServer;
     httpServer.on('request', app);
-
     scServer.on('handshake' as any, socket => {
       // todo 握手
       socket.on('message', message => {
@@ -33,5 +32,4 @@ export class P2pWorker extends SCWorker {
     );
   }
 }
-
 new P2pWorker();

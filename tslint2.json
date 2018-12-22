@@ -27,7 +27,12 @@
     "no-debugger": false,
     "no-empty": false,
     "radix": false,
-    "max-classes-per-file": false
+    "max-classes-per-file": false,
+    "only-arrow-functions": false,
+    "array-type": false,
+    "ban-types": false,
+    "no-bitwise": false,
+    "no-any": false
   },
   "rulesDirectory": []
 }

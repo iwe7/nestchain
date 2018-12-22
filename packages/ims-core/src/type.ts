@@ -10,7 +10,7 @@ export interface ObjectLiteral {
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> };
 
 export function isType<T = any>(v: any): v is Type<T> {
-  return typeof v === "function";
+  return typeof v === 'function';
 }
 
 export type Mutable<T extends { [x: string]: any }, K extends string> = {
@@ -18,3 +18,7 @@ export type Mutable<T extends { [x: string]: any }, K extends string> = {
 };
 
 export type IInjector<T = any> = Type<T>[] | { [key: string]: Type<T> };
+
+export function iInjectorToArray(injector: IInjector) {
+  return Object.keys(injector).map(it => injector[it]);
+}

@@ -67,7 +67,6 @@ export class P2pSubscriber<T> extends Subscriber<T> {
     };
     let socket = new SocketCluster(webSocketConfig);
   }
-
   next(data: T) {
     this.destination.next(data);
   }
