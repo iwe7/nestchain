@@ -26,5 +26,6 @@
   "dependencies": {
     "@types/ramda": "^0.25.45",
     "ramda": "^0.26.1"
-  }
+  },
+  "gitHead": "9292e54257e8238e48474ac08c1ba8e0592e1a8c"
 }
