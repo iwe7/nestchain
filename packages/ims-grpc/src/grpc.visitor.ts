@@ -13,7 +13,7 @@ import {
 } from 'grpc';
 import { loadSync } from '@grpc/proto-loader';
 import { Type } from 'ims-core';
-import { toLTitleCase } from 'ims-util';
+import { toLTitleCase, setProperty } from 'ims-util';
 import {
   GrpcServerOptions,
   GrpcRouterOptions,
@@ -78,7 +78,6 @@ export class GrpcVisitor extends Visitor {
       it.metadataFactory = function(type: Type<any>) {
         return class extends type {
           package: any = {};
-          instance: any = {};
           constructor(...args: any[]) {
             super(...args);
             this.package = loadPackageDefinition(
@@ -87,15 +86,26 @@ export class GrpcVisitor extends Visitor {
             that.visitTypeOther(type, parent, this);
           }
           get(name: string) {
-            let [pkg, cls] = name.split('.');
-            let method = this.package[pkg][cls];
-            return new method(options.address, credentials.createInsecure());
+            try {
+              let [pkg, cls] = name.split('.');
+              let method = this.package[pkg][cls];
+              return new method(options.address, credentials.createInsecure());
+            } catch (e) {
+              throw new Error(`找不到${name}`);
+            }
+          }
+
+          set(key: string, val: any) {
+            Object.defineProperty(this, key, {
+              get: () => val,
+            });
           }
         };
       };
     }
     if (isPropertyMetadata(it)) {
-      context[it.propertyKey] = context.get(`${options.path}`);
+      let prototype = context.get(`${options.path}`);
+      context.set(it.propertyKey, prototype);
     }
     return it;
   }

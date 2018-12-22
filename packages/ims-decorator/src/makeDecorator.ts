@@ -113,6 +113,7 @@ export function makeDecorator<T = any>(
         defineMetadata(meta);
       }
       callback && callback(target, meta);
+      return target;
     };
   };
 }

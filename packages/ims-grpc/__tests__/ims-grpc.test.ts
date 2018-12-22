@@ -30,11 +30,27 @@ export class TestGrpcClient {
 }
 
 let server = injector(TestGrpc);
+// 改变参数
+let server2 = injector(TestGrpc, {
+  address: address(),
+});
+
 let client = injector(TestGrpcClient);
+// 改变参数
+let client2 = injector(TestGrpcClient, {
+  address: '0.0.0.0:50002',
+});
+
 let instance = client.greeter;
+let instance2 = client2.greeter;
 
 let time = new Date().getTime();
 instance.sayHello({ name: 'hello' }, (err, res) => {
+  if (err) throw err;
+  console.log(res, new Date().getTime() - time);
+});
+
+instance2.sayHello({ name: 'hello' }, (err, res) => {
   if (err) throw err;
   console.log(res, new Date().getTime() - time);
 });
