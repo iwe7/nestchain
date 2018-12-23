@@ -1,5 +1,6 @@
 import { createConnection, ConnectionOptions } from 'typeorm';
 import { Log } from './log.entity';
+
 const options: ConnectionOptions = {
   type: 'mongodb',
   host: 'localhost',
@@ -39,4 +40,5 @@ createConnection(options).then(async connection => {
   console.log('run');
 
   connection.close();
+  connection = null;
 });
