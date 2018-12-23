@@ -13,7 +13,7 @@ import {
 } from 'grpc';
 import { loadSync } from '@grpc/proto-loader';
 import { Type } from 'ims-core';
-import { toLTitleCase, setProperty } from 'ims-util';
+import { toLTitleCase } from 'ims-util';
 import {
   GrpcServerOptions,
   GrpcRouterOptions,

@@ -1,0 +1,20 @@
+version: '2'
+services:
+  db:
+    image: 'mysql'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - '0.0.0.0:3306:3306'
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_DATABASE: meepo
+      MYSQL_ROOT_PASSWORD: yang1989.
+  mongodb:
+    image: 'mongo'
+    ports:
+      - '27017:27017'
+  memcached:
+    image: 'memcached'
+    ports:
+      - '0.0.0.0:11211:11211'

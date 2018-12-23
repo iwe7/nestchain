@@ -21,7 +21,7 @@
 | [ims-redis](./packages/ims-redis/README.md)         | redis相关      | 开发中  |
 | [ims-typeorm](./packages/ims-typeorm/README.md)     | typeorm数据库相关 | 开发中  |
 | [ims-util](./packages/ims-util/README.md)           | 工具相关         | 开发中  |
-| [ims-grpc](./packages/ims-grpc/README.md)           | grpc通信       | 开发完成 |
+| [ims-grpc](./packages/ims-grpc)           | grpc通信       | 开发完成 |
 
 # 开发计划
 
