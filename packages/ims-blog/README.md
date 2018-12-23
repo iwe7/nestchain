@@ -1,6 +1,6 @@
 # `ims-blog`
 
-> TODO: description
+> TODO: 个人博客
 
 ## Usage
 
