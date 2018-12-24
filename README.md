@@ -1,7 +1,7 @@
 # 区块链
 
 <h1 align="center">
-  <a href="libp2p.io"><img width="250" src="https://github.com/nestchain/static/logo/logo.jpeg?raw=true" alt="libp2p hex logo" /></a>
+  <a href="libp2p.io"><img width="250" src="https://github.com/iwe7/nestchain/static/logo/logo.jpeg?raw=true" /></a>
 </h1>
 
 # 文档
@@ -25,7 +25,7 @@
 | [ims-redis](./packages/ims-redis/README.md)         | redis相关      | 开发中  |
 | [ims-typeorm](./packages/ims-typeorm/README.md)     | typeorm数据库相关 | 开发中  |
 | [ims-util](./packages/ims-util/README.md)           | 工具相关         | 开发中  |
-| [ims-grpc](./packages/ims-grpc)           | grpc通信       | 开发完成 |
+| [ims-grpc](./packages/ims-grpc)                     | grpc通信       | 开发完成 |
 
 # 开发计划
 
