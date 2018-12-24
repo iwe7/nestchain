@@ -41,12 +41,23 @@ export class Visitor {
     return new Target(...args) as any;
   }
 
-  visitTypeOther(type: Type<any>, parent: any, context: any) {
+  visitTypeOther(
+    type: Type<any>,
+    parent: any,
+    context: any,
+    key: string[] = [],
+  ) {
     let meta = getMetadata(type);
     meta = meta
       .filter(it => !isClassMetadata(it))
       .map(it => {
-        return this.visit(it, parent, context);
+        if (key.length > 0) {
+          if (key.indexOf(it.metadataKey) > -1) {
+            return this.visit(it, parent, context);
+          }
+        } else {
+          return this.visit(it, parent, context);
+        }
       });
   }
 }

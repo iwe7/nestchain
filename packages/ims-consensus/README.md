@@ -1,6 +1,6 @@
 # `ims-consensus`
 
-> TODO: 公式算法
+> TODO: 共识算法
 
 ## Usage
 

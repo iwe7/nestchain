@@ -2,6 +2,19 @@
 
 > TODO: typeorm
 
+# db
+
+* couchdb 面向文档的数据库
+* levelDb KV数据库
+* mysql 关系型数据库
+* cassandra 开源分布式NoSQL数据库系统
+* Couchbase 目前最好的NoSQL数据库平台
+* mongodb
+* redis
+* sqllite
+* neo4j
+* Oracle
+* PostgreSQL
 # 启动
 
 检查失败日志，链接失败主机，重试失败日志，返回结果，根绝结果修改日志状态

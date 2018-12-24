@@ -38,6 +38,7 @@
     "@types/socket.io": "^2.1.2",
     "@types/socketcluster": "^14.0.1",
     "@types/socketcluster-server": "^13.1.1",
+    "@types/yargs-parser": "^11.0.1",
     "bignumber.js": "^8.0.1",
     "grpc": "^1.17.0",
     "ioredis": "^4.3.0",
