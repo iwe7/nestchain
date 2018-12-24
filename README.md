@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="libp2p.io"><img width="250" src="https://github.com/iwe7/nestchain/blob/master/static/logo/logo.jpeg" /></a>
+  <a href="libp2p.io"><img width="250" src="https://github.com/iwe7/nestchain/blob/master/static/logo/logo.png" /></a>
 </h1>
 <h3 align="center">区块链</h3>
 
