@@ -28,3 +28,8 @@
 
 # 参考
 - [lisk](https://github.com/LiskHQ/lisk)
+
+
+curl -sSL https://get.docker.com/ | sh
+
+实名

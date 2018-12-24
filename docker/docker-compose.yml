@@ -4,11 +4,11 @@ services:
     image: 'node'
     volumes:
       - ./:/imeepos
-      - /imeepos/node_modules
-      - /etc/letsencrypt/live/meepo.com.cn-0001:/imeepos/src/cert
+      - ./src/:/imeepos/src/
     ports:
       - '0.0.0.0:80:80'
-    command: 'npm run express'
+      - '0.0.0.0:443:443'
+    command: 'npm run nodemon'
     restart: always
     working_dir: /imeepos
   db:

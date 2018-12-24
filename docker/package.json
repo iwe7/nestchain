@@ -1,0 +1,22 @@
+{
+  "name": "docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm install && ts-node -r tsconfig-paths/register src/main.ts",
+    "nodemon": "npm install && nodemon"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "*",
+    "@types/express": "*",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.7.0",
+    "express": "*",
+    "typescript": "*",
+    "reflect-metadata": "*",
+    "nodemon": "^1.18.3"
+  }
+}

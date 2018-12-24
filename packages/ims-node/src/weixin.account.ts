@@ -1,18 +1,26 @@
 import { ImsAccount } from './account';
 import axios, { AxiosResponse } from 'axios';
 import { from, Observable, of } from 'rxjs';
+import { stringify } from 'qs';
 import { pluck, tap, filter, switchMap, map } from 'rxjs/operators';
+import express = require('express');
 import { ImsCache, ImsCacheModel } from 'ims-cache';
+import iconv = require('iconv-lite');
+import url = require('url');
+
 export enum WeixinDomain {
   api = 'api.weixin.qq.com',
   api2 = 'api2.weixin.qq.com',
   shApi = 'sh.api.weixin.qq.com',
   szApi = 'sz.api.weixin.qq.com',
   hkApi = 'hk.api.weixin.qq.com',
+  open = 'open.weixin.qq.com',
 }
 
 export const WeixinApi = {
+  getCode: `https://${WeixinDomain.open}/connect/oauth2/authorize`,
   getAccessToken: `https://${WeixinDomain.api}/cgi-bin/token`,
+  getOpenid: `https://${WeixinDomain.api}/cgi-bin/user/info/batchget`,
 };
 
 export interface IGetAccessTokenResponse {
@@ -22,9 +30,13 @@ export interface IGetAccessTokenResponse {
   errmsg?: string;
 }
 
+export interface IGetOpenidResponse {}
+
 export class WeixinAccount extends ImsAccount {
   appId: string;
   secret: string;
+  // 回调地址
+  redirectUri: string = '';
   constructor(accountId: string) {
     super(accountId);
     this.appId = 'wx6e41c8b66a4a3cf1';
@@ -54,7 +66,9 @@ export class WeixinAccount extends ImsAccount {
     return `${this.appId}:AccessToken`;
   }
 
-  // 获取新的
+  /**
+   * 获取新的
+   */
   public getNewAccessToken() {
     return from(
       axios.get<IGetAccessTokenResponse>(`${WeixinApi.getAccessToken}`, {
@@ -90,7 +104,9 @@ export class WeixinAccount extends ImsAccount {
       }),
     );
   }
-  //检查缓存
+  /**
+   * 检查缓存
+   */
   public getAccessToken(): Observable<string> {
     // 检查appid和secret
     return ImsCache.get(this.accessTokenKey).pipe(
@@ -115,6 +131,20 @@ export class WeixinAccount extends ImsAccount {
   public clearAccessToken() {
     return ImsCache.del(this.accessTokenKey);
   }
+  public getCode(scope: 'snsapi_userinfo' | 'snsapi_base', state: string) {
+    return `${WeixinApi.getCode}?${stringify({
+      appid: this.appId,
+      redirect_uri: this.redirectUri,
+      response_type: 'code',
+      scope: scope,
+      state: state,
+    })}#wechat_redirect`;
+  }
+
+  public getOpenid() {
+    return from(axios.get(this.getCode('snsapi_base', 'state'))).pipe();
+  }
+
   /**
    * 获取 jsapi_ticketP
    */
@@ -143,3 +173,13 @@ export class WeixinAccount extends ImsAccount {
    */
   public fansQueryInfo() {}
 }
+
+let weixin = new WeixinAccount('');
+let app = express();
+import { join } from 'path';
+app.use(express.static(join(__dirname, 'public')));
+app.get('*', async (req, res, next) => {
+  res.send('hello');
+  res.end();
+});
+app.listen(80, '0.0.0.0');
