@@ -1,6 +1,6 @@
 # `ims-addon`
 
-> TODO: description
+> TODO: 插件系统
 
 ## Usage
 
