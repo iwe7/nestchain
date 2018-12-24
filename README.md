@@ -1,5 +1,9 @@
 # 区块链
 
+<h1 align="center">
+  <a href="libp2p.io"><img width="250" src="https://github.com/nestchain/static/logo/logo.jpeg?raw=true" alt="libp2p hex logo" /></a>
+</h1>
+
 # 文档
 
 - [中文文档](./docs/cn/README.md)
