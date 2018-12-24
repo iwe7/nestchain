@@ -53,17 +53,10 @@ export class WeixinAccount extends ImsAccount {
   get accessTokenKey() {
     return `${this.appId}:AccessToken`;
   }
-  public getAccessToken(): Observable<string> {
-    // 检查appid和secret
-    let check = new Observable(obs => {
-      if (!this.appId || !this.secret) {
-        obs.error(new Error(`未填写公众号的 appid 或 appsecret！`));
-      }
-      obs.next();
-      obs.complete();
-    });
-    // 获取新的AccessToken
-    let get: Observable<string> = from(
+
+  // 获取新的
+  public getNewAccessToken() {
+    return from(
       axios.get<IGetAccessTokenResponse>(`${WeixinApi.getAccessToken}`, {
         params: {
           grant_type: 'client_credential',
@@ -96,18 +89,19 @@ export class WeixinAccount extends ImsAccount {
         }
       }),
     );
-    // 检查原来的AccessToken是否有效
-    return check.pipe(
-      switchMap(() => {
-        return ImsCache.get(this.accessTokenKey).pipe(
-          switchMap(res => {
-            if (!res) {
-              return get;
-            } else {
-              return of(res);
-            }
-          }),
-        );
+  }
+  //检查缓存
+  public getAccessToken(): Observable<string> {
+    // 检查appid和secret
+    return ImsCache.get(this.accessTokenKey).pipe(
+      tap(res => console.log(res)),
+      switchMap(res => {
+        if (!res) {
+          // 获取新的AccessToken
+          return this.getNewAccessToken();
+        } else {
+          return of(res);
+        }
       }),
     );
   }
@@ -149,8 +143,3 @@ export class WeixinAccount extends ImsAccount {
    */
   public fansQueryInfo() {}
 }
-
-let account = new WeixinAccount('');
-account.getAccessToken().subscribe(res => {
-  debugger;
-});

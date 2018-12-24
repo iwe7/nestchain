@@ -1,9 +1,7 @@
 import { createClient } from 'redis';
 import { Observable, forkJoin, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-
 let client = createClient();
-client.unref();
 export enum ImsCacheModel {
   // seconds
   EX = 'EX',
@@ -23,6 +21,7 @@ export class ImsCache {
   ): Observable<string> {
     return new Observable(obs => {
       client.set(key, value, model, duration, (err, res) => {
+        debugger;
         if (err) obs.error(err);
         obs.next(value);
         obs.complete();
@@ -31,15 +30,33 @@ export class ImsCache {
   }
 
   static get(key: string): Observable<string> {
-    return this.toObservable<string>(client.get.bind(client), key);
+    return new Observable(obs => {
+      client.get(key, (err, reply) => {
+        if (err) obs.error(err);
+        obs.next(reply);
+        obs.complete();
+      });
+    });
   }
 
   static del(key: string): Observable<any> {
-    return this.toObservable<any>(client.del.bind(client), key);
+    return new Observable(obs => {
+      client.del(key, (err, reply) => {
+        if (err) obs.error(err);
+        obs.next(reply);
+        obs.complete();
+      });
+    });
   }
 
   static keys(pattern: string): Observable<string[]> {
-    return this.toObservable<string[]>(client.keys.bind(client), pattern);
+    return new Observable(obs => {
+      client.keys(pattern, (err, reply) => {
+        if (err) obs.error(err);
+        obs.next(reply);
+        obs.complete();
+      });
+    });
   }
 
   static clean(): Observable<boolean> {
@@ -52,20 +69,5 @@ export class ImsCache {
         }
       }),
     );
-  }
-
-  static toObservable<T>(fn: any, ...args: any[]): Observable<T> {
-    return new Observable(obs => {
-      fn(...args, (err: any, ...res: any[]) => {
-        if (err) obs.error();
-        if (res.length === 1) {
-          obs.next(res[0]);
-          obs.complete();
-        } else {
-          obs.next(res as any);
-          obs.complete();
-        }
-      });
-    });
   }
 }
