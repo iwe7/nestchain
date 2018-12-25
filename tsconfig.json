@@ -31,7 +31,8 @@
       "ims-consensus": ["packages/ims-consensus/src/ims-consensus"],
       "ims-grpc": ["packages/ims-grpc/src/ims-grpc"],
       "ims-cache": ["packages/ims-cache/src/ims-cache"],
-      "ims-error": ["packages/ims-error/src/ims-error"]
+      "ims-error": ["packages/ims-error/src/ims-error"],
+      "ims-peer-id": ["packages/ims-peer-id/src/ims-peer-id"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
