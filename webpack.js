@@ -9,6 +9,8 @@ module.exports = {
     path: path.join(root, 'www/public/web'),
     filename: 'bundle.js',
   },
+  node: true,
+  target: 'web',
   module: {
     rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
   },
