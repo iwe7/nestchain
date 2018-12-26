@@ -41,7 +41,8 @@
       "ims-install": ["packages/ims-install/src/ims-install"],
       "ims-const": ["packages/ims-const/src/ims-const"],
       "ims-fs": ["packages/ims-fs/src/ims-fs"],
-      "ims-os": ["packages/ims-os/src/ims-os"]
+      "ims-os": ["packages/ims-os/src/ims-os"],
+      "ims-scripts": ["packages/ims-scripts/src/ims-scripts"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
