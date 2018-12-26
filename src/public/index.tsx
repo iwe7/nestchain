@@ -6,5 +6,4 @@ export class AppIndex extends Component<any, any> {
     return <div>首页</div>;
   }
 }
-
 render(<AppIndex />, document.getElementById('app'));

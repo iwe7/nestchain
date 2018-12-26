@@ -1,29 +1,29 @@
 import 'reflect-metadata';
-import { GrpcServer, GrpcClient, GrpcRouter, injector } from 'ims-grpc';
+import { Server, Client, Router, injector } from 'ims-grpc';
 
 let port = 50000;
 let address = () => `0.0.0.0:${++port}`;
-@GrpcRouter('Greeter')
+@Router('Greeter')
 export class Greeter {
-  @GrpcRouter()
+  @Router()
   sayHello(call, callback) {
     callback(null, { message: 'greeter' });
   }
 }
 
-@GrpcServer({
+@Server({
   fileName: __dirname + '/test.proto',
   router: [Greeter],
   address: address(),
 })
 export class TestGrpc {}
 
-@GrpcClient({
+@Client({
   fileName: __dirname + '/test.proto',
   address: '0.0.0.0:50001',
 })
 export class TestGrpcClient {
-  @GrpcClient({
+  @Client({
     path: 'helloworld.Greeter',
   })
   greeter: any;

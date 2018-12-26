@@ -5,7 +5,7 @@ import {
   WsResponse,
 } from '@nestjs/websockets';
 import { from, Observable } from 'rxjs';
-import { map } from 'ims-rxjs';
+import { map } from 'rxjs/operators';
 
 @WebSocketGateway(8080)
 export class EventsGateway {

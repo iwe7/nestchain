@@ -1,22 +1,16 @@
 const path = require('path');
 const root = process.cwd();
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = {
+const config = {
   entry: {
     main: path.join(root, 'src/public/index.tsx'),
   },
   output: {
-    path: path.join(root, 'www/public/web'),
-    filename: 'bundle.js',
+    path: path.join(root, 'www', 'public/web'),
+    filename: '[name].js',
   },
-  node: true,
-  target: 'web',
   module: {
     rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(root, 'src/public/index.html'),
-    }),
-  ],
+  plugins: [],
 };
+module.exports = config;

@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { Module, Controller, Get, Res } from '@nestjs/common';
 import { ImsInstallModule, ImsInstallService } from 'ims-install';
 import { Response } from 'express';
-
+import { PUBLIC_PATH } from 'ims-const';
 @Controller()
 export class IndexController {
   constructor(private install: ImsInstallService) {}
@@ -26,6 +26,7 @@ export class ApplicationModule {}
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule);
+  app.useStaticAssets(PUBLIC_PATH);
   await app.listen(3000);
 }
 bootstrap();

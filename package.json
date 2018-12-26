@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "webpack": "webpack -p webpack.js",
+    "webpack": "webpack --config webpack.js",
     "ts:client": "npm ts src/main.ts",
     "ts:server": "npm ts src/main.ts",
     "build": "tsc -p tsconfig.build.json",
@@ -113,7 +113,8 @@
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.7.0",
-    "tslint": "5.11.0"
+    "tslint": "5.11.0",
+    "webpack-cli": "^3.1.2"
   },
   "jest": {
     "moduleFileExtensions": [
