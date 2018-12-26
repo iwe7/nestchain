@@ -1,1 +1,1 @@
-export { switchMap, map } from 'rxjs/operators';
+export * from './fromCallback';

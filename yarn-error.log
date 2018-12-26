@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/libp2p-crypto
+  /usr/local/bin/node /usr/local/bin/yarn add @types/level
 
 PATH: 
   /Users/imeepos/.cargo/bin:/Users/imeepos/go/bin:/Users/imeepos/.deno/bin:/Users/imeepos/.cargo/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin:/Users/imeepos/.cargo/bin:/Users/imeepos/go/bin:/Users/imeepos/.deno/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/Users/imeepos/.composer/vendor/bin:/Users/imeepos/go/bin:/Users/imeepos/.composer/vendor/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npmjs.org/@types%2flibp2p-crypto: Not found
+  Error: https://registry.npmjs.org/@types%2flevel: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:65656:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:134675:22)
       at Request.emit (events.js:182:13)
@@ -83,6 +83,7 @@ npm manifest:
       "ioredis": "^4.3.0",
       "ip": "^1.1.5",
       "ipfs": "^0.33.1",
+      "level": "^4.0.0",
       "libp2p": "^0.24.3",
       "libp2p-bootstrap": "^0.9.4",
       "libp2p-kad-dht": "^0.14.1",
@@ -1168,7 +1169,7 @@ Lockfile:
     dependencies:
       xtend "~4.0.0"
   
-  abstract-leveldown@^5.0.0:
+  abstract-leveldown@^5.0.0, abstract-leveldown@~5.0.0:
     version "5.0.0"
     resolved "https://registry.npmjs.org/abstract-leveldown/-/abstract-leveldown-5.0.0.tgz#f7128e1f86ccabf7d2893077ce5d06d798e386c6"
     dependencies:
@@ -3101,6 +3102,13 @@ Lockfile:
     dependencies:
       abstract-leveldown "~4.0.0"
   
+  deferred-leveldown@~4.0.0:
+    version "4.0.2"
+    resolved "https://registry.npmjs.org/deferred-leveldown/-/deferred-leveldown-4.0.2.tgz#0b0570087827bf480a23494b398f04c128c19a20"
+    dependencies:
+      abstract-leveldown "~5.0.0"
+      inherits "^2.0.3"
+  
   define-properties@^1.1.2:
     version "1.1.3"
     resolved "https://registry.npmjs.org/define-properties/-/define-properties-1.1.3.tgz#cf88da6cbee26fe6db7094f61d870cbd84cee9f1"
@@ -3321,7 +3329,7 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.npmjs.org/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
   
-  encoding-down@^5.0.4:
+  encoding-down@^5.0.4, encoding-down@~5.0.0:
     version "5.0.4"
     resolved "https://registry.npmjs.org/encoding-down/-/encoding-down-5.0.4.tgz#1e477da8e9e9d0f7c8293d320044f8b2cd8e9614"
     dependencies:
@@ -6555,7 +6563,7 @@ Lockfile:
     dependencies:
       errno "~0.1.1"
   
-  level-errors@^2.0.0:
+  level-errors@^2.0.0, level-errors@~2.0.0:
     version "2.0.0"
     resolved "https://registry.npmjs.org/level-errors/-/level-errors-2.0.0.tgz#2de5b566b62eef92f99e19be74397fbc512563fa"
     dependencies:
@@ -6584,6 +6592,14 @@ Lockfile:
       readable-stream "^2.0.5"
       xtend "^4.0.0"
   
+  level-iterator-stream@~3.0.0:
+    version "3.0.1"
+    resolved "https://registry.npmjs.org/level-iterator-stream/-/level-iterator-stream-3.0.1.tgz#2c98a4f8820d87cdacab3132506815419077c730"
+    dependencies:
+      inherits "^2.0.1"
+      readable-stream "^2.3.6"
+      xtend "^4.0.0"
+  
   "level-js@github:timkuijsten/level.js#idbunwrapper":
     version "2.2.3"
     resolved "https://codeload.github.com/timkuijsten/level.js/tar.gz/18e03adab34c49523be7d3d58fafb0c632f61303"
@@ -6592,6 +6608,13 @@ Lockfile:
       idb-readable-stream "0.0.4"
       ltgt "^2.1.2"
       xtend "^4.0.1"
+  
+  level-packager@^3.0.0:
+    version "3.1.0"
+    resolved "https://registry.npmjs.org/level-packager/-/level-packager-3.1.0.tgz#e617c8633d6ecc2ed40c56d86b75464392fa3ccd"
+    dependencies:
+      encoding-down "~5.0.0"
+      levelup "^3.0.0"
   
   level-post@^1.0.7:
     version "1.0.7"
@@ -6619,11 +6642,29 @@ Lockfile:
       readable-stream "~1.0.15"
       xtend "~2.1.1"
   
+  level@^4.0.0:
+    version "4.0.0"
+    resolved "https://registry.npmjs.org/level/-/level-4.0.0.tgz#86aa46b5430bac12676e693ebff206232ef1e549"
+    dependencies:
+      level-packager "^3.0.0"
+      leveldown "^4.0.0"
+      opencollective-postinstall "^2.0.0"
+  
   leveldown@^3.0.2:
     version "3.0.2"
     resolved "https://registry.npmjs.org/leveldown/-/leveldown-3.0.2.tgz#d1fb708991c54c874ca1b0688644a25d926e6302"
     dependencies:
       abstract-leveldown "~4.0.0"
+      bindings "~1.3.0"
+      fast-future "~1.0.2"
+      nan "~2.10.0"
+      prebuild-install "^4.0.0"
+  
+  leveldown@^4.0.0:
+    version "4.0.1"
+    resolved "https://registry.npmjs.org/leveldown/-/leveldown-4.0.1.tgz#7bc3df93c9fa574feb39ce45a0c4073aa948cfef"
+    dependencies:
+      abstract-leveldown "~5.0.0"
       bindings "~1.3.0"
       fast-future "~1.0.2"
       nan "~2.10.0"
@@ -6658,6 +6699,15 @@ Lockfile:
       deferred-leveldown "~3.0.0"
       level-errors "~1.1.0"
       level-iterator-stream "~2.0.0"
+      xtend "~4.0.0"
+  
+  levelup@^3.0.0:
+    version "3.1.1"
+    resolved "https://registry.npmjs.org/levelup/-/levelup-3.1.1.tgz#c2c0b3be2b4dc316647c53b42e2f559e232d2189"
+    dependencies:
+      deferred-leveldown "~4.0.0"
+      level-errors "~2.0.0"
+      level-iterator-stream "~3.0.0"
       xtend "~4.0.0"
   
   levelup@~0.19.0:
@@ -8806,6 +8856,10 @@ Lockfile:
     resolved "https://registry.npmjs.org/onetime/-/onetime-2.0.1.tgz#067428230fd67443b2794b22bba528b6867962d4"
     dependencies:
       mimic-fn "^1.0.0"
+  
+  opencollective-postinstall@^2.0.0:
+    version "2.0.1"
+    resolved "https://registry.npmjs.org/opencollective-postinstall/-/opencollective-postinstall-2.0.1.tgz#798e83e168f7b91949061c2683f762af747f17cc"
   
   optimist@^0.6.1:
     version "0.6.1"

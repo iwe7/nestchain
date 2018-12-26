@@ -32,6 +32,8 @@
       "ims-grpc": ["packages/ims-grpc/src/ims-grpc"],
       "ims-cache": ["packages/ims-cache/src/ims-cache"],
       "ims-error": ["packages/ims-error/src/ims-error"],
+      "ims-level": ["packages/ims-level/src/ims-level"],
+      "ims-crypto": ["packages/ims-crypto/src/ims-crypto"],
       "ims-peer-id": ["packages/ims-peer-id/src/ims-peer-id"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
