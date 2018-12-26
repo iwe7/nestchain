@@ -6,3 +6,6 @@ export * from './mobile';
 export * from './web';
 export * from './wechat';
 export * from './wxapp';
+export * from './provider';
+
+export class ImsUpload {}
