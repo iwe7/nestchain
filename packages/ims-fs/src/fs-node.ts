@@ -2,6 +2,9 @@ import fs = require('fs');
 import path = require('path');
 import crypto from 'ims-crypto';
 import { fromCallback } from 'ims-rxjs';
+import { ImsLevel } from 'ims-level';
+let level = new ImsLevel('./db/fs');
+
 export class ImsFsLocalNode {
   // 文件夹 or 文件
   type: 'folder' | 'file';
@@ -12,12 +15,18 @@ export class ImsFsLocalNode {
   // 大小
   size: number = 0;
   // 父节点
+
   get parent() {
     return this._parent;
   }
+  get children() {
+    let arr = [];
+    this._children.forEach(child => arr.push(child));
+    return arr;
+  }
   constructor(
     private _parent: ImsFsLocalNode = null,
-    private children: Set<ImsFsLocalNode> = new Set(),
+    private _children: Set<ImsFsLocalNode> = new Set(),
   ) {}
 
   fromFolder(path: fs.PathLike) {}
@@ -31,17 +40,20 @@ export class ImsFsLocalNode {
           chunks.push(d);
         });
         readStream.on('end', () => {
-          chunks.forEach(chunk => {
+          chunks.forEach((chunk: Buffer) => {
             let node = new ImsFsLocalNode(this);
             let createHash = crypto.hash.createString('sha256');
             node.hash = createHash(chunk);
             node.chunk = chunk;
-            this.children.add(node);
+            this._children.add(node);
             // 64kb
             this.size += node.chunk.byteLength;
-            opt.next(this);
-            opt.complete();
+            level.put(node.hash, node.chunk, err => {
+              if (err) return console.log(`put error ${node.hash}`, err);
+            });
           });
+          opt.next(this);
+          opt.complete();
         });
       },
       opt => {
@@ -55,7 +67,10 @@ async function bootstrap() {
   let node = new ImsFsLocalNode();
   node = await node.fromFile(path.join(__dirname, '1.txt')).toPromise();
   let len = node.size;
-  debugger;
+  level.get(node.children[0].hash, (err, value) => {
+    if (err) console.error(err);
+    console.log(value);
+  });
 }
 
 bootstrap();
