@@ -1,7 +1,7 @@
 import { Observable, PartialObserver, Subscriber, TeardownLogic } from 'rxjs';
 export function fromCallback<T>(
   addHandler: (opt: PartialObserver<T>) => any,
-  removeHandler: (opt: PartialObserver<T>) => any,
+  removeHandler?: (opt: PartialObserver<T>) => any,
   resultSelector?: (...args: any[]) => T,
 ) {
   return new FromCallbackObservable(addHandler, removeHandler, resultSelector);
@@ -45,17 +45,17 @@ export class FromCallbackSubscriber<T> extends Subscriber<T> {
   }
 
   error(e: Error) {
-    this.removeHandler(this.fns);
+    this.removeHandler && this.removeHandler(this.fns);
     super.error();
   }
 
   complete() {
-    this.removeHandler(this.fns);
+    this.removeHandler && this.removeHandler(this.fns);
     super.complete();
   }
 
   unsubscribe() {
-    this.removeHandler(this.fns);
+    this.removeHandler && this.removeHandler(this.fns);
     super.unsubscribe();
   }
 }

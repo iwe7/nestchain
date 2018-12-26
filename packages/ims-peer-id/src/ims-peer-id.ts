@@ -21,6 +21,7 @@ export class ImsPeerId {
   get pubKey() {
     return this.peerId.pubKey;
   }
+
   set pubKey(val: string) {
     this.peerId.pubKey = val;
   }
@@ -66,14 +67,6 @@ export class ImsPeerId {
     callback: (err: Error, id: ImsPeerId) => any,
   ) {
     return PeerId.create(opt, callback);
-  }
-
-  static isPeerId(id: any): id is ImsPeerId {
-    return PeerId.isPeerId(id);
-  }
-
-  static createFromHexString(str: string){
-
   }
 }
 

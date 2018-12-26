@@ -13,6 +13,8 @@
     "target": "esnext",
     "sourceMap": false,
     "outDir": "./dist",
+    "jsx": "react",
+    "jsxFactory": "createElement",
     "baseUrl": "./",
     "paths": {
       "ims-chain": ["packages/ims-chain/src/ims-chain"],
@@ -34,7 +36,11 @@
       "ims-error": ["packages/ims-error/src/ims-error"],
       "ims-level": ["packages/ims-level/src/ims-level"],
       "ims-crypto": ["packages/ims-crypto/src/ims-crypto"],
-      "ims-peer-id": ["packages/ims-peer-id/src/ims-peer-id"]
+      "ims-peer-id": ["packages/ims-peer-id/src/ims-peer-id"],
+      "ims-peer-info": ["packages/ims-peer-info/src/ims-peer-info"],
+      "ims-install": ["packages/ims-install/src/ims-install"],
+      "ims-const": ["packages/ims-const/src/ims-const"],
+      "ims-fs": ["packages/ims-fs/src/ims-fs"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
