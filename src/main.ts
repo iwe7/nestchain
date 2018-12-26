@@ -9,8 +9,8 @@ export class IndexController {
   constructor(private install: ImsInstallService) {}
   @Get()
   async index(@Res() res: Response) {
-    let hasInstalled = await this.install.checkInstalled();
-    if (!hasInstalled) {
+    let existInstallLock = await this.install.notExistInstallLock();
+    if (existInstallLock) {
       res.redirect('/install');
       return;
     }

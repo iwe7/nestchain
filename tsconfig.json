@@ -40,7 +40,8 @@
       "ims-peer-info": ["packages/ims-peer-info/src/ims-peer-info"],
       "ims-install": ["packages/ims-install/src/ims-install"],
       "ims-const": ["packages/ims-const/src/ims-const"],
-      "ims-fs": ["packages/ims-fs/src/ims-fs"]
+      "ims-fs": ["packages/ims-fs/src/ims-fs"],
+      "ims-os": ["packages/ims-os/src/ims-os"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
