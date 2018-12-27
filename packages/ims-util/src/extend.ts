@@ -1,5 +1,4 @@
 import { Type } from 'ims-core';
-import { assign } from './assign';
 export function extend<T, U>(target: Type<T>, source1: Type<U>): Type<T & U>;
 export function extend<T, U, V>(
   target: Type<T>,
@@ -40,31 +39,47 @@ export function extend<T, U, V, W, X, Y, Z>(
 ): Type<T & U & V & W & X & Y & Z>;
 
 export function extend(target: Type<any>, ...sources: Type<any>[]): Type<any> {
-  return extend2(target)(...sources.reverse());
+  return sources.reduce((acc, target) => {
+    if (!acc) return target;
+    return mixin(acc, target);
+  }, target);
 }
 
-function extend2(target: Type<any>) {
-  return (...sources: Type<any>[]): Type<any> => {
-    let targetPrototype = target.prototype;
-    // 继承
-    (function() {
-      // 创建一个干净的实例
-      function beget() {
-        function F() {
-          sources.map(source => source.call(this));
-        }
-        // sources处理
-        assign(F.prototype, targetPrototype);
-        assign(F.prototype, ...sources.map(source => source.prototype));
-        return new F();
+export function mixin<U, V>(Target: Type<any>, Super: Type<any>): Type<U & V> {
+  let target: any = (function(_target, _super) {
+    const symbol = Symbol.for(`@${_target.name}/@${_super.name}`);
+    class Mixin extends Super {
+      get [symbol]() {
+        return true;
       }
-      let prototype = beget();
-      prototype.constructor = target;
-      // 继承
-      target.prototype = prototype;
-      // 原来的方法
-      assign(target.prototype, targetPrototype);
-    })();
-    return target as any;
-  };
+      constructor(...args: any[]) {
+        super(...args);
+        _target.call(this, ...args);
+      }
+    }
+    // 静态方法
+    let _static: any = _target;
+    while (Reflect.has(_static, 'name') && _static.name !== '') {
+      let names = Object.getOwnPropertyNames(_static).filter(
+        key => !['name', 'length', 'prototype'].includes(key),
+      );
+      for (let i of names) {
+        Mixin[i] = _static[i];
+      }
+      _static = Reflect.getPrototypeOf(_static);
+    }
+
+    // 覆盖方法
+    for (let i in _target.prototype) {
+      Reflect.defineProperty(Mixin.prototype, i, _target.prototype[i]);
+    }
+    // 纠正reame
+    Reflect.defineProperty(Mixin, 'name', {
+      get() {
+        return _target.name;
+      },
+    });
+    return Mixin;
+  })(Target, Super);
+  return target;
 }

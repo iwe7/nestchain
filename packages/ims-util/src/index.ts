@@ -5,3 +5,4 @@ export * from './assign';
 export * from './extend';
 export * from './string';
 export * from './global';
+export * from './withIs';
