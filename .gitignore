@@ -1,0 +1,15 @@
+node_modules
+**/node_modules
+yarn.lock
+dist
+_book
+./db/*
+db
+www
+packages/ims-xminder/
+libs/js-libp2p
+libs/js-libp2p
+yarn-error.log
+packages/**/*.js
+packages/**/*.d.ts
+packages/**/lib
