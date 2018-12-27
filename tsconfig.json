@@ -20,7 +20,7 @@
       "ims-chain": ["packages/ims-chain/src/ims-chain"],
       "ims-util": ["packages/ims-util/src/ims-util"],
       "ims-core": ["packages/ims-core/src/ims-core"],
-      "ims-cli": ["packages/ims-cli/src/ims-cli"],
+      "ims-cli": ["packages/ims-cli/src/index"],
       "ims-block": ["packages/ims-block/src/ims-block"],
       "ims-peer": ["packages/ims-peer/src/ims-peer"],
       "ims-rxjs": ["packages/ims-rxjs/src/ims-rxjs"],

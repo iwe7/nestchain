@@ -4,7 +4,6 @@ export const CliMetadataKey = 'CliMetadataKey';
 export interface CliOptions {
   name?: string;
   version?: string;
-  description?: string;
   commands?: IInjector;
 }
 export interface CliDecorator {

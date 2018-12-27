@@ -11,11 +11,9 @@ import {
   CommandOptions,
   OptionOptions,
   ActionOptions,
-  ParamOptions,
 } from './decorator';
-import commander = require('commander');
 import parser = require('yargs-parser');
-
+let __run = Symbol('__run');
 export class CliVisitor extends Visitor {
   program = parser(process.argv.slice(2));
   visitCli(meta: MetadataDef<CliOptions>, parent: any, context: any) {
@@ -26,14 +24,17 @@ export class CliVisitor extends Visitor {
         return class extends type {
           constructor(...args: any[]) {
             super(...args);
-            commander
-              .name(options.name)
-              .version(options.version)
-              .description(options.description);
-            Object.keys(options.commands).map(key =>
+            const commands = Object.keys(options.commands).map(key =>
               that.visitType(options.commands[key], this, null),
             );
-            commander.parse(process.argv);
+            // 匹配commond
+            let flags = parser(process.argv.slice(2));
+            const { _, ...opts } = flags;
+            if (_.length > 0) {
+              let command = commands.find(item => item.match(_[0]));
+              that.visitTypeOther(command.target, opts, command);
+              command[__run]();
+            }
           }
         };
       };
@@ -46,50 +47,30 @@ export class CliVisitor extends Visitor {
     let that = this;
     if (isClassMetadata(meta)) {
       meta.metadataFactory = function(type: Type<any>) {
-        return class extends type {
-          name: string = options.name;
-          action: string;
-          constructor(...args: any[]) {
-            super(...args);
-            let { name, desc, alias, ...option } = options;
-            that.visitTypeOther(meta.target, parent, this);
-            commander
-              .command(this.name, desc, option)
-              .alias(alias)
-              .action((...args: any[]) => {
-                this[this.action]();
-              });
-          }
+        type.prototype.match = function(_: string) {
+          if (_ === options.name) return true;
+          if (_ === options.alias) return true;
+          return false;
         };
+        return type;
       };
     }
     return meta;
   }
 
   visitOption(meta: MetadataDef<OptionOptions>, parent: any, context: any) {
-    const options = meta.metadataDef;
-    if (isPropertyMetadata(meta)) {
+    let options = meta.metadataDef;
+    if (isPropertyMetadata(meta) && parent) {
+      Object.defineProperty(context, meta.propertyKey, {
+        get: () => parent[options.flags],
+      });
     }
     return meta;
   }
 
   visitAction(meta: MetadataDef<ActionOptions>, parent: any, context: any) {
-    if (isMethodMetadata(meta)) {
-      context.action = meta.propertyKey;
-    }
-    return meta;
-  }
-
-  visitParam(meta: MetadataDef<ParamOptions>, parent: any, context: any) {
-    const options = meta.metadataDef;
-    if (isPropertyMetadata(meta)) {
-      let { name } = context;
-      if (options.other) {
-        name += ` [${options.name}...]`;
-      } else {
-        name += ` <${options.name}>`;
-      }
-      context.name = name;
+    if (isMethodMetadata(meta) && context) {
+      context[__run] = context[meta.propertyKey];
     }
     return meta;
   }
