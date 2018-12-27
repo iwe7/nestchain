@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import 'reflect-metadata';
 import { Cli, Command, Action, Option } from './decorator';
+
 @Command({
   name: 'test',
   alias: 't',
@@ -10,7 +11,6 @@ export class TestCommand {
     flags: 'p',
   })
   p: string = '10';
-
   @Action()
   add() {
     console.log(this);

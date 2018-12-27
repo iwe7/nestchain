@@ -32,8 +32,10 @@ export class CliVisitor extends Visitor {
             const { _, ...opts } = flags;
             if (_.length > 0) {
               let command = commands.find(item => item.match(_[0]));
-              that.visitTypeOther(command.target, opts, command);
-              command[__run]();
+              if (command) {
+                that.visitTypeOther(command.target, opts, command);
+                command[__run]();
+              }
             }
           }
         };

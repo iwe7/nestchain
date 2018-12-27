@@ -11,7 +11,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "strictBindCallApply": true,
-    "target": "es5",
+    "target": "esnext",
     "sourceMap": false,
     "outDir": "./dist",
     "jsx": "react",
