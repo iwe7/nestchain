@@ -1,13 +1,13 @@
-import { isObject, isArray } from "ims-util";
+import { isObject, isArray } from './lang';
 declare var WorkerGlobalScope: any /** TODO #9100 */;
 declare var global: any /** TODO #9100 */;
-const __window = typeof window !== "undefined" && window;
+const __window = typeof window !== 'undefined' && window;
 const __self =
-  typeof self !== "undefined" &&
-  typeof WorkerGlobalScope !== "undefined" &&
+  typeof self !== 'undefined' &&
+  typeof WorkerGlobalScope !== 'undefined' &&
   self instanceof WorkerGlobalScope &&
   self;
-const __global = typeof global !== "undefined" && global;
+const __global = typeof global !== 'undefined' && global;
 const _global: { [name: string]: any } = __global || __window || __self;
 const noop = function() {};
 function _get() {

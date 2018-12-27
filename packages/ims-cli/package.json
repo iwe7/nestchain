@@ -11,14 +11,14 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib/index.ts"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iwe7/nestchain.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "tsc": "tsc -p tsconfig.json"
   },
   "bugs": {
     "url": "https://github.com/iwe7/nestchain/issues"

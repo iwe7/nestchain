@@ -2,8 +2,8 @@ const PeerId = require('peer-id');
 const PeerInfo = require('peer-info');
 const LibP2p = require('libp2p');
 const pull = require('pull-stream');
-const Pushable = require('pull-pushable');
-const p = Pushable();
+const DPushable = require('pull-pushable');
+const p2: any = DPushable();
 
 PeerId.create(
   {
@@ -26,7 +26,7 @@ PeerId.create(
         console.log(peerInfo.id.toB58String());
       });
       nodeListener.handle('/chat/1.0.0', (protocol, conn) => {
-        pull(p, conn);
+        pull(p2, conn);
         pull(
           conn,
           pull.map(data => {
@@ -37,7 +37,7 @@ PeerId.create(
         process.stdin.setEncoding('utf8');
         process.openStdin().on('data', chunk => {
           var data = chunk.toString();
-          p.push(data);
+          p2.push(data);
         });
       });
       console.log('Listener ready, listening on:');
