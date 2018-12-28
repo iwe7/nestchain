@@ -1,10 +1,10 @@
 import { Command, Action, Option } from 'ims-cli';
 
 @Command({
-  name: 'publish',
-  alias: 'p',
+  name: 'pull',
+  alias: 'pull',
 })
-export class AddCommand {
+export class PullCommand {
   @Option({
     flags: 'p',
   })

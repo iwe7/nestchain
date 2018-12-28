@@ -1,10 +1,10 @@
 import { Command, Action, Option } from 'ims-cli';
 
 @Command({
-  name: 'commit',
-  alias: 'commit',
+  name: 'push',
+  alias: 'push',
 })
-export class CommitCommand {
+export class PushCommand {
   @Option({
     flags: 'p',
   })

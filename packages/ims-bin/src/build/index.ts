@@ -2,9 +2,9 @@ import { Command, Action, Option } from 'ims-cli';
 
 @Command({
   name: 'build',
-  alias: 'b',
+  alias: 'build',
 })
-export class AddCommand {
+export class BuildCommand {
   @Option({
     flags: 't',
   })
@@ -17,6 +17,6 @@ export class AddCommand {
 
   @Action()
   add() {
-    console.log(`add ${this.path}`);
+    console.log(`add ${this.type}`);
   }
 }

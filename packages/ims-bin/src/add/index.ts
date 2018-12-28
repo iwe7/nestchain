@@ -2,7 +2,7 @@ import { Command, Action, Option } from 'ims-cli';
 
 @Command({
   name: 'add',
-  alias: 'a',
+  alias: 'add',
 })
 export class AddCommand {
   @Option({

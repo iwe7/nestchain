@@ -4,14 +4,9 @@ import { Command, Action, Option } from 'ims-cli';
   name: 'version',
   alias: 'v',
 })
-export class AddCommand {
-  @Option({
-    flags: 'p',
-  })
-  path: string;
-
+export class VersionCommand {
   @Action()
   add() {
-    console.log(`add ${this.path}`);
+    console.log(`version:0.0.4`);
   }
 }
