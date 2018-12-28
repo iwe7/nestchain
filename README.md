@@ -17,14 +17,14 @@
 | [ims-consensus](./packages/ims-consensus/README.md) | 共识算法         | [x] |
 | [ims-security](./packages/ims-security/README.md)   | 加密算法         | [x] |
 | [ims-chain](./packages/ims-chain/README.md)         | 链功能          | [x] |
-| [ims-cli](./packages/ims-cli/README.md)             | 命令行          | 已完成 |
+| [ims-cli](./packages/ims-cli/README.md)             | 命令行          | [√]] |
 | [ims-core](./packages/ims-core/README.md)           | 共用           | [x] |
-| [ims-decorator](./packages/ims-decorator/README.md) | 装饰器          | 已完成 |
+| [ims-decorator](./packages/ims-decorator/README.md) | 装饰器          | [√] |
 | [ims-nest](./packages/ims-nest/README.md)           | 区块功能         | [x] |
 | [ims-redis](./packages/ims-redis/README.md)         | redis相关      | [x] |
 | [ims-typeorm](./packages/ims-typeorm/README.md)     | typeorm数据库相关 | [x] |
 | [ims-util](./packages/ims-util/README.md)           | 工具相关         | [x] |
-| [ims-grpc](./packages/ims-grpc)                     | grpc通信       | 已完成 |
+| [ims-grpc](./packages/ims-grpc)                     | grpc通信       | [√] |
 
 # 开发计划
 
