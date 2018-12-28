@@ -12,20 +12,20 @@
 
 | 模块                                                  | 功能           | 状态 |
 |-----------------------------------------------------|--------------|----|
+| [ims-grpc](./packages/ims-grpc)                     | grpc通信       | ✓  |
+| [ims-decorator](./packages/ims-decorator)           | 装饰器生成器       | ✓  |
+| [ims-cli](./packages/ims-cli)                       | 开发命令行工具      | ✓  |
+| [ims-bin](./packages/ims-bin)                       | 命令行工具        | ✗  |
 | [ims-block](./packages/ims-block/README.md)         | 区块           | ✗  |
 | [ims-peer](./packages/ims-peer/README.md)           | p2p网络        | ✗  |
 | [ims-consensus](./packages/ims-consensus/README.md) | 共识算法         | ✗  |
 | [ims-security](./packages/ims-security/README.md)   | 加密算法         | ✗  |
 | [ims-chain](./packages/ims-chain/README.md)         | 链功能          | ✗  |
-| [ims-cli](./packages/ims-cli)                       | 开发命令行工具      | ✓  |
-| [ims-bin](./packages/ims-bin)                       | 命令行工具        | ✗  |
 | [ims-core](./packages/ims-core/README.md)           | 共用           | ✗  |
-| [ims-decorator](./packages/ims-decorator/README.md) | 装饰器          | ✓  |
 | [ims-nest](./packages/ims-nest/README.md)           | 区块功能         | ✗  |
 | [ims-redis](./packages/ims-redis/README.md)         | redis相关      | ✗  |
 | [ims-typeorm](./packages/ims-typeorm/README.md)     | typeorm数据库相关 | ✗  |
 | [ims-util](./packages/ims-util/README.md)           | 工具相关         | ✗  |
-| [ims-grpc](./packages/ims-grpc)                     | grpc通信       | ✓  |
 
 # 开发计划
 
