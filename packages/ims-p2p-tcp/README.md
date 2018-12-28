@@ -1,11 +1,11 @@
-# `ims-multiaddr`
+# `ims-p2p-tcp`
 
 > TODO: description
 
 ## Usage
 
 ```
-const imsMultiaddr = require('ims-multiaddr');
+const imsP2pTcp = require('ims-p2p-tcp');
 
 // TODO: DEMONSTRATE API
 ```

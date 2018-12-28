@@ -18,6 +18,7 @@
     "jsxFactory": "createElement",
     "composite": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "paths": {
       "ims-chain": ["packages/ims-chain/src/ims-chain"],
       "ims-util": ["packages/ims-util/src/index"],
@@ -44,12 +45,19 @@
       "ims-const": ["packages/ims-const/src/ims-const"],
       "ims-fs": ["packages/ims-fs/src/ims-fs"],
       "ims-os": ["packages/ims-os/src/ims-os"],
-      "ims-scripts": ["packages/ims-scripts/src/ims-scripts"]
+      "ims-scripts": ["packages/ims-scripts/src/ims-scripts"],
+      "ims-multiaddr": ["packages/ims-multiaddr/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
     "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules"],
-  "include": ["packages", "test", "src", "tools"]
+  "include": [
+    "packages/ims-types/src/*.d.ts",
+    "packages",
+    "test",
+    "src",
+    "tools"
+  ]
 }
