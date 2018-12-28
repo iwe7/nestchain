@@ -11,5 +11,4 @@ libs/js-libp2p
 libs/js-libp2p
 yarn-error.log
 packages/**/*.js
-packages/**/*.d.ts
 packages/**/lib
