@@ -12,7 +12,7 @@
 
 | 模块                                                  | 功能           | 完成度 |
 |-----------------------------------------------------|--------------|-----|
-| [ims-block](./packages/ims-block/README.md)         | 区块           | 开发中 |
+| [ims-block](./packages/ims-block/README.md)         | 区块           | [ ] |
 | [ims-peer](./packages/ims-peer/README.md)           | p2p网络        | 开发中 |
 | [ims-consensus](./packages/ims-consensus/README.md) | 共识算法         | 开发中 |
 | [ims-security](./packages/ims-security/README.md)   | 加密算法         | 开发中 |
