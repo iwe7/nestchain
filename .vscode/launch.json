@@ -7,7 +7,13 @@
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/.bin/ts-node",
       "sourceMaps": true,
-      "args": ["-r", "tsconfig-paths/register", "${relativeFile}", "t", "--p","--build"],
+      "args": [
+        "-r",
+        "tsconfig-paths/register",
+        "${relativeFile}",
+        "s",
+        "-p=8000"
+      ],
       "cwd": "${workspaceRoot}",
       "protocol": "inspector"
     }

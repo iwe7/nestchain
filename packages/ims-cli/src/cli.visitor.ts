@@ -13,7 +13,7 @@ import {
   ActionOptions,
 } from './decorator';
 import parser = require('yargs-parser');
-let __run = Symbol('__run');
+let __run = Symbol.for('__run');
 export class CliVisitor extends Visitor {
   program = parser(process.argv.slice(2));
   visitCli(meta: MetadataDef<CliOptions>, parent: any, context: any) {
@@ -34,7 +34,7 @@ export class CliVisitor extends Visitor {
               let command = commands.find(item => item.match(_[0]));
               if (command) {
                 that.visitTypeOther(command.target, opts, command);
-                command[__run]();
+                command[__run] && command[__run]();
               }
             }
           }
@@ -49,6 +49,7 @@ export class CliVisitor extends Visitor {
     let that = this;
     if (isClassMetadata(meta)) {
       meta.metadataFactory = function(type: Type<any>) {
+        type.prototype.target = meta.target;
         type.prototype.match = function(_: string) {
           if (_ === options.name) return true;
           if (_ === options.alias) return true;
@@ -64,7 +65,7 @@ export class CliVisitor extends Visitor {
     let options = meta.metadataDef;
     if (isPropertyMetadata(meta) && parent) {
       Object.defineProperty(context, meta.propertyKey, {
-        get: () => parent[options.flags],
+        get: () => parent[options.flags] || parent[options.name],
       });
     }
     return meta;
@@ -72,7 +73,7 @@ export class CliVisitor extends Visitor {
 
   visitAction(meta: MetadataDef<ActionOptions>, parent: any, context: any) {
     if (isMethodMetadata(meta) && context) {
-      context[__run] = context[meta.propertyKey];
+      context[__run] = context[meta.propertyKey].bind(context);
     }
     return meta;
   }

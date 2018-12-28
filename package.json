@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "webpack": "webpack --config webpack.js",
+    "bin:start": "yarn ts packages/ims-bin/src/index.ts",
     "ts:client": "npm ts src/main.ts",
     "ts:server": "npm ts src/main.ts",
     "build": "tsc -p tsconfig.build.json",
@@ -46,6 +47,7 @@
     "@types/ioredis": "^4.0.4",
     "@types/ip": "^0.0.32",
     "@types/memcached": "^2.2.5",
+    "@types/merkle": "^0.6.0",
     "@types/mongoose": "^5.3.5",
     "@types/mosca": "^2.8.1",
     "@types/qs": "^6.5.1",
@@ -82,6 +84,7 @@
     "libp2p-tcp": "^0.13.0",
     "libp2p-websockets": "^0.12.0",
     "memcached": "^2.2.2",
+    "merkle": "^0.6.0",
     "mongoose": "^5.4.0",
     "mosca": "^2.8.3",
     "mqtt": "^2.18.8",

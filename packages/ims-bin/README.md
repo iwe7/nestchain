@@ -1,11 +1,7 @@
 # `ims-bin`
 
-> TODO: description
+> 命令行工具
 
-## Usage
-
-```
-const imsBin = require('ims-bin');
-
-// TODO: DEMONSTRATE API
-```
+| 命令    | 简介   | 状态 |
+|-------|------|----|
+| start | 启动服务 | ✗  |
