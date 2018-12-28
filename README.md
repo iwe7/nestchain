@@ -16,6 +16,7 @@
 | [ims-decorator](./packages/ims-decorator)           | 装饰器生成器       | ✓  |
 | [ims-cli](./packages/ims-cli)                       | 开发命令行工具      | ✓  |
 | [ims-bin](./packages/ims-bin)                       | 命令行工具        | ✗  |
+| [ims-bin](./packages/ims-p2p)                       | p2p服务器        | ✗  |
 | [ims-block](./packages/ims-block/README.md)         | 区块           | ✗  |
 | [ims-peer](./packages/ims-peer/README.md)           | p2p网络        | ✗  |
 | [ims-consensus](./packages/ims-consensus/README.md) | 共识算法         | ✗  |
