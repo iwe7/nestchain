@@ -17,7 +17,8 @@
 | [ims-consensus](./packages/ims-consensus/README.md) | 共识算法         | ✗  |
 | [ims-security](./packages/ims-security/README.md)   | 加密算法         | ✗  |
 | [ims-chain](./packages/ims-chain/README.md)         | 链功能          | ✗  |
-| [ims-cli](./packages/ims-cli/README.md)             | 命令行          | ✓  |
+| [ims-cli](./packages/ims-cli/README.md)             | 开发命令行工具      | ✓  |
+| [ims-bin](./packages/ims-bin/README.md)             | 命令行工具        | ✗  |
 | [ims-core](./packages/ims-core/README.md)           | 共用           | ✗  |
 | [ims-decorator](./packages/ims-decorator/README.md) | 装饰器          | ✓  |
 | [ims-nest](./packages/ims-nest/README.md)           | 区块功能         | ✗  |
