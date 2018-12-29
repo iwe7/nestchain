@@ -33,8 +33,9 @@
 
 
 # 参考
-- [lisk](https://github.com/LiskHQ/lisk)
-
+- [lisk](https://github.com/LiskHQ/lisk.git)
+- [lerna](https://github.com/lerna/lerna.git)
+- [execa](https://github.com/sindresorhus/execa.git)
 
 curl -sSL https://get.docker.com/ | sh
 
