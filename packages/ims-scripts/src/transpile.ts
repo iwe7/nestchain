@@ -1,6 +1,6 @@
 import path = require('path');
 import cp = require('child_process');
-export function transpile(tsConfigPath: string) {
+export function tsc(tsConfigPath: string) {
   tsConfigPath = path.resolve(__dirname, tsConfigPath);
   try {
     var cmd = 'npx tsc -p ' + tsConfigPath;

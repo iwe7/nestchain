@@ -46,7 +46,8 @@
       "ims-fs": ["packages/ims-fs/src/ims-fs"],
       "ims-os": ["packages/ims-os/src/ims-os"],
       "ims-scripts": ["packages/ims-scripts/src/ims-scripts"],
-      "ims-multiaddr": ["packages/ims-multiaddr/src/index"]
+      "ims-multiaddr": ["packages/ims-multiaddr/src/index"],
+      "ims-child_process": ["packages/ims-child_process/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],

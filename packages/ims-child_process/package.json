@@ -1,11 +1,11 @@
 {
-  "name": "ims-scripts",
+  "name": "ims-child_process",
   "version": "0.0.4",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
-  "main": "lib/ims-scripts.js",
+  "main": "lib/ims-child_process.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,9 +22,5 @@
   },
   "bugs": {
     "url": "https://github.com/iwe7/nestchain/issues"
-  },
-  "dependencies": {
-    "@types/execa": "^0.9.0",
-    "execa": "^1.0.0"
   }
 }
