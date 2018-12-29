@@ -2,7 +2,10 @@ import { Command, Action, Option } from 'ims-cli';
 import getWebapckDll from 'ims-webpack-manifest';
 import { ROOT } from 'ims-const';
 import path = require('path');
-import { runWebpack } from 'ims-webpack-util';
+import { runWebpack, handlerError } from 'ims-webpack-util';
+import webpack = require('webpack');
+import 'reflect-metadata';
+
 @Command({
   name: 'build',
   alias: 'build',
@@ -27,12 +30,14 @@ export class BuildCommand {
     switch (this.type) {
       case 'dll':
         let cfg = getWebapckDll(this.root, this.platform);
-        runWebpack(cfg).subscribe(res => {
-          console.log(res);
-        });
+        webpack(cfg).run(handlerError());
         break;
       default:
         console.log(`add ${this.type}`);
     }
   }
 }
+let build = new BuildCommand();
+Object.defineProperty(build, 'type', { value: 'dll', writable: true });
+Object.defineProperty(build, 'platform', { value: 'web', writable: true });
+build.add();

@@ -55,12 +55,6 @@
     "types": ["node", "reflect-metadata", "ip"],
     "typeRoots": ["node_modules/@types"]
   },
-  "exclude": ["node_modules"],
-  "include": [
-    "packages/ims-types/src/*.d.ts",
-    "packages",
-    "test",
-    "src",
-    "tools"
-  ]
+  "exclude": ["node_modules", "dist", "docs", "docker", "static", "www"],
+  "include": ["packages/ims-types/src/*.d.ts", "packages", "src"]
 }

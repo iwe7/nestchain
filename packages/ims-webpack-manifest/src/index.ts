@@ -22,7 +22,7 @@ export function getWebapckDll(dll: string, platform: string) {
       // 也就是 entry 中配置的 react 和 polyfill
       filename: '[name].dll.js',
       // 输出的文件都放到 dist 目录下
-      path: dll,
+      path: path.join(dll, platform, 'library'),
       // 存放动态链接库的全局变量名称，例如对应 react 来说就是 _dll_react
       // 之所以在前面加上 _dll_ 是为了防止全局变量冲突
       library: '_dll_[name]',

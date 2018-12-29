@@ -1,15 +1,11 @@
 import { Configuration, Stats, compiler } from 'webpack';
 import { Observable } from 'rxjs';
-import { merge } from 'ims-util';
-import { getBase } from './getBase';
-import webpack = require('webpack');
-const base = getBase();
+import * as webpack from 'webpack';
 export function runWebpack(
-  config: Configuration,
+  cfg: Configuration,
   loggingCb?: (state: Stats, config: Configuration) => void,
 ) {
   return new Observable(obs => {
-    let cfg = merge(base, config);
     const webpackCompiler = webpack(cfg);
     const callback: compiler.CompilerCallback = (err: Error, stats: Stats) => {
       if (err) {
@@ -22,8 +18,8 @@ export function runWebpack(
       }
     };
     try {
-      if (config.watch) {
-        const watchOptions = config.watchOptions || {};
+      if (cfg.watch) {
+        const watchOptions = cfg.watchOptions || {};
         const watching = webpackCompiler.watch(watchOptions, callback);
         console.log('webpack watch');
         return () => watching.close(() => {});
