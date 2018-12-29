@@ -1,3 +1,3 @@
 # `ims-webpack-main`
 
-> 打包主应用
+> 打包框架,生成manifest.json

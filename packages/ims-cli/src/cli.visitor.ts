@@ -64,8 +64,10 @@ export class CliVisitor extends Visitor {
   visitOption(meta: MetadataDef<OptionOptions>, parent: any, context: any) {
     let options = meta.metadataDef;
     if (isPropertyMetadata(meta) && parent) {
-      Object.defineProperty(context, meta.propertyKey, {
-        get: () => parent[options.flags] || parent[options.name],
+      let val = parent[options.flags] || parent[options.name] || null;
+      Reflect.defineProperty(context, meta.propertyKey, {
+        value: val,
+        writable: true,
       });
     }
     return meta;
