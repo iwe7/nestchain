@@ -29,3 +29,6 @@ export const MOBILE_TEMPLATE_INDEX_PATH = path.join(
   MOBILE_TEMPLATE_PATH,
   'index.html',
 );
+
+export const ADDONS_SRC_PATH = path.join(ROOT, 'src/addons');
+export const ADDONS_BUILD_PATH = path.join(ROOT, 'www/addons');
