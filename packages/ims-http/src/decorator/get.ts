@@ -1,7 +1,7 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
 export const GetMetadataKey = 'GetMetadataKey';
 export interface GetOptions {
-  type: string;
+  path: string;
 }
 export interface GetDecorator {
   (opt?: GetOptions): TypeDecorator;

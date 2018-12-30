@@ -37,7 +37,6 @@
       "ims-grpc": ["packages/ims-grpc/src/ims-grpc"],
       "ims-cache": ["packages/ims-cache/src/ims-cache"],
       "ims-error": ["packages/ims-error/src/ims-error"],
-      "ims-level": ["packages/ims-level/src/ims-level"],
       "ims-crypto": ["packages/ims-crypto/src/ims-crypto"],
       "ims-peer-id": ["packages/ims-peer-id/src/ims-peer-id"],
       "ims-peer-info": ["packages/ims-peer-info/src/ims-peer-info"],
@@ -50,7 +49,8 @@
       "ims-child_process": ["packages/ims-child_process/src/index"],
       "ims-webpack-util": ["packages/ims-webpack-util/src/index"],
       "ims-webpack-manifest": ["packages/ims-webpack-manifest/src/index"],
-      "ims-server": ["packages/ims-server/src/index"]
+      "ims-server": ["packages/ims-server/src/index"],
+      "ims-level": ["packages/ims-level/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
