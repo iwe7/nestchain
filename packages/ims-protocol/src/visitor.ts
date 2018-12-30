@@ -16,10 +16,9 @@ import {
 import multiaddr = require('multiaddr');
 import net = require('net');
 import dgram = require('dgram');
-import http = require('http');
-import axios from 'axios';
-
+import { connection, P2pServerEntity } from 'ims-mongo';
 import { SendOptions } from './decorator/send';
+import { map, switchMap } from 'rxjs/operators';
 function createTcpServer(
   options: MultiaddrResult,
   onCreateServer: (socket: net.Socket) => any,
@@ -49,27 +48,37 @@ export class ImsProtocolVisitor extends Visitor {
         return class extends type {
           constructor(...args: any[]) {
             super(...args);
-            switch (addr.transport.name) {
-              case 'tcp':
-                let tcp = createTcpServer(addr, socket => {
-                  for (let i in options.router) {
-                    let router = options.router[i];
-                    that.visitType(router, socket, true);
-                  }
-                });
-                that.visitTypeOther(meta.target, tcp, this);
-                break;
-              case 'udp':
-                let udp = dgram.createSocket;
-                that.visitTypeOther(meta.target, udp, this);
-                for (let i in options.router) {
-                  let router = options.router[i];
-                  that.visitType(router, udp, true);
+            connection
+              .pipe(
+                switchMap(connect => {
+                  let inst = new P2pServerEntity();
+                  inst.address = options.address;
+                  return connect.save(P2pServerEntity, inst);
+                }),
+              )
+              .subscribe(() => {
+                switch (addr.transport.name) {
+                  case 'tcp':
+                    let tcp = createTcpServer(addr, socket => {
+                      for (let i in options.router) {
+                        let router = options.router[i];
+                        that.visitType(router, socket, true);
+                      }
+                    });
+                    that.visitTypeOther(meta.target, tcp, this);
+                    break;
+                  case 'udp':
+                    let udp = dgram.createSocket('udp4');
+                    that.visitTypeOther(meta.target, udp, this);
+                    for (let i in options.router) {
+                      let router = options.router[i];
+                      that.visitType(router, udp, true);
+                    }
+                    break;
+                  default:
+                    console.log(addr);
                 }
-                break;
-              default:
-                console.log(addr);
-            }
+              });
           }
         };
       };
@@ -82,47 +91,50 @@ export class ImsProtocolVisitor extends Visitor {
     }
     return meta;
   }
-  visitClient(meta: MetadataDef<ClientOptions>, parent: any, context: any) {
+  async visitClient(
+    meta: MetadataDef<ClientOptions>,
+    parent: any,
+    context: any,
+  ) {
     const options = meta.metadataDef;
-    const addr = this.toMulitaddr(options.address);
+    // 从数据库查找地址库
+    const address = await connection
+      .pipe(
+        switchMap(connect => {
+          return connect.getAll(P2pServerEntity);
+        }),
+      )
+      .toPromise();
+    console.log(address);
+    let addrs = address.map(item => this.toMulitaddr(item.address));
     const that = this;
     if (isClassMetadata(meta)) {
       meta.metadataFactory = function(type: Type<any>) {
         return class extends type {
           constructor(...args: any[]) {
             super(...args);
-            switch (addr.transport.name) {
-              case 'tcp':
-                let server = createTcpClient(addr);
-                that.visitTypeOther(meta.target, server, this);
-                for (let i in options.router) {
-                  let router = options.router[i];
-                  that.visitType(router, server, false);
-                }
-                break;
-              case 'udp':
-                let udp = dgram.createSocket;
-                that.visitTypeOther(meta.target, udp, this);
-                for (let i in options.router) {
-                  let router = options.router[i];
-                  that.visitType(router, udp, true);
-                }
-                break;
-              case 'http':
-                let _http = http.createServer(
-                  (req, res: http.ServerResponse) => {
-                    for (let i in options.router) {
-                      let router = options.router[i];
-                      that.visitType(router, udp, true);
-                    }
-                  },
-                );
-                that.visitTypeOther(meta.target, _http, this);
-                _http.listen(addr.port, addr.host);
-                break;
-              default:
-                console.log(addr);
-            }
+            addrs.map(addr => {
+              switch (addr.transport.name) {
+                case 'tcp':
+                  let tcp = createTcpClient(addr);
+                  that.visitTypeOther(meta.target, tcp, this);
+                  for (let i in options.router) {
+                    let router = options.router[i];
+                    that.visitType(router, tcp, false);
+                  }
+                  break;
+                case 'udp':
+                  let udp = dgram.createSocket;
+                  that.visitTypeOther(meta.target, udp, this);
+                  for (let i in options.router) {
+                    let router = options.router[i];
+                    that.visitType(router, udp, true);
+                  }
+                  break;
+                default:
+                  console.log(addr);
+              }
+            });
           }
         };
       };
