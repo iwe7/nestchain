@@ -1,6 +1,4 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["www/framework/*"],
   "version": "0.0.4"
 }

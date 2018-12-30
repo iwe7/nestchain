@@ -50,7 +50,8 @@
       "ims-webpack-util": ["packages/ims-webpack-util/src/index"],
       "ims-webpack-manifest": ["packages/ims-webpack-manifest/src/index"],
       "ims-server": ["packages/ims-server/src/index"],
-      "ims-level": ["packages/ims-level/src/index"]
+      "ims-level": ["packages/ims-level/src/index"],
+      "ims-gulp": ["packages/ims-gulp/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],

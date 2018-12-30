@@ -5,6 +5,7 @@ import path = require('path');
 import { runWebpack, handlerError } from 'ims-webpack-util';
 import webpack = require('webpack');
 import 'reflect-metadata';
+import { gulp } from 'ims-gulp';
 
 @Command({
   name: 'build',
@@ -31,6 +32,11 @@ export class BuildCommand {
       case 'dll':
         let cfg = getWebapckDll(this.root, this.platform);
         webpack(cfg).run(handlerError());
+        break;
+      case 'package':
+        gulp(path.join(ROOT, 'packages'), path.join(ROOT, 'www/framework'))(
+          false,
+        );
         break;
       default:
         console.log(`add ${this.type}`);
