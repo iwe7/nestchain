@@ -5,7 +5,8 @@
 | 完整命令      | 简写     | 简介   | 状态 |
 |-----------|--------|------|----|
 | start     | start  | 启动服务 | ✗  |
-| version   | v      | 版本号  | ✗  |
+| version   | v      | 版本号  | ✓  |
+| addon     | addon  | 发布应用 | ✓  |
 | help      | h      | 帮助   | ✗  |
 | generator | g      | 模板   | ✗  |
 | build     | build  | 构建   | ✗  |
