@@ -29,7 +29,6 @@ export class TestServer {
 }
 
 @Client({
-  address: '/ip4/127.0.0.1/tcp/3000',
   router: [ServerRouter],
 })
 export class TestClient {

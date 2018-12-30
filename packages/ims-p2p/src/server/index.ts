@@ -1,4 +1,6 @@
 import { Server } from 'ims-protocol';
 
-@Server({})
+@Server({
+  router: [],
+})
 export class P2pServer {}

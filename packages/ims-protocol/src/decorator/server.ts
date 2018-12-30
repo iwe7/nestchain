@@ -3,7 +3,7 @@ import { IInjector } from 'ims-core';
 
 export const ServerMetadataKey = 'ServerMetadataKey';
 export interface ServerOptions {
-  address: string;
+  address?: string;
   router: IInjector;
 }
 export interface ServerDecorator {
