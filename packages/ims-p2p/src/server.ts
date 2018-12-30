@@ -1,4 +1,4 @@
-import { Router } from 'ims-grpc';
+import { Server } from 'ims-protocol';
 
-@Router()
-export class P2pRouter {}
+@Server({})
+export class P2pServer {}
