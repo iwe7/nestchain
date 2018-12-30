@@ -2,7 +2,7 @@ import { Command, Action, Option } from 'ims-cli';
 import getWebapckDll from 'ims-webpack-manifest';
 import { ROOT } from 'ims-const';
 import path = require('path');
-import { runWebpack, handlerError } from 'ims-webpack-util';
+import { handlerError } from 'ims-webpack-util';
 import webpack = require('webpack');
 import 'reflect-metadata';
 import { gulp } from 'ims-gulp';
@@ -16,6 +16,11 @@ export class BuildCommand {
     flags: 't',
   })
   type: string;
+
+  @Option({
+    flags: 'n',
+  })
+  name: string;
 
   @Option({
     flags: 'p',
@@ -43,7 +48,3 @@ export class BuildCommand {
     }
   }
 }
-let build = new BuildCommand();
-Object.defineProperty(build, 'type', { value: 'dll', writable: true });
-Object.defineProperty(build, 'platform', { value: 'web', writable: true });
-build.add();
