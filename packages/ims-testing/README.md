@@ -1,11 +1,11 @@
-# `ims-shop`
+# `ims-testing`
 
 > TODO: description
 
 ## Usage
 
 ```
-const imsShop = require('ims-shop');
+const imsTesting = require('ims-testing');
 
 // TODO: DEMONSTRATE API
 ```

@@ -11,7 +11,6 @@ import { createDecoratorConstructor } from './createDecorator';
 import { isNullOrUndefined, compose } from 'ims-util';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Visitor2 } from './injector2';
 
 export class Visitor {
   observables: Observable<any>[] = [];

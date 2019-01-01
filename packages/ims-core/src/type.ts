@@ -1,6 +1,6 @@
 export const Type = Function;
 
-export interface Type<T> extends Function {
+export interface Type<T extends Object> extends Function {
   new (...args: any[]): T;
 }
 export type ObjectType<T> = { new (): T } | Function;
