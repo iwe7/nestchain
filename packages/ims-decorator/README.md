@@ -1,11 +1,7 @@
 # `ims-decorator`
 
-> TODO: description
+> 装饰器生成器
 
-## Usage
+```ts
 
-```
-const imsDecorator = require('ims-decorator');
-
-// TODO: DEMONSTRATE API
 ```

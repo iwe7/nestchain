@@ -1,8 +1,6 @@
 import {
   MetadataDef,
-  isClassMetadata,
   isParameterMetadata,
-  ConstructorMetadata,
   isPropertyMetadata,
   isMethodMetadata,
 } from './metadata';
