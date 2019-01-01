@@ -136,6 +136,7 @@
     "socket.io": "^2.2.0",
     "socketcluster": "^14.3.3",
     "socketcluster-server": "^14.4.0",
+    "sphinx.js": "^0.1.0",
     "strong-log-transformer": "^2.1.0",
     "typeorm": "^0.2.9",
     "typescript": "^3.0.1",

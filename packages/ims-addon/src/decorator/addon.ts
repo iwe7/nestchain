@@ -24,6 +24,7 @@ export interface AddonOptions {
 export interface AddonDecorator {
   (opt: AddonOptions): TypeDecorator;
 }
+
 export const Addon: AddonDecorator = makeDecorator(
   AddonMetadataKey,
   'visitAddon',

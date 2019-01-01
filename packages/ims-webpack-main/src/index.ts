@@ -1,1 +1,1 @@
-import webpack = require('webpack');
+export class ImsWebpackMain {}

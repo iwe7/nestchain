@@ -16,7 +16,6 @@ export class ImsInstallController {
     res.set('Accept', 'text/plain');
     res.end(content);
   }
-
   @Get('getOs')
   async getOs() {
     return this.os.getOs();

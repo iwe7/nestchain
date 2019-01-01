@@ -9,8 +9,22 @@ import {
 } from './metadata';
 import { createDecoratorConstructor } from './createDecorator';
 import { isNullOrUndefined, compose } from 'ims-util';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Visitor2 } from './injector2';
 
 export class Visitor {
+  observables: Observable<any>[] = [];
+  addObservable(obs: Observable<any>) {
+    this.observables.push(obs);
+  }
+  forkJoin() {
+    if (this.observables.length > 0) {
+      return forkJoin(...this.observables);
+    } else {
+      return of(null);
+    }
+  }
   visit(it: MetadataDef<any>, parent: any, context: any) {
     if (it.visit && this[it.visit]) return this[it.visit](it, parent, context);
     return it;
@@ -174,7 +188,12 @@ export class Visitor {
   }
 }
 export function injector<T extends Visitor>(visitor: T) {
-  return <T = any>(type: Type<any>, meta: any = {}, ...args: any[]): T => {
-    return visitor.visitType(type, null, null, meta, ...args);
+  return <T = any>(
+    type: Type<any>,
+    meta: any = {},
+    ...args: any[]
+  ): Observable<T> => {
+    let instance = visitor.visitType(type, null, null, meta, ...args);
+    return visitor.forkJoin().pipe(map(() => instance));
   };
 }

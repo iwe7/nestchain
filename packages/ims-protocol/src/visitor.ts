@@ -19,25 +19,9 @@ import dgram = require('dgram');
 import { connection, P2pServerEntity } from 'ims-mongo';
 import { SendOptions } from './decorator/send';
 import { map, switchMap } from 'rxjs/operators';
-function createTcpServer(
-  options: MultiaddrResult,
-  onCreateServer: (socket: net.Socket) => any,
-) {
-  let server = net.createServer(socket => {
-    socket.setEncoding('utf8');
-    onCreateServer(socket);
-  });
-  server.listen(options.port, options.host);
-  return server;
-}
+import { from, of } from 'rxjs';
+import { createTcpServer, createTcpClient } from './tcp';
 
-function createTcpClient(options: MultiaddrResult) {
-  return net.createConnection({
-    port: options.port,
-    host: options.host,
-    family: options.family.code,
-  });
-}
 export class ImsProtocolVisitor extends Visitor {
   visitServer(meta: MetadataDef<ServerOptions>, parent: any, context: any) {
     const options = meta.metadataDef;
@@ -53,7 +37,19 @@ export class ImsProtocolVisitor extends Visitor {
                 switchMap(connect => {
                   let inst = new P2pServerEntity();
                   inst.address = options.address;
-                  return connect.save(P2pServerEntity, inst);
+                  let repository = connect.getRepository(P2pServerEntity);
+                  return from(repository.findOne(inst)).pipe(
+                    switchMap(item => {
+                      if (!!item) {
+                        return from(
+                          repository.update({ address: item.address }, inst),
+                        );
+                      } else {
+                        return from(repository.save(inst));
+                      }
+                      return of(null);
+                    }),
+                  );
                 }),
               )
               .subscribe(() => {
@@ -101,11 +97,11 @@ export class ImsProtocolVisitor extends Visitor {
     const address = await connection
       .pipe(
         switchMap(connect => {
-          return connect.getAll(P2pServerEntity);
+          let repository = connect.getRepository(P2pServerEntity);
+          return repository.find();
         }),
       )
       .toPromise();
-    console.log(address);
     let addrs = address.map(item => this.toMulitaddr(item.address));
     const that = this;
     if (isClassMetadata(meta)) {
@@ -122,15 +118,15 @@ export class ImsProtocolVisitor extends Visitor {
                     let router = options.router[i];
                     that.visitType(router, tcp, false);
                   }
-                  break;
+                  return tcp;
                 case 'udp':
-                  let udp = dgram.createSocket;
+                  let udp = dgram.createSocket('udp4');
                   that.visitTypeOther(meta.target, udp, this);
                   for (let i in options.router) {
                     let router = options.router[i];
                     that.visitType(router, udp, true);
                   }
-                  break;
+                  return udp;
                 default:
                   console.log(addr);
               }
