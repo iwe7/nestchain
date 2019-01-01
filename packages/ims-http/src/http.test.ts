@@ -11,5 +11,8 @@ export class TestHttp {
     return 'index';
   }
 }
-
-injector(TestHttp);
+injector(TestHttp).subscribe(res => {
+  let index = res.getIndex();
+  console.log(res);
+  debugger;
+});

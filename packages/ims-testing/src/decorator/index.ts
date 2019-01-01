@@ -1,10 +1,13 @@
-import { makeDecorator, injector3 } from 'ims-decorator';
+import { makeDecorator, injector } from 'ims-decorator';
 import 'reflect-metadata';
 export const Test = makeDecorator('TestMetadataKey', 'visitTest', dir => dir);
 
 @Test()
-export class DemoTest {}
+export class DemoTest {
+  title: string = 'demo';
+}
 
-injector3()(DemoTest).subscribe(res => {
+injector()(DemoTest).subscribe(res => {
   console.log(res);
+  debugger;
 });

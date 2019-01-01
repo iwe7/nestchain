@@ -14,7 +14,6 @@ import {
   PutOptions,
   PostOptions,
   HttpOptions,
-  GetMetadataKey,
 } from './decorator';
 import multiaddr = require('multiaddr');
 import http = require('http');
@@ -26,51 +25,34 @@ export interface MultiaddrResult {
   family: multiaddr.MultiaddrProto;
 }
 export class ImsHttpVisitor extends Visitor {
-  visitHttp(meta: MetadataDef<HttpOptions>, parent: any, context: any) {
+  visitHttp(meta: MetadataDef<HttpOptions>) {
     let options = meta.metadataDef;
     let that = this;
     if (isClassMetadata(meta)) {
       meta.metadataFactory = function(type: Type<any>) {
-        return class extends type {
-          constructor(...args: any[]) {
-            super(...args);
-            let server = http.createServer((req, res) => {
-              const method = req.method.toLowerCase();
-              debugger;
-              switch (method) {
-                case 'get':
-                  that.visitTypeMetadataKey(
-                    meta.target,
-                    { req, res },
-                    this,
-                    GetMetadataKey,
-                  );
-                  break;
-                default:
-                  res.end(method);
-                  break;
-              }
-            });
-            server.listen(options.port, options.host);
+        let server = http.createServer((req, res) => {
+          const method = req.method.toLowerCase();
+          switch (method) {
+            case 'get':
+              console.log('get');
+              break;
+            default:
+              res.end(method);
+              break;
           }
-        };
+        });
+        server.listen(options.port, options.host);
+        return type;
       };
-    }
-    if (isPropertyMetadata(meta)) {
-      context[meta.propertyKey] = parent;
     }
     return meta;
   }
-  visitGet(
-    meta: MetadataDef<GetOptions>,
-    parent: { req: http.IncomingMessage; res: http.ServerResponse },
-    context: any,
-  ) {
+  visitGet(meta: MetadataDef<GetOptions>) {
     const options = meta.metadataDef;
     if (isMethodMetadata(meta)) {
       meta.methodRuntime = 'after';
       meta.metadataFactory = function(result) {
-        parent.res.end(result);
+        return result;
       };
     }
     return meta;
