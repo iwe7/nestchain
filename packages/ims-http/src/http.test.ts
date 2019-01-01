@@ -6,13 +6,13 @@ import 'reflect-metadata';
   port: 8088,
 })
 export class TestHttp {
-  @Get()
+  @Get({
+    path: '/',
+  })
   getIndex() {
     return 'index';
   }
 }
 injector(TestHttp).subscribe(res => {
-  let index = res.getIndex();
   console.log(res);
-  debugger;
 });

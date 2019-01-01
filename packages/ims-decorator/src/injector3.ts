@@ -13,7 +13,7 @@ import {
 } from './util';
 import { isFunction } from 'util';
 import { compose, isPromise } from 'ims-util';
-import { Observable, forkJoin, of, from, isObservable } from 'rxjs';
+import { Observable, forkJoin, of, from, isObservable, Subject } from 'rxjs';
 import { map, concatMap } from 'rxjs/operators';
 export class Visitor {
   observables: Observable<any>[] = [];
@@ -31,10 +31,18 @@ export class Visitor {
     if (it.visit && this[it.visit]) return this[it.visit](it, context);
     return it;
   }
-  visitType(type: Type<any>) {
-    const meta = getMetadata(type).map(it => this.visit(it));
+  visitMeta(type: Type<any>) {
+    return getMetadata(type).map(it => this.visit(it));
+  }
+  visitType(type: Type<any>, meta: Array<MetadataDef<any>>) {
     let classMetadata = meta.filter(it => isClassMetadata(it));
     let Target = createMetadataType(type, classMetadata);
+    let constructorMetadata = meta.filter(it => isConstructorMetadata(it));
+
+    const onInit = new Subject();
+    const onChange = new Subject();
+    const onDestory = new Subject();
+
     return new Proxy(Target, {
       getPrototypeOf(tar: any): object | null {
         return Reflect.getPrototypeOf(tar);
@@ -83,7 +91,6 @@ export class Visitor {
         return Reflect.apply(tar, thisArg, argArray);
       },
       construct(tar: any, argArray: any, newTarget?: any): object {
-        let constructorMetadata = meta.filter(it => isConstructorMetadata(it));
         argArray = createMetadataParams(constructorMetadata, argArray);
         let instance = Reflect.construct(tar, argArray, newTarget);
         return new Proxy(instance, {
@@ -137,17 +144,22 @@ export class Visitor {
 }
 export function injector(visitor: Visitor = new Visitor()) {
   return (type: Type<any>, ...args: any[]) => {
+    let meta = visitor.visitMeta(type);
     return visitor.forkJoin().pipe(
       concatMap(() => {
-        let Target = visitor.visitType(type);
+        let Target = visitor.visitType(type, meta);
         let instance = new Target(...args);
+        let result = {
+          instance,
+          visitor,
+        };
         if (isFunction(instance.onInit)) {
           let res = instance.onInit();
-          if (isPromise(res)) return from(res).pipe(map(() => instance));
-          else if (isObservable(res)) return res.pipe(map(() => instance));
-          else of(instance);
+          if (isPromise(res)) return from(res).pipe(map(() => result));
+          else if (isObservable(res)) return res.pipe(map(() => result));
+          else return of(result);
         }
-        return of(instance);
+        return of(result);
       }),
     );
   };
