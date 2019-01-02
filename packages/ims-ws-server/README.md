@@ -5,7 +5,7 @@
 ## Usage
 
 ```ts
-import { ImsWsServer } from './index';
+import { ImsWsServer } from 'ims-ws-server';
 
 new ImsWsServer({
   host: '127.0.0.1',
