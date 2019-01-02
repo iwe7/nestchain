@@ -43,7 +43,7 @@ export function makeDecorator<T = any>(
         metadataKey,
         metadataType: MetadataType.class,
         metadataDef: opt || {},
-        metadataFactory: null,
+        metadataFactory: (...args) => target,
         target,
         visit,
       };

@@ -53,7 +53,9 @@
       "ims-level": ["packages/ims-level/src/index"],
       "ims-gulp": ["packages/ims-gulp/src/index"],
       "ims-protocol": ["packages/ims-protocol/src/index"],
-      "ims-mongo": ["packages/ims-mongo/src/index"]
+      "ims-mongo": ["packages/ims-mongo/src/index"],
+      "ims-tcp-server": ["packages/ims-tcp-server/src/index"],
+      "ims-tcp-client": ["packages/ims-tcp-client/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],

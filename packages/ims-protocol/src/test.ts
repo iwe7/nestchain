@@ -1,5 +1,5 @@
 import { Server, Client, Router, On, Send } from './decorator';
-import { injector } from './visitor';
+import injector from './visitor';
 import 'reflect-metadata';
 
 @Router()
@@ -38,3 +38,4 @@ export class TestClient {
 
 let server = injector(TestServer);
 let client = injector(TestClient);
+debugger;

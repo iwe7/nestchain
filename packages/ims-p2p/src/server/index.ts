@@ -4,7 +4,6 @@
 import { toMulitaddr } from '../util';
 import net = require('net');
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import dgram = require('dgram');
 export type IProtocolType =
   | 'ip4'
@@ -31,7 +30,7 @@ export type IProtocolType =
 export function bootstrap(address: string) {
   return new Observable(obs => {
     let addr = toMulitaddr(address);
-    const name: IProtocolType = addr.transport.name;
+    const name: IProtocolType = addr.transport.name as any;
     if (name === 'tcp') {
       let server = net.createServer();
       obs.next(server);

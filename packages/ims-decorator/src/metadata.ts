@@ -19,6 +19,7 @@ export const metadataTable = new Table(
       'returnType',
       'parameters',
       'methodRuntime',
+      'metadataFactory',
       'visit',
     ],
     indices: [
@@ -48,7 +49,7 @@ export interface ClassMetadata<D = any> {
   metadataType: MetadataType;
   metadataDef: D;
   parameters?: any[];
-  metadataFactory: any;
+  metadataFactory: (type: Type<any>) => Type<any>;
   primaryKey?: string;
   target?: Type<any>;
   visit: string;

@@ -3,7 +3,6 @@ import {
   MetadataDef,
   injector as decoratorInjector,
   isClassMetadata,
-  isPropertyMetadata,
   isMethodMetadata,
 } from 'ims-decorator';
 import {
@@ -29,7 +28,7 @@ export class ImsHttpVisitor extends Visitor {
   req: http.IncomingMessage;
   res: http.ServerResponse;
   msg: Subject<any> = new Subject();
-  visitHttp(meta: MetadataDef<HttpOptions>) {
+  visitHttp(meta: MetadataDef<HttpOptions>, type: Type<any>) {
     let options = meta.metadataDef;
     let that = this;
     if (isClassMetadata(meta)) {
@@ -48,14 +47,13 @@ export class ImsHttpVisitor extends Visitor {
           });
         }),
       );
-      meta.metadataFactory = function(type: Type<any>) {
-        return type;
-      };
     }
     return meta;
   }
-  visitGet(meta: MetadataDef<GetOptions>) {
+  visitGet(meta: MetadataDef<GetOptions>, type: Type<any>) {
     const options = meta.metadataDef;
+    const { target } = meta;
+    let that = this;
     this.msg.subscribe(res => {
       if (res.method === 'get') {
         if (res.url === options.path) {
@@ -64,11 +62,13 @@ export class ImsHttpVisitor extends Visitor {
       }
     });
     if (isMethodMetadata(meta)) {
-      meta.methodRuntime = 'after';
-      meta.metadataFactory = result => {
-        let that = this;
-        this.res.end(result);
-        return result;
+      let oldOnGet = target.prototype.onGet;
+      target.prototype.onGet = function(p: PropertyKey, receiver: any) {
+        console.log(p);
+        console.log(meta.propertyKey);
+        if (p === meta.propertyKey) {
+          console.log(p);
+        }
       };
     }
     return meta;
