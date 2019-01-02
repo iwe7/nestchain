@@ -61,7 +61,11 @@
       "ims-http-server": ["packages/ims-http-server/src/index"],
       "ims-http-client": ["packages/ims-http-client/src/index"],
       "ims-https-server": ["packages/ims-https-server/src/index"],
-      "ims-https-client": ["packages/ims-https-client/src/index"]
+      "ims-https-client": ["packages/ims-https-client/src/index"],
+      "ims-ws-server": ["packages/ims-ws-server/src/index"],
+      "ims-ws-client": ["packages/ims-ws-client/src/index"],
+      "ims-wss-server": ["packages/ims-wss-server/src/index"],
+      "ims-wss-client": ["packages/ims-wss-client/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip"],
