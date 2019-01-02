@@ -16,6 +16,8 @@
 | [ims-tcp-server](./packages/ims-tcp-server)         | Tcp服务端            | ✓  |
 | [ims-udp-client](./packages/ims-udp-client)         | Udp客户端            | ✓  |
 | [ims-udp-server](./packages/ims-udp-server)         | Udp服务端            | ✓  |
+| [ims-http-client](./packages/ims-http-client)       | Http客户端           | ✓  |
+| [ims-http-server](./packages/ims-http-server)       | Http服务端           | ✓  |
 | [ims-grpc](./packages/ims-grpc)                     | grpc通信            | ✓  |
 | [ims-decorator](./packages/ims-decorator)           | 装饰器生成器            | ✓  |
 | [ims-cli](./packages/ims-cli)                       | 开发命令行工具           | ✓  |
