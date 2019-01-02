@@ -1,11 +1,13 @@
 # `ims-ws-client`
 
-> TODO: description
+> Ws客户端
 
 ## Usage
 
-```
-const imsWsClient = require('ims-ws-client');
+```ts
+import { ImsWsClient } from 'ims-ws-client';
 
-// TODO: DEMONSTRATE API
+let client = new ImsWsClient({
+  address: 'ws://127.0.0.1:3004',
+});
 ```

@@ -1,11 +1,14 @@
 # `ims-ws-server`
 
-> TODO: description
+> Ws 服务端
 
 ## Usage
 
-```
-const imsWsServer = require('ims-ws-server');
+```ts
+import { ImsWsServer } from './index';
 
-// TODO: DEMONSTRATE API
+new ImsWsServer({
+  host: '127.0.0.1',
+  port: 3004,
+});
 ```
