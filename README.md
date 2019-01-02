@@ -18,6 +18,8 @@
 | [ims-udp-server](./packages/ims-udp-server)         | Udp服务端            | ✓  |
 | [ims-http-client](./packages/ims-http-client)       | Http客户端           | ✓  |
 | [ims-http-server](./packages/ims-http-server)       | Http服务端           | ✓  |
+| [ims-https-client](./packages/ims-https-client)     | Https客户端          | ✓  |
+| [ims-https-server](./packages/ims-https-server)     | Https服务端          | ✓  |
 | [ims-grpc](./packages/ims-grpc)                     | grpc通信            | ✓  |
 | [ims-decorator](./packages/ims-decorator)           | 装饰器生成器            | ✓  |
 | [ims-cli](./packages/ims-cli)                       | 开发命令行工具           | ✓  |
