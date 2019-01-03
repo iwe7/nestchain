@@ -1,14 +1,13 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
 export const HttpMetadataKey = 'HttpMetadataKey';
 export interface HttpOptions {
-  host: string;
-  port: number;
+  path: string;
 }
 export interface HttpDecorator {
-  (opt?: HttpOptions): TypeDecorator;
+  (path?: string): TypeDecorator;
 }
 export const Http: HttpDecorator = makeDecorator(
   HttpMetadataKey,
   'visitHttp',
-  dir => dir,
+  path => ({ path }),
 );

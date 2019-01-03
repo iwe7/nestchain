@@ -1,7 +1,7 @@
 import http = require('http');
 import net = require('net');
 import { Type } from 'ims-core';
-
+import express = require('express');
 export abstract class HttpServer {
   constructor(public server: http.Server) {
     this.server.on('close', this.onClose.bind(this));
@@ -35,15 +35,24 @@ export class ImsHttpServer {
   constructor(
     options: net.ListenOptions,
     public typeHttpServer: Type<HttpServer> = HttpServerDefault,
+    public routes: {
+      prefix: string;
+      list: { method: string; path: string; action: any }[];
+    }[] = [],
   ) {
-    let server: http.Server = http.createServer(
-      (req: http.IncomingMessage, res: http.OutgoingMessage) => {
-        this.req = req;
-        this.res = res;
-        let method = this.req.method.toLowerCase();
-        this.res.end(method);
-      },
-    );
+    let app = express();
+    this.routes.map(routes => {
+      let router = app.route(routes.prefix);
+      // routes
+      routes.list.map(route => {
+        if (router[route.method]) {
+          router[route.method](route.path, (req, res, next) => {
+            route.action(req, res, next);
+          });
+        }
+      });
+    });
+    let server = new http.Server(app);
     this.server = new this.typeHttpServer(server);
     server.listen(options);
   }

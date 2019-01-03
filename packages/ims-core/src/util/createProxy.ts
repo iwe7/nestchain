@@ -92,7 +92,7 @@ export function createProxy(Target: any): any {
     },
     get(tar: any, p: PropertyKey, receiver: any): any {
       if (l.hasOnBeforeGet(tar)) {
-        [p, receiver] = tar.onBeforeSet(p, receiver);
+        [p, receiver] = tar.onBeforeGet(p, receiver);
       }
       if (l.hasOnGet(tar)) {
         return createProxy(tar.onGet(p, receiver));

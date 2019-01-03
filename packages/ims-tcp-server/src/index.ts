@@ -93,7 +93,7 @@ export class ImsNetServerDefault<
     this.connection = new this.typeSocket(socket);
   }
 }
-export class ImsTcpServer<S extends ImsNetServer> {
+export class ImsTcpServer<S extends ImsNetServer = any> {
   server: S;
   constructor(
     public opt: net.ListenOptions,

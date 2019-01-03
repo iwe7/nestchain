@@ -22,7 +22,7 @@ export class Visitor {
     meta = meta.map(it => this.visit(it, type, context));
     meta
       .filter(it => !isConstructorMetadata(it))
-      .forEach(it => (type = it.metadataFactory(type, it, context)));
+      .forEach(it => (type = it.metadataFactory(type)));
     let constructorMetadata = meta.filter(it => isConstructorMetadata(it));
     type.prototype.onBeforeConstruct = function(
       argArray: any,

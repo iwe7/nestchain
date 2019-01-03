@@ -4,10 +4,13 @@ export interface GetOptions {
   path: string;
 }
 export interface GetDecorator {
-  (opt?: GetOptions): TypeDecorator;
+  (path?: string): TypeDecorator;
 }
 export const Get: GetDecorator = makeDecorator(
   GetMetadataKey,
   'visitGet',
-  dir => dir,
+  path => {
+    path = path || '/';
+    return { path };
+  },
 );

@@ -30,7 +30,7 @@ export class ImsUdpSocketDefault extends ImsUdpSocket {
 }
 export interface ImsUdpServerOptions extends dgram.SocketOptions {
   port: number;
-  address: string;
+  host: string;
 }
 export class ImsUdpClient {
   socket: ImsUdpSocket;
@@ -38,11 +38,11 @@ export class ImsUdpClient {
     opt: ImsUdpServerOptions,
     public typeSocket: Type<ImsUdpSocket> = ImsUdpSocketDefault,
   ) {
-    let { port, address, ...opts } = opt;
+    let { port, host, ...opts } = opt;
     let socket = dgram.createSocket(opts);
     this.socket = new this.typeSocket(socket);
     this.socket.port = port;
-    this.socket.address = address;
+    this.socket.address = host;
   }
   send(data: Buffer | string | Uint8Array) {
     this.socket.send(data);
