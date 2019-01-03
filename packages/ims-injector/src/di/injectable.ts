@@ -60,7 +60,8 @@ export const Injectable: InjectableDecorator = makeDecorator(
 
 export class NgInjectableDef {
   get factory() {
-    return convertInjectableProviderToFactory(this.type);
+    let parameters = createInjectableTypeParamters(this.type);
+    return () => new this.type(...parameters);
   }
   get providedIn() {
     return this._providedIn;
@@ -71,11 +72,7 @@ export class NgInjectableDef {
   ) {}
 }
 
-function convertInjectableProviderToFactory(type: Type<any>) {
-  return () => new type(...createInjectableType(type));
-}
-
-export function createInjectableType(type: Type<any>) {
+export function createInjectableTypeParamters(type: Type<any>) {
   let meta = getMetadata(type);
   let classMeta = meta.find(it => isClassMetadata(it));
   let contructorMeta = meta.filter(it => isConstructorMetadata(it));

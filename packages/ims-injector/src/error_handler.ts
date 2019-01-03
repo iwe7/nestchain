@@ -36,7 +36,6 @@ export class ErrorHandler {
     while (e && getOriginalError(e)) {
       e = getOriginalError(e);
     }
-
     return e;
   }
 }

@@ -1,24 +1,15 @@
-import {
-  Injectable,
-  Injector,
-  inject,
-  setCurrentInjector,
-  Optional,
-} from 'ims-injector';
+import { Injectable, inject, Optional } from 'ims-injector';
 
 class Dependency {}
 
 @Injectable({
   providedIn: 'root',
+  deps: [Dependency],
 })
 export class NeedsDependency {
-  constructor(@Optional() public dependency: Dependency) {
+  constructor(public dependency: Dependency) {
     this.dependency = dependency;
   }
 }
-// 父级
-const injector = Injector.of([Dependency]);
-// 子级
-const injectorChild = Injector.of([NeedsDependency], injector);
-setCurrentInjector(injectorChild);
 let ref = inject(NeedsDependency);
+debugger;

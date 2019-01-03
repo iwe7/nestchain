@@ -7,10 +7,14 @@ import {
   formatError,
 } from 'ims-util';
 
-import { defineInjectable } from './defs';
+import { defineInjectable, getInjectableDef, InjectableDef } from './defs';
 import { resolveForwardRef } from './forward_ref';
 import { InjectionToken } from './injection_token';
-import { InjectFlags, inject } from './injector_compatibility';
+import {
+  InjectFlags,
+  inject,
+  injectRootLimpMode,
+} from './injector_compatibility';
 import {
   ConstructorProvider,
   ExistingProvider,
@@ -19,6 +23,8 @@ import {
   StaticProvider,
   ValueProvider,
 } from './provider';
+import { InjectableMetadataKey } from './injectable';
+import { NG_INJECTABLE_DEF } from './const';
 
 export const SOURCE = '__source';
 const _THROW_IF_NOT_FOUND = new Object();
@@ -178,12 +184,9 @@ export class StaticInjector implements Injector {
         flags,
       );
     } catch (e) {
-      if (isType(token)) {
-        let inst = new token();
-        let isToken = inst instanceof InjectionToken;
-        if (!isToken) {
-          return inst;
-        }
+      let inst = new token();
+      if (!(inst instanceof InjectionToken)) {
+        return inst;
       }
       const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
       if (token[SOURCE]) {
@@ -331,6 +334,12 @@ function resolveToken(
   notFoundValue: any,
   flags: InjectFlags,
 ): any {
+  if (isType(token)) {
+    const injectableDef: InjectableDef<any> | null = getInjectableDef(token);
+    if (injectableDef && injectableDef.providedIn === 'root') {
+      return injectRootLimpMode(token, undefined, flags);
+    }
+  }
   let value;
   if (record && !(flags & InjectFlags.SkipSelf)) {
     value = record.value;
