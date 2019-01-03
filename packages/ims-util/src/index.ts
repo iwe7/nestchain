@@ -8,3 +8,5 @@ export * from './global';
 export * from './withIs';
 export { default as merge, createMerge } from './merge';
 export * from './stringify';
+export * from './property';
+export * from './staticError';

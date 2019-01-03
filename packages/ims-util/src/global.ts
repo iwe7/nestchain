@@ -32,3 +32,5 @@ export function setGlobal(key: string, value: any) {
     _global[key] = value;
   }
 }
+
+export { _global as global };

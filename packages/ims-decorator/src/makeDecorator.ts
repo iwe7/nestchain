@@ -21,23 +21,41 @@ export interface TypeDecorator {
 interface DefaultOptionsFunction<T> {
   (...args: any[]): T;
 }
+function makeMetadataCtor(props?: (...args: any[]) => any): any {
+  return function ctor(...args: any[]) {
+    if (props) {
+      const values = props(...args);
+      for (const propName in values) {
+        this[propName] = values[propName];
+      }
+    }
+  };
+}
 
 export function makeDecorator<T = any>(
   metadataKey: string,
   visit: string,
-  defaultOptions: DefaultOptionsFunction<T> = dir => dir,
+  props: DefaultOptionsFunction<T> = dir => dir,
   typeFn?: (target: any, opt: any) => any,
-  callback?: (target: any, opt: any) => any,
-) {
-  return (...args: any[]): TypeDecorator => {
-    return (
+  parentClass?: Type<any>,
+): any {
+  const metaCtor = makeMetadataCtor(props);
+  function DecoratorFactory(...args: any[]): any {
+    if (this instanceof DecoratorFactory) {
+      metaCtor.call(this, ...args);
+      return this;
+    }
+    const annotationInstance = new (DecoratorFactory as any)(...args);
+    (<any>Decorator).annotation = annotationInstance;
+    return Decorator;
+    function Decorator(
       target: any,
       propertyKey?: any,
       descriptor?: TypedPropertyDescriptor<any> | number,
-    ) => {
+    ) {
       let opt = {};
-      if (isFunction(defaultOptions)) {
-        opt = defaultOptions(...args);
+      if (isFunction(props)) {
+        opt = props(...args);
       }
       let meta: MetadataDef = {
         metadataKey,
@@ -49,8 +67,6 @@ export function makeDecorator<T = any>(
       };
       if (!isNullOrUndefined(propertyKey)) {
         if (isNumber(descriptor)) {
-          // ParameterDecorator
-          // 父亲
           const types = getDesignParamTypes(target, propertyKey);
           meta.metadataType = MetadataType.parameter;
           (meta as ParameterMetadata).propertyKey = propertyKey;
@@ -59,7 +75,6 @@ export function makeDecorator<T = any>(
           (meta as ParameterMetadata).parameters = types;
           (meta as ParameterMetadata).target = target.constructor;
           (meta as ParameterMetadata).primaryKey = `${metadataKey}_parameter_${descriptor}`;
-
           typeFn && typeFn(target, meta);
           defineMetadata(meta);
         } else if (isNullOrUndefined(descriptor)) {
@@ -77,7 +92,6 @@ export function makeDecorator<T = any>(
           const returnType = getDesignReturnType(target, propertyKey);
           const parameters = getDesignParamTypes(target, propertyKey);
           const designType = getDesignType(target, propertyKey);
-
           (meta as MethodMetadata).propertyKey = propertyKey;
           (meta as MethodMetadata).descriptor = descriptor;
           (meta as MethodMetadata).returnType = returnType;
@@ -97,6 +111,7 @@ export function makeDecorator<T = any>(
       } else if (isNumber(descriptor)) {
         // constructor
         const parameters = getDesignParamTypes(target);
+        // 处理parameters
         meta.metadataType = MetadataType.constructor;
         (meta as ConstructorMetadata).parameterIndex = descriptor;
         (meta as ConstructorMetadata).parameterType = parameters[descriptor];
@@ -113,8 +128,12 @@ export function makeDecorator<T = any>(
         typeFn && typeFn(target, meta);
         defineMetadata(meta);
       }
-      callback && callback(target, meta);
       return target;
-    };
-  };
+    }
+  }
+  if (parentClass) {
+    DecoratorFactory.prototype = Object.create(parentClass.prototype);
+  }
+  DecoratorFactory.prototype.metadataKey = metadataKey;
+  return DecoratorFactory;
 }

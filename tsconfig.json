@@ -68,12 +68,13 @@
       "ims-p2p-server": ["packages/ims-p2p-server/src/index"],
       "ims-p2p-client": ["packages/ims-p2p-client/src/index"],
       "@angular/core": ["packages/ims-ng-core/src/core"],
-      "ims-ng-core": ["packages/ims-ng-core/src/core"]
+      "ims-ng-core": ["packages/ims-ng-core/src/core"],
+      "ims-injector": ["packages/ims-injector/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
-    "types": ["node", "reflect-metadata", "ip"],
+    "types": ["node", "reflect-metadata", "ip", "zone.js"],
     "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules", "dist", "docs", "docker", "static", "www"],
-  "include": ["packages/ims-types/src/*.d.ts", "packages", "src"]
+  "include": ["packages/ims-types/src/*.d.ts", "packages/**/*.ts", "src"]
 }
