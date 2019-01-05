@@ -1,7 +1,8 @@
 import http = require('http');
 import net = require('net');
-import { Type } from 'ims-core';
+import { Type, IInjector, iInjectorToArray } from 'ims-core';
 import express = require('express');
+import { createHttp } from 'ims-http';
 export abstract class HttpServer {
   constructor(public server: http.Server) {
     this.server.on('close', this.onClose.bind(this));
@@ -35,16 +36,13 @@ export class ImsHttpServer {
   constructor(
     options: net.ListenOptions,
     public typeHttpServer: Type<HttpServer> = HttpServerDefault,
-    public routes: {
-      prefix: string;
-      list: { method: string; path: string; action: any }[];
-    }[] = [],
+    public routes: IInjector = [],
   ) {
     let app = express();
-    this.routes.map(routes => {
+    let routesConfig = iInjectorToArray(this.routes).map(it => createHttp(it));
+    routesConfig.map(routes => {
       let router = app.route(routes.prefix);
-      // routes
-      routes.list.map(route => {
+      routes.children.map(route => {
         if (router[route.method]) {
           router[route.method](route.path, (req, res, next) => {
             route.action(req, res, next);

@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "isBackground": true,
+  "tasks": [
+    {
+      "label": "tsc",
+      "command": "tsc",
+      "type": "shell",
+      "windows": {
+        "command": "tsc",
+        "args": ["-p", "tsconfig.json"]
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { getClosureSafeProperty } from 'ims-util';
-export const NG_INJECTABLE_DEF = getClosureSafeProperty({
-  ngInjectableDef: getClosureSafeProperty,
-});
-export const NG_INJECTOR_DEF = getClosureSafeProperty({
-  ngInjectorDef: getClosureSafeProperty,
+import { ValueProvider } from './provider';
+
+export const USE_VALUE = getClosureSafeProperty<ValueProvider>({
+  provide: String,
+  useValue: getClosureSafeProperty,
 });

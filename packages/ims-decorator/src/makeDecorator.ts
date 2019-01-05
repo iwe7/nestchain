@@ -34,9 +34,9 @@ function makeMetadataCtor(props?: (...args: any[]) => any): any {
 
 export function makeDecorator<T = any>(
   metadataKey: string,
-  visit: string,
+  visit: any,
   props: DefaultOptionsFunction<T> = dir => dir,
-  typeFn?: (target: any, opt: any) => any,
+  typeFn?: (type: Type<any>, meta: any) => any,
   parentClass?: Type<any>,
 ): any {
   const metaCtor = makeMetadataCtor(props);
@@ -61,7 +61,7 @@ export function makeDecorator<T = any>(
         metadataKey,
         metadataType: MetadataType.class,
         metadataDef: opt || {},
-        metadataFactory: (...args) => target,
+        metadataFactory: undefined,
         target,
         visit,
       };

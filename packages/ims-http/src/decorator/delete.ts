@@ -1,13 +1,14 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
 export const DeleteMetadataKey = 'DeleteMetadataKey';
 export interface DeleteOptions {
-  type: string;
+  method: 'delete';
+  path: string;
 }
 export interface DeleteDecorator {
-  (opt?: DeleteOptions): TypeDecorator;
+  (path?: string): TypeDecorator;
 }
 export const Delete: DeleteDecorator = makeDecorator(
   DeleteMetadataKey,
   'visitDelete',
-  dir => dir,
+  path => ({ method: 'delete', path }),
 );

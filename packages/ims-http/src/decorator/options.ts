@@ -1,13 +1,14 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
 export const OptionsMetadataKey = 'OptionsMetadataKey';
 export interface OptionsOptions {
-  type: string;
+  method: 'options';
+  path: string;
 }
 export interface OptionsDecorator {
-  (opt?: OptionsOptions): TypeDecorator;
+  (path?: string): TypeDecorator;
 }
 export const Options: OptionsDecorator = makeDecorator(
   OptionsMetadataKey,
   'visitOptions',
-  dir => dir,
+  path => ({ path, method: 'options' }),
 );

@@ -7,9 +7,12 @@ import {
   TypeDecorator,
   MetadataDef,
   getDesignParamTypes,
+  ParameterMetadata,
+  isParameterMetadata,
+  isMethodMetadata,
 } from 'ims-decorator';
 import { Type } from 'ims-core';
-import { inject, InjectFlags, injectArgs } from './injector_compatibility';
+import { inject, InjectFlags } from './injector_compatibility';
 import {
   OptionalMetadataKey,
   SkipSelfMetadataKey,
@@ -26,6 +29,9 @@ import {
   FactorySansProvider,
   ClassSansProvider,
 } from './provider';
+import { InjectionToken } from './injection_token';
+import { getClosureSafeProperty } from 'ims-util';
+import { InjectorType } from './injector';
 
 export type InjectableProvider =
   | ValueSansProvider
@@ -34,28 +40,58 @@ export type InjectableProvider =
   | ConstructorSansProvider
   | FactorySansProvider
   | ClassSansProvider;
+
 export type InjectableOptions = {
   providedIn: Type<any> | 'root' | null;
 } & InjectableProvider;
 
-export interface Injectable {}
+export const NG_INJECTABLE_DEF = getClosureSafeProperty({
+  ngInjectableDef: getClosureSafeProperty,
+});
+
+export interface Injectable {
+  providedIn: Type<any> | 'root' | null;
+}
+
+export interface InjectableType<T> extends Type<T> {
+  ngInjectableDef: never;
+}
+
+export interface InjectableDef<T> {
+  providedIn: InjectorType<any> | 'root' | 'any' | null;
+  factory: () => T;
+  value: T | undefined;
+}
+
+export function defineInjectable<T>(opts: {
+  providedIn?: Type<any> | 'root' | 'any' | null;
+  factory: () => T;
+}): never {
+  return ({
+    providedIn: (opts.providedIn as any) || null,
+    factory: opts.factory,
+    value: undefined,
+  } as InjectableDef<T>) as never;
+}
+
+export function getInjectableDef<T>(type: any): InjectableDef<T> | null {
+  return type && type.hasOwnProperty(NG_INJECTABLE_DEF)
+    ? (type as any)[NG_INJECTABLE_DEF]
+    : null;
+}
+
 export interface InjectableDecorator {
-  (opt: InjectableOptions): TypeDecorator;
+  (opt?: InjectableOptions): TypeDecorator;
   new (opt?: InjectableOptions): TypeDecorator;
   (opt?: InjectableOptions): Injectable;
   new (opt?: InjectableOptions): Injectable;
 }
+
 export const InjectableMetadataKey = 'InjectableMetadataKey';
 export const Injectable: InjectableDecorator = makeDecorator(
   InjectableMetadataKey,
   'visitInjectable',
   dir => dir,
-  (type: Type<any>, opt: MetadataDef<InjectableOptions>) => {
-    const options = opt.metadataDef;
-    Object.defineProperty(type, 'ngInjectableDef', {
-      get: () => new NgInjectableDef(type, options.providedIn),
-    });
-  },
 );
 
 export class NgInjectableDef {
@@ -66,10 +102,10 @@ export class NgInjectableDef {
   get providedIn() {
     return this._providedIn;
   }
-  constructor(
-    private type: Type<any>,
-    private _providedIn: Type<any> | 'root' | null,
-  ) {}
+  type: Type<any>;
+  constructor(type: Type<any>, private _providedIn: Type<any> | 'root' | null) {
+    this.type = parseTypeMethod(type);
+  }
 }
 
 export function createInjectableTypeParamters(type: Type<any>) {
@@ -109,4 +145,28 @@ export function createInjectableTypeParamters(type: Type<any>) {
     }
   }
   return args;
+}
+
+export function parseTypeMethod(type: Type<any>) {
+  let meta = getMetadata(type);
+  meta.forEach(parent => {
+    if (isMethodMetadata(parent)) {
+      let parametersMetadata: ParameterMetadata<any>[] = meta.filter(
+        me => isParameterMetadata(me) && me.propertyKey === parent.propertyKey,
+      ) as any;
+      let parameters = parent.parameters.map((it, index) => {
+        let meta: ParameterMetadata<any> = parametersMetadata.find(
+          par => par.parameterIndex === index,
+        );
+        if (meta.visit instanceof InjectionToken) {
+          return inject(meta.visit);
+        } else {
+          return inject(it);
+        }
+      });
+      let old = type.prototype[parent.propertyKey];
+      type.prototype[parent.propertyKey] = () => old(...parameters);
+    }
+  });
+  return type;
 }

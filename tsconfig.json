@@ -19,6 +19,7 @@
     "composite": true,
     "baseUrl": ".",
     "rootDir": ".",
+    "watch": true,
     "paths": {
       "ims-chain": ["packages/ims-chain/src/ims-chain"],
       "ims-util": ["packages/ims-util/src/index"],
@@ -75,6 +76,19 @@
     "types": ["node", "reflect-metadata", "ip", "zone.js"],
     "typeRoots": ["node_modules/@types"]
   },
-  "exclude": ["node_modules", "dist", "docs", "docker", "static", "www"],
-  "include": ["packages/ims-types/src/*.d.ts", "packages/**/*.ts", "src"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "docs",
+    "docker",
+    "static",
+    "www",
+    "_book"
+  ],
+  "include": [
+    "packages/ims-types/src/*.d.ts",
+    "packages/**/*.ts",
+    "src",
+    "demo"
+  ]
 }

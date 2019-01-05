@@ -12,6 +12,7 @@
 
 | 模块                                                  | 功能                | 状态 |
 |-----------------------------------------------------|-------------------|----|
+| [ims-injector](./packages/ims-injector)             | 依赖注入              | ✓  |
 | [ims-tcp-client](./packages/ims-tcp-client)         | Tcp客户端            | ✓  |
 | [ims-tcp-server](./packages/ims-tcp-server)         | Tcp服务端            | ✓  |
 | [ims-udp-client](./packages/ims-udp-client)         | Udp客户端            | ✓  |

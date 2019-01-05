@@ -49,10 +49,10 @@ export interface ClassMetadata<D = any> {
   metadataType: MetadataType;
   metadataDef: D;
   parameters?: any[];
-  metadataFactory: (type: Type<any>) => Type<any>;
+  metadataFactory: (...args: any[]) => any;
   primaryKey?: string;
   target?: Type<any>;
-  visit: string;
+  visit: any;
 }
 
 export interface ConstructorMetadata<T = any> extends ClassMetadata<T> {

@@ -1,6 +1,6 @@
 import { Type } from 'ims-core';
 import { stringify } from 'ims-util';
-import { InjectableDef, getInjectableDef } from './defs';
+import { InjectableDef, getInjectableDef } from './injectable';
 import { InjectionToken } from './injection_token';
 import { Injector } from './injector';
 import {
@@ -10,6 +10,7 @@ import {
   InjectMetadataKey,
 } from './metadata';
 import { MetadataDef } from 'ims-decorator';
+import { StaticProvider } from './provider';
 
 export enum InjectFlags {
   Default = 0b0000,
@@ -18,7 +19,8 @@ export enum InjectFlags {
   SkipSelf = 0b0100,
   Optional = 0b1000,
 }
-
+console.log(Injector);
+debugger;
 let _currentInjector: Injector | undefined | null = Injector.create([]);
 
 export function setCurrentInjector(
@@ -66,7 +68,10 @@ export function injectInjectorOnly<T>(
     );
   }
 }
-
+/**
+ * inject
+ * @param token
+ */
 export function inject<T>(token: Type<T> | InjectionToken<T>): T;
 export function inject<T>(
   token: Type<T> | InjectionToken<T>,
@@ -77,6 +82,38 @@ export function inject<T>(
   flags = InjectFlags.Default,
 ): T | null {
   return (_injectImplementation || injectInjectorOnly)(token, flags);
+}
+
+/**
+ * pinject
+ * @param token
+ */
+export function pinject<T>(token: Type<T> | InjectionToken<T>): T;
+export function pinject<T>(
+  token: Type<T> | InjectionToken<T>,
+  flags?: InjectFlags,
+): T | null;
+export function pinject<T>(
+  token: Type<T> | InjectionToken<T>,
+  flags = InjectFlags.Default,
+): T | null {
+  return _currentInjector.parent.get(token, flags);
+}
+
+export function getCurrentInjector() {
+  return _currentInjector;
+}
+
+export function setInject(provider: StaticProvider) {
+  if (_currentInjector === undefined) {
+    throw new Error(`inject() must be called from an injection context`);
+  } else {
+    _currentInjector.set(provider);
+  }
+}
+
+export function setRootInject(provider: StaticProvider) {
+  _currentInjector.getTop().set(provider);
 }
 
 export function injectRootLimpMode<T>(
@@ -95,7 +132,6 @@ export function injectRootLimpMode<T>(
   throw new Error(`Injector: NOT_FOUND [${stringify(token)}]`);
 }
 
-// {deps: [[new Optional(), Type]]}
 export function injectArgs(
   types: (Type<any> | InjectionToken<any> | any[])[],
 ): any[] {

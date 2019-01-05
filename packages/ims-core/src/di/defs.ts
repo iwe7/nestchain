@@ -1,5 +1,5 @@
-import { NG_INJECTOR_DEF, NG_INJECTABLE_DEF } from './const';
-import { Type } from 'ims-core';
+import { NG_INJECTABLE_DEF, NG_INJECTOR_DEF } from '../render3/fields';
+import { Type } from '../type';
 
 import {
   ClassProvider,
@@ -34,11 +34,9 @@ export interface InjectorDef<T> {
 export interface InjectableType<T> extends Type<T> {
   ngInjectableDef: never;
 }
-
 export interface InjectorType<T> extends Type<T> {
   ngInjectorDef: never;
 }
-
 export interface InjectorTypeWithProviders<T> {
   ngModule: InjectorType<T>;
   providers?: (

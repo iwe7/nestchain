@@ -1,7 +1,8 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
 export const PutMetadataKey = 'PutMetadataKey';
 export interface PutOptions {
-  type: string;
+  method: 'put';
+  path: string;
 }
 export interface PutDecorator {
   (opt?: PutOptions): TypeDecorator;
@@ -9,5 +10,5 @@ export interface PutDecorator {
 export const Put: PutDecorator = makeDecorator(
   PutMetadataKey,
   'visitPut',
-  dir => dir,
+  path => ({ path, method: 'put' }),
 );

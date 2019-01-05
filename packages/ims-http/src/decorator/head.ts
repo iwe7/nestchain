@@ -1,13 +1,14 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
 export const HeadMetadataKey = 'HeadMetadataKey';
 export interface HeadOptions {
-  type: string;
+  method: 'head';
+  path: string;
 }
 export interface HeadDecorator {
-  (opt?: HeadOptions): TypeDecorator;
+  (path?: string): TypeDecorator;
 }
 export const Head: HeadDecorator = makeDecorator(
   HeadMetadataKey,
   'visitHead',
-  dir => dir,
+  path => ({ path, method: 'head' }),
 );

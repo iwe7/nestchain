@@ -1,9 +1,12 @@
-import { Type } from 'ims-core';
-import { defineInjectable } from './injectable';
+import { Type } from '../type';
+import { defineInjectable } from './defs';
 
 export class InjectionToken<T> {
+  /** @internal */
   readonly ngMetadataName = 'InjectionToken';
+
   readonly ngInjectableDef: never | undefined;
+
   constructor(
     protected _desc: string,
     options?: {
@@ -20,6 +23,7 @@ export class InjectionToken<T> {
       this.ngInjectableDef = undefined;
     }
   }
+
   toString(): string {
     return `InjectionToken ${this._desc}`;
   }
