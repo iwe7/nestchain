@@ -1,4 +1,3 @@
-import { Command, Action, Option } from 'ims-cli';
 import getWebapckDll from 'ims-webpack-manifest';
 import { ROOT } from 'ims-const';
 import path = require('path');
@@ -6,32 +5,34 @@ import { handlerError } from 'ims-webpack-util';
 import webpack = require('webpack');
 import 'reflect-metadata';
 import { gulp } from 'ims-gulp';
+import { fromCallback } from 'ims-rxjs';
 
-@Command({
-  name: 'build',
-  alias: 'build',
-})
-export class BuildCommand {
-  @Option({
-    flags: 't',
-  })
+import { ImsBinBase } from '../base';
+import { Observable } from 'rxjs';
+
+export class BuildCommand extends ImsBinBase {
   type: string;
-
-  @Option({
-    flags: 'n',
-  })
   name: string;
-
-  @Option({
-    flags: 'p',
-  })
   platform: string;
-
   // 根目录
   root: string = path.join(ROOT, 'www/public');
 
-  @Action()
-  add() {
+  match(s: string, ...args: any[]) {
+    args.forEach((it, key) => {
+      if (key + '' === 'p' || key + '' === 'platform') {
+        this.platform = it;
+      }
+      if (key + '' === 'n' || key + '' === 'name') {
+        this.name = it;
+      }
+      if (key + '' === 't' || key + '' === 'type') {
+        this.type = it;
+      }
+    });
+    return s === 'b' || s === 'build';
+  }
+
+  run() {
     this.platform = this.platform || 'web';
     switch (this.type) {
       case 'dll':
@@ -39,10 +40,10 @@ export class BuildCommand {
         webpack(cfg).run(handlerError());
         break;
       case 'package':
-        gulp(path.join(ROOT, 'packages'), path.join(ROOT, 'www/framework'))(
-          false,
-        );
-        break;
+        return gulp(
+          path.join(ROOT, 'packages'),
+          path.join(ROOT, 'www/framework'),
+        )(false).toPromise();
       default:
         console.log(`add ${this.type}`);
     }

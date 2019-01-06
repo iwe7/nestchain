@@ -1,4 +1,4 @@
-import { Type } from 'ims-core';
+import { Type } from '../type';
 import {
   getMetadata,
   isClassMetadata,
@@ -10,11 +10,11 @@ import {
   ConstructorMetadata,
   getDesignParamTypes,
 } from 'ims-decorator';
-import { inject } from './injector_compatibility';
+import { inject } from './inject';
 
 export function createProxyType(type: Type<any>) {
   let meta = getMetadata(type);
-  let parameters = getDesignParamTypes(type);
+  let parameters = getDesignParamTypes(type) || [];
   meta
     .filter(it => isClassMetadata(it))
     .forEach(it => {

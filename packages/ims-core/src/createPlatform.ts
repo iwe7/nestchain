@@ -2,53 +2,17 @@ import { StaticProvider } from './di/provider';
 import { InjectionToken } from './di/injection_token';
 import { Injector } from './di/injector';
 import { Type } from './type';
-import { Observable, of, from } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { NgModuleRef, NgModuleFactory } from './linker/ng_module_factory';
 import { concatMap } from 'rxjs/operators';
 import { ApplicationInitStatus } from './application_init';
 import { ApplicationRef } from './application_ref';
-
-export function createNgModuleFactory(
-  ngModuleType: Type<any>,
-  injector: Injector,
-): NgModuleFactory<any> {
-  return new NgModuleFactory_(ngModuleType, injector);
-}
-export class NgModuleFactory_<T> extends NgModuleFactory<T> {
-  get moduleType(): Type<T> {
-    return this._moduleType;
-  }
-  constructor(public _moduleType: Type<any>, public _injector: Injector) {
-    super();
-  }
-  create(parentInjector: Injector | null): NgModuleRef<T> {
-    let instance = new this.moduleType();
-    return new NgModuleRef_(parentInjector, instance);
-  }
-}
-
-export class NgModuleRef_<T> extends NgModuleRef<T> {
-  get injector(): Injector {
-    return this._injector;
-  }
-  get instance(): T {
-    return this._instance;
-  }
-  constructor(private _injector: Injector, private _instance: T) {
-    super();
-  }
-  destroy(): void {}
-  onDestroy(callback: () => void): void {}
-}
-// todo
-function compileNgModuleFactory<M>(
-  injector: Injector,
-  moduleType: Type<M>,
-): Observable<NgModuleFactory<M>> {
-  return of(createNgModuleFactory(moduleType, injector));
-}
+import {
+  NgModuleRef,
+  compileNgModuleFactory,
+  NgModuleFactory,
+} from './di/ngModule';
 
 export class PlatformRef {
   private _modules: NgModuleRef<any>[] = [];

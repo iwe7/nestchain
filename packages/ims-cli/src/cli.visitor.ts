@@ -1,5 +1,4 @@
 import {
-  Visitor,
   MetadataDef,
   isClassMetadata,
   isMethodMetadata,

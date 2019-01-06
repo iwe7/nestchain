@@ -9,7 +9,7 @@ export interface MultiaddrResult {
   address: string;
   path: string;
 }
-export function toMulitaddr(address: string, path: string): MultiaddrResult {
+export function toMulitaddr(address: string, path?: string): MultiaddrResult {
   const addr = multiaddr(address);
   const protos = addr.protos();
   const opt = addr.toOptions();

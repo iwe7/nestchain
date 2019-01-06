@@ -1,5 +1,5 @@
-import { Visitor, injector } from 'ims-decorator';
-
-export class ImsProtocolVisitor extends Visitor {}
-
-export default injector(new ImsProtocolVisitor());
+export interface MultiaddrResult {
+  port: number;
+  host: string;
+  family: any;
+}

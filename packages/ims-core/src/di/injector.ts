@@ -5,7 +5,7 @@ import {
   staticError,
   getClosureSafeProperty,
 } from 'ims-util';
-import { Type } from 'ims-core';
+import { Type } from '../type';
 import { InjectionToken } from './injection_token';
 import {
   StaticProvider,
@@ -29,6 +29,7 @@ export class NullInjector implements Injector {
     }
     return notFoundValue;
   }
+  set(providers: StaticProvider[]): any {}
 }
 export enum InjectFlags {
   Default = 0b0000,
@@ -38,10 +39,91 @@ export enum InjectFlags {
   Optional = 0b1000,
 }
 export const INJECTOR = new InjectionToken<Injector>('INJECTOR');
+export class StaticInjector implements Injector {
+  readonly parent: Injector;
+  readonly source: string | null;
 
+  private _records: Map<any, Record>;
+
+  constructor(
+    providers: StaticProvider[],
+    parent: Injector = Injector.top,
+    source: string | null = null,
+  ) {
+    this.parent = parent;
+    this.source = source;
+    const records = (this._records = new Map<any, Record>());
+    records.set(Injector, <Record>{
+      token: Injector,
+      fn: function<T>(value: T): T {
+        return value;
+      },
+      deps: [],
+      value: this,
+      useNew: false,
+    });
+    records.set(INJECTOR, <Record>{
+      token: INJECTOR,
+      fn: function<T>(value: T): T {
+        return value;
+      },
+      deps: [],
+      value: this,
+      useNew: false,
+    });
+    // 注册record
+    recursivelyProcessProviders(records, providers);
+  }
+
+  set(providers: StaticProvider[]) {
+    recursivelyProcessProviders(this._records, providers);
+  }
+
+  get<T>(
+    token: Type<T> | InjectionToken<T>,
+    notFoundValue?: T,
+    flags?: InjectFlags,
+  ): T;
+  get(token: any, notFoundValue?: any): any;
+  get(
+    token: any,
+    notFoundValue?: any,
+    flags: InjectFlags = InjectFlags.Default,
+  ): any {
+    const record = this._records.get(token);
+    try {
+      return tryResolveToken(
+        token,
+        record,
+        this._records,
+        this.parent,
+        notFoundValue,
+        flags,
+      );
+    } catch (e) {
+      const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
+      if (token[SOURCE]) {
+        tokenPath.unshift(token[SOURCE]);
+      }
+      e.message = formatError('\n' + e.message, tokenPath, this.source);
+      e[NG_TOKEN_PATH] = tokenPath;
+      e[NG_TEMP_TOKEN_PATH] = null;
+      throw e;
+    }
+  }
+
+  toString() {
+    const tokens = <string[]>[],
+      records = this._records;
+    records.forEach((v, token) => tokens.push(stringify(token)));
+    return `StaticInjector[${tokens.join(', ')}]`;
+  }
+}
 export abstract class Injector {
   static THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
   static NULL: Injector = new NullInjector();
+  static top: Injector = new StaticInjector([], Injector.NULL, 'top');
+  abstract set(providers: StaticProvider[]): any;
   abstract get<T>(
     token: Type<T> | InjectionToken<T>,
     notFoundValue?: T,
@@ -101,83 +183,12 @@ interface DependencyRecord {
 const IDENT = function<T>(value: T): T {
   return value;
 };
+
 const EMPTY = <any[]>[];
 const NG_TOKEN_PATH = 'ngTokenPath';
 const NG_TEMP_TOKEN_PATH = 'ngTempTokenPath';
 export const SOURCE = '__source';
 
-export class StaticInjector implements Injector {
-  readonly parent: Injector;
-  readonly source: string | null;
-
-  private _records: Map<any, Record>;
-
-  constructor(
-    providers: StaticProvider[],
-    parent: Injector = NULL_INJECTOR,
-    source: string | null = null,
-  ) {
-    this.parent = parent;
-    this.source = source;
-    const records = (this._records = new Map<any, Record>());
-    records.set(Injector, <Record>{
-      token: Injector,
-      fn: IDENT,
-      deps: EMPTY,
-      value: this,
-      useNew: false,
-    });
-    records.set(INJECTOR, <Record>{
-      token: INJECTOR,
-      fn: IDENT,
-      deps: EMPTY,
-      value: this,
-      useNew: false,
-    });
-    // 注册record
-    recursivelyProcessProviders(records, providers);
-  }
-
-  get<T>(
-    token: Type<T> | InjectionToken<T>,
-    notFoundValue?: T,
-    flags?: InjectFlags,
-  ): T;
-  get(token: any, notFoundValue?: any): any;
-  get(
-    token: any,
-    notFoundValue?: any,
-    flags: InjectFlags = InjectFlags.Default,
-  ): any {
-    const record = this._records.get(token);
-    try {
-      return tryResolveToken(
-        token,
-        record,
-        this._records,
-        this.parent,
-        notFoundValue,
-        flags,
-      );
-    } catch (e) {
-      const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
-      if (token[SOURCE]) {
-        tokenPath.unshift(token[SOURCE]);
-      }
-      e.message = formatError('\n' + e.message, tokenPath, this.source);
-      e[NG_TOKEN_PATH] = tokenPath;
-      e[NG_TEMP_TOKEN_PATH] = null;
-      throw e;
-    }
-  }
-
-  toString() {
-    const tokens = <string[]>[],
-      records = this._records;
-    records.forEach((v, token) => tokens.push(stringify(token)));
-    return `StaticInjector[${tokens.join(', ')}]`;
-  }
-}
 // doto
 const MULTI_PROVIDER_FN = function(): any[] {
   return Array.prototype.slice.call(arguments);
