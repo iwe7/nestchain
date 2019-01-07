@@ -1,15 +1,15 @@
 {
   "name": "ims-wxapp",
-  "version": "0.0.7",
+  "version": "0.0.4",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
   "main": "lib/ims-wxapp.js",
   "dependencies": {
-    "ims-core": "^0.0.7",
-    "ims-platform-wxapp": "^0.0.7",
-    "ims-util": "^0.0.7",
+    "ims-core": "*",
+    "ims-util": "*",
+    "ims-platform-wxapp": "*",
     "rxjs": "*"
   },
   "directories": {
@@ -28,6 +28,5 @@
   },
   "bugs": {
     "url": "https://github.com/iwe7/nestchain/issues"
-  },
-  "gitHead": "1601a6fe81d2af398482f1bed04512d9776c0c86"
+  }
 }

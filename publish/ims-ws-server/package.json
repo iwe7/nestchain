@@ -1,6 +1,6 @@
 {
   "name": "ims-ws-server",
-  "version": "0.0.7",
+  "version": "0.0.4",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
@@ -22,6 +22,5 @@
   },
   "bugs": {
     "url": "https://github.com/iwe7/nestchain/issues"
-  },
-  "gitHead": "1601a6fe81d2af398482f1bed04512d9776c0c86"
+  }
 }
