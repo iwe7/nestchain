@@ -1,6 +1,6 @@
 {
   "name": "ims-bin",
-  "version": "0.0.4",
+  "version": "0.0.10",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
@@ -12,9 +12,9 @@
     "lib"
   ],
   "dependencies": {
-    "ims-const": "*",
-    "ims-gulp": "*",
-    "ims-core": "*",
+    "ims-const": "^0.0.10",
+    "ims-core": "^0.0.10",
+    "ims-gulp": "^0.0.10",
     "reflect-metadata": "*"
   },
   "repository": {

@@ -1,6 +1,6 @@
 {
   "name": "ims-http",
-  "version": "0.0.4",
+  "version": "0.0.10",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
@@ -12,8 +12,8 @@
     "lib"
   ],
   "dependencies": {
-    "rxjs": "*",
-    "ims-core": "*"
+    "ims-core": "^0.0.10",
+    "rxjs": "*"
   },
   "repository": {
     "type": "git",
