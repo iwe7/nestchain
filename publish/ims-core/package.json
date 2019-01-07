@@ -1,6 +1,6 @@
 {
   "name": "ims-core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
@@ -14,9 +14,9 @@
     "lib"
   ],
   "dependencies": {
-    "ims-util": "*",
-    "rxjs": "*",
-    "ims-decorator": "*"
+    "ims-decorator": "^0.0.5",
+    "ims-util": "^0.0.5",
+    "rxjs": "*"
   },
   "repository": {
     "type": "git",
