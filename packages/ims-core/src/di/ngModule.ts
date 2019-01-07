@@ -4,11 +4,17 @@ import {
   getMetadata,
   isClassMetadata,
 } from 'ims-decorator';
-import { Provider, StaticProvider } from './provider';
+import {
+  Provider,
+  StaticProvider,
+  isTypeProvider,
+  isClassProvider,
+} from './provider';
 import { Type, isType } from '../type';
 import { Injector } from './injector';
 import { createProxyType } from './proxy';
 import { Observable, of } from 'rxjs';
+import { isArray } from 'ims-util';
 export interface ModuleWithProviders<T = any> {
   ngModule: Type<T>;
   providers?: Provider[];
@@ -76,50 +82,66 @@ export class NgModuleFactory_<T> extends NgModuleFactory<T> {
 function getNgModuleStaticProvider(type: Type<any>) {
   let meta = getMetadata(type);
   let staticProviders: StaticProvider[] = [];
+  let staticProviderMap: Map<any, StaticProvider> = new Map();
   meta.forEach(it => {
     if (isClassMetadata<NgModule>(it)) {
       if (it.metadataKey === NgModuleMetadataKey) {
         let { providers, imports } = it.metadataDef;
+
+        imports &&
+          imports.map(imt => {
+            if (isType(imt)) {
+              getNgModuleStaticProvider(imt).forEach((it: StaticProvider) => {
+                if (!isArray(it)) {
+                  staticProviderMap.set(it.provide, it);
+                }
+              });
+            }
+            if (isModuleWithProviders(imt)) {
+              imt.providers.forEach(provide => {
+                let staticProvider = providerToStaticProvider(provide);
+                if (!isArray(staticProvider)) {
+                  staticProviderMap.set(staticProvider.provide, staticProvider);
+                }
+              });
+            }
+          });
+
         /**
          * providers
          */
         providers &&
           providers.forEach(provide => {
-            if (isType(provide)) {
-              staticProviders.push({
-                provide,
-                useClass: createProxyType(provide),
-                deps: [],
-              });
-            } else {
-              staticProviders.push(provide);
-            }
-          });
-        imports &&
-          imports.map(imt => {
-            if (isType(imt)) {
-              getNgModuleStaticProvider(imt).forEach(it =>
-                staticProviders.push(it),
-              );
-            }
-            if (isModuleWithProviders(imt)) {
-              imt.providers.forEach(provide => {
-                if (isType(provide)) {
-                  staticProviders.push({
-                    provide,
-                    useClass: createProxyType(provide),
-                    deps: [],
-                  });
-                } else {
-                  staticProviders.push(provide);
-                }
-              });
+            let staticProvider = providerToStaticProvider(provide);
+            if (!isArray(staticProvider)) {
+              staticProviderMap.set(staticProvider.provide, staticProvider);
             }
           });
       }
     }
   });
+  staticProviderMap.forEach(provide => {
+    staticProviders.push(provide);
+  });
   return staticProviders;
+}
+
+export function providerToStaticProvider(provider: Provider): StaticProvider {
+  if (isTypeProvider(provider)) {
+    return {
+      provide: provider,
+      useClass: createProxyType(provider),
+      deps: [],
+    };
+  }
+  if (isClassProvider(provider)) {
+    return {
+      provide: provider.provide,
+      useClass: createProxyType(provider.useClass),
+      deps: [],
+    };
+  }
+  return provider;
 }
 export class NgModuleRef_<T> extends NgModuleRef<T> {
   get injector(): Injector {

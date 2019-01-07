@@ -20,6 +20,10 @@ export function inject<T>(
 }
 let _currentInjector: Injector | undefined | null = undefined;
 
+export function setCurrentInjector(injector: Injector) {
+  _currentInjector = injector;
+}
+
 export function injectInjectorOnly<T>(token: Type<T> | InjectionToken<T>): T;
 export function injectInjectorOnly<T>(
   token: Type<T> | InjectionToken<T>,

@@ -5,6 +5,7 @@ export * from './createPlatform';
 export * from './di/ngModule';
 export * from './di/injectable';
 export * from './di/inject';
+export * from './di/metadata';
 export * from './di/injection_token';
 export * from './di/injector';
 export * from './platform/core';

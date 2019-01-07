@@ -1,4 +1,4 @@
-import { Type } from '../type';
+import { Type, isType } from '../type';
 export interface ValueSansProvider {
   useValue: any;
 }
@@ -43,14 +43,6 @@ export interface FactoryProvider extends FactorySansProvider {
   multi?: boolean;
 }
 
-export type StaticProvider =
-  | ValueProvider
-  | ExistingProvider
-  | StaticClassProvider
-  | ConstructorProvider
-  | FactoryProvider
-  | any[];
-
 export interface TypeProvider extends Type<any> {}
 export interface ClassSansProvider {
   useClass: Type<any>;
@@ -62,10 +54,39 @@ export interface ClassProvider extends ClassSansProvider {
 }
 
 export type Provider =
-  | TypeProvider
+  | TypeProvider // no
   | ValueProvider
-  | ClassProvider
+  | ClassProvider // no
   | ConstructorProvider
   | ExistingProvider
   | FactoryProvider
   | any[];
+
+export type StaticProvider =
+  | ValueProvider
+  | ExistingProvider
+  | StaticClassProvider
+  | ConstructorProvider
+  | FactoryProvider
+  | any[];
+
+export function isTypeProvider(val: any): val is TypeProvider {
+  return isType(val);
+}
+
+export function isValueProvider(val: any): val is ValueProvider {
+  return Reflect.has(val, 'useValue') && Reflect.has(val, 'provide');
+}
+
+export function isClassProvider(val: any): val is ClassProvider {
+  return Reflect.has(val, 'useClass') && Reflect.has(val, 'provide');
+}
+export function isConstructorProvider(val: any): val is ConstructorProvider {
+  return Reflect.has(val, 'provide');
+}
+export function isExistingProvider(val: any): val is ExistingProvider {
+  return Reflect.has(val, 'provide') && Reflect.has(val, 'useExisting');
+}
+export function isFactoryProvider(val: any): val is FactoryProvider {
+  return Reflect.has(val, 'provide') && Reflect.has(val, 'useFactory');
+}

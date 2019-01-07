@@ -16,7 +16,7 @@ import {
   FactoryProvider,
 } from './provider';
 import { defineInjectable } from './defs';
-import { inject } from './inject';
+import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
 
@@ -139,7 +139,6 @@ export abstract class Injector {
    * @deprecated from v5 use the new signature Injector.create(options)
    */
   static create(providers: StaticProvider[], parent?: Injector): Injector;
-
   static create(options: {
     providers: StaticProvider[];
     parent?: Injector;
@@ -151,15 +150,18 @@ export abstract class Injector {
       | { providers: StaticProvider[]; parent?: Injector; name?: string },
     parent?: Injector,
   ): Injector {
+    let injector: Injector;
     if (Array.isArray(options)) {
-      return new StaticInjector(options, parent);
+      injector = new StaticInjector(options, parent);
     } else {
-      return new StaticInjector(
+      injector = new StaticInjector(
         options.providers,
         options.parent,
         options.name || null,
       );
     }
+    setCurrentInjector(injector);
+    return injector;
   }
 
   static ngInjectableDef = defineInjectable({

@@ -59,6 +59,7 @@ export const ALLOW_MULTIPLE_PLATFORMS = new InjectionToken<boolean>(
 export const PLATFORM_INITIALIZER = new InjectionToken<Array<() => void>>(
   'Platform Initializer',
 );
+export const PLATFORM_ID = new InjectionToken<Object>('Platform Id');
 
 export function createPlatform(injector: Injector): PlatformRef {
   if (
