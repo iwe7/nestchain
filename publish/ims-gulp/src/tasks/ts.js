@@ -6,6 +6,7 @@ const ims_const_1 = require("ims-const");
 const path = require("path");
 exports.ts = (src, dest) => {
     let tsProject = typescript.createProject(path.join(ims_const_1.ROOT, 'tsconfig.json'));
+    console.log(ims_const_1.ROOT);
     const run = () => gulp
         .src(src)
         .pipe(tsProject())

@@ -1,6 +1,6 @@
 import { ROOT } from 'ims-const';
 import path = require('path');
-import { gulp } from 'ims-gulp';
+import { gulpPackages } from 'ims-gulp';
 import { ImsBinBase } from '../base';
 
 export class PackagesCommand extends ImsBinBase {
@@ -9,8 +9,6 @@ export class PackagesCommand extends ImsBinBase {
     return s === 'packages' || s === 'p';
   }
   run() {
-    return gulp(path.join(ROOT, 'packages'), path.join(ROOT, 'publish'))(
-      false,
-    ).toPromise();
+    return gulpPackages();
   }
 }

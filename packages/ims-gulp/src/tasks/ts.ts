@@ -4,6 +4,7 @@ import { ROOT } from 'ims-const';
 import path = require('path');
 export const ts = (src: string | string[], dest: string) => {
   let tsProject = typescript.createProject(path.join(ROOT, 'tsconfig.json'));
+  console.log(ROOT);
   const run = () =>
     gulp
       .src(src)

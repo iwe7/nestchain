@@ -13,7 +13,7 @@ class PackagesCommand extends base_1.ImsBinBase {
         return s === 'packages' || s === 'p';
     }
     run() {
-        return ims_gulp_1.gulp(path.join(ims_const_1.ROOT, 'packages'), path.join(ims_const_1.ROOT, 'publish'))(false).toPromise();
+        return ims_gulp_1.gulpPackages();
     }
 }
 exports.PackagesCommand = PackagesCommand;

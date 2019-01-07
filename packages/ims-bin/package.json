@@ -6,13 +6,15 @@
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
   "main": "src/index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "files": [
-    "lib"
+    "src"
   ],
+  "dependencies": {
+    "ims-const": "*",
+    "ims-gulp": "*",
+    "ims-core": "*",
+    "reflect-metadata": "*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iwe7/nestchain.git"

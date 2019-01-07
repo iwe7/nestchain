@@ -4,5 +4,5 @@
   "compilerOptions": {
     "outDir": "./lib"
   },
-  "include": ["src", "../ims-types/src/*.d.ts"]
+  "include": ["src", "../", "../ims-types/src/*.d.ts"]
 }

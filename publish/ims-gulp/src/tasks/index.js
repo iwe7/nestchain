@@ -6,3 +6,5 @@ tslib_1.__exportStar(require("./ts"), exports);
 tslib_1.__exportStar(require("./image"), exports);
 tslib_1.__exportStar(require("./copy"), exports);
 tslib_1.__exportStar(require("./clean"), exports);
+tslib_1.__exportStar(require("./_gulp"), exports);
+tslib_1.__exportStar(require("./packages"), exports);

@@ -6,6 +6,7 @@
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
   "main": "src/index.js",
+  "miniprogram": "src",
   "files": [
     "src"
   ],

@@ -87,10 +87,5 @@
     "www",
     "_book"
   ],
-  "include": [
-    "packages/ims-types/src/*.d.ts",
-    "packages/**/*.ts",
-    "src",
-    "demo"
-  ]
+  "include": ["packages", "src", "demo"]
 }
