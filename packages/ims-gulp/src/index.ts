@@ -8,14 +8,20 @@ export const gulp = (src: string, dest: string) => {
       switchMap(() => {
         if (watch) {
           scss(src + '/**/*.scss', dest).watch();
-          ts(src + '/**/*.{ts,tsx,js,jsx}', dest).watch();
-          image(src + '/**/*.{png,svg,gif,jpg,jpeg}', dest).watch();
-          copy(src + '/**/*.{json,html,xml,md,yml,log}', dest).watch();
+          ts(src + '/**/*.{ts,tsx}', dest).watch();
+          copy(
+            src +
+              '/**/*.{png,svg,gif,jpg,jpeg,json,html,xml,md,yml,log,js,wxml,wxss}',
+            dest,
+          ).watch();
         } else {
           scss(src + '/**/*.scss', dest).run();
           ts(src + '/**/*.{ts,tsx}', dest).run();
-          image(src + '/**/*.{png,svg,gif,jpg,jpeg}', dest).run();
-          copy(src + '/**/*.{json,html,xml,md,yml,log}', dest).run();
+          copy(
+            src +
+              '/**/*.{png,svg,gif,jpg,jpeg,json,html,xml,md,yml,log,js,wxml,wxss}',
+            dest,
+          ).run();
         }
         return of(null);
       }),

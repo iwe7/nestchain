@@ -79,7 +79,7 @@ export class NgModuleFactory_<T> extends NgModuleFactory<T> {
   }
 }
 
-function getNgModuleStaticProvider(type: Type<any>) {
+export function getNgModuleStaticProvider(type: Type<any>) {
   let meta = getMetadata(type);
   let staticProviders: StaticProvider[] = [];
   let staticProviderMap: Map<any, StaticProvider> = new Map();

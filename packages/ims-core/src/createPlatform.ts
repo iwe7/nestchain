@@ -12,6 +12,7 @@ import {
   NgModuleRef,
   compileNgModuleFactory,
   NgModuleFactory,
+  getNgModuleStaticProvider,
 } from './di/ngModule';
 
 export class PlatformRef {
@@ -87,11 +88,18 @@ export function createPlatformFactory(
   parentPlatformFactory: PlatformFactory | null,
   name: string,
   providers: StaticProvider[] = [],
+  types?: Type<any>[],
 ): (extraProviders?: StaticProvider[]) => PlatformRef {
   const desc = `Platform: ${name}`;
   const marker = new InjectionToken(desc);
   return (extraProviders: StaticProvider[] = []) => {
     let platform = getPlatform();
+    if (types) {
+      types.forEach(type => {
+        let pros = getNgModuleStaticProvider(type);
+        providers.concat(pros);
+      });
+    }
     if (!platform || platform.injector.get(ALLOW_MULTIPLE_PLATFORMS, false)) {
       if (parentPlatformFactory) {
         parentPlatformFactory(

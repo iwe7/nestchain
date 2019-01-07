@@ -1,0 +1,14 @@
+version: '3'
+services:
+  nginx:
+    image: 'nginx'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/usr/local/nginx/conf
+      - ./mine.types:/etc/nginx/mine.types
+      - ./conf.d:/etc/nginx/conf.d
+      - ./html:/etc/nginx/html
+    command: [nginx-debug, '-g', 'daemon off;']

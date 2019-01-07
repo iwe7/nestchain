@@ -1,14 +1,10 @@
-App({
-  onLaunch: function() {
-    console.log('App Launch');
-  },
-  onShow: function() {
-    console.log('App Show');
-  },
-  onHide: function() {
-    console.log('App Hide');
-  },
-  globalData: {
-    hasLogin: false,
-  },
-});
+import { platformWxapp } from 'ims-platform-wxapp';
+import { NgModule } from 'ims-core';
+
+@NgModule()
+export class WxappModule {}
+platformWxapp()
+  .bootstrapModule(WxappModule)
+  .subscribe(res => {
+    console.log(res);
+  });

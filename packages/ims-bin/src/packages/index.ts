@@ -9,7 +9,7 @@ export class PackagesCommand extends ImsBinBase {
     return s === 'packages' || s === 'p';
   }
   run() {
-    return gulp(path.join(ROOT, 'packages'), path.join(ROOT, 'www/framework'))(
+    return gulp(path.join(ROOT, 'packages'), path.join(ROOT, 'publish'))(
       false,
     ).toPromise();
   }
