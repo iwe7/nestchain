@@ -1,7 +1,7 @@
 20 error Error: Command failed: git remote update
-20 error error: cannot lock ref 'refs/remotes/origin/master': is at 3321cbac3057cf58e733e2f9c51c4befaa3b221c but expected 1601a6fe81d2af398482f1bed04512d9776c0c86
+20 error error: cannot lock ref 'refs/remotes/origin/master': is at db026e1b9769d47cf917d8222205c69443cc81bd but expected 71d1650abef14a5f8531aa58c82359da9950f4b5
 20 error From github.com:iwe7/nestchain
-20 error  ! 1601a6f..3321cba  master     -> origin/master  (unable to update local ref)
+20 error  ! 71d1650..db026e1  master     -> origin/master  (unable to update local ref)
 20 error error: Could not fetch origin
 20 error
 20 error Fetching origin
