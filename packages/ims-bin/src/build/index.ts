@@ -41,11 +41,6 @@ export class BuildCommand extends ImsBinBase {
         let cfg = getWebapckDll(this.root, this.platform);
         webpack(cfg).run(handlerError());
         break;
-      case 'package':
-        return gulp(
-          path.join(ROOT, 'packages'),
-          path.join(ROOT, 'www/framework'),
-        )(false).toPromise();
       default:
         throw new Error(`can't find ${this.type}`);
     }

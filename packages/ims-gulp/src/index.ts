@@ -8,7 +8,7 @@ export const gulp = (src: string, dest: string) => {
       switchMap(() => {
         if (watch) {
           scss(src + '/**/*.scss', dest).watch();
-          ts(src + '/**/*.{ts,tsx}', dest).watch();
+          ts(src + '/**/*.{ts,tsx,js,jsx}', dest).watch();
           image(src + '/**/*.{png,svg,gif,jpg,jpeg}', dest).watch();
           copy(src + '/**/*.{json,html,xml,md,yml,log}', dest).watch();
         } else {

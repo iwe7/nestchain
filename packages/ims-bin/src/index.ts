@@ -4,6 +4,12 @@ import { NgModule, createPlatformFactory, corePlatform } from 'ims-core';
 import { BuildCommand } from './build';
 import { ImsBinToken } from './base';
 
+import parser = require('yargs-parser');
+import { concatMap } from 'rxjs/operators';
+import { from, of, isObservable } from 'rxjs';
+import { isPromise } from 'ims-util';
+import { PackagesCommand } from './packages';
+
 @NgModule({
   providers: [
     {
@@ -12,14 +18,16 @@ import { ImsBinToken } from './base';
       multi: true,
       deps: [],
     },
+    {
+      provide: ImsBinToken,
+      useClass: PackagesCommand,
+      multi: true,
+      deps: [],
+    },
   ],
 })
 export class ImsBinModule {}
 
-import parser = require('yargs-parser');
-import { concatMap } from 'rxjs/operators';
-import { from, of, isObservable } from 'rxjs';
-import { isPromise } from 'ims-util';
 const imsBinPlatform = createPlatformFactory(corePlatform, 'ims-bin', []);
 imsBinPlatform([])
   .bootstrapModule(ImsBinModule)
