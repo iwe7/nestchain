@@ -87,7 +87,6 @@ function getNgModuleStaticProvider(type: Type<any>) {
     if (isClassMetadata<NgModule>(it)) {
       if (it.metadataKey === NgModuleMetadataKey) {
         let { providers, imports } = it.metadataDef;
-
         imports &&
           imports.map(imt => {
             if (isType(imt)) {
@@ -139,6 +138,7 @@ export function providerToStaticProvider(provider: Provider): StaticProvider {
       provide: provider.provide,
       useClass: createProxyType(provider.useClass),
       deps: [],
+      multi: provider.multi,
     };
   }
   return provider;

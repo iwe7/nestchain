@@ -69,7 +69,10 @@
       "ims-injector": ["packages/ims-injector/src/index"],
       "ims-platform-browser": ["packages/ims-platform-browser/src/index"],
       "ims-platform-node": ["packages/ims-platform-node/src/index"],
-      "ims-platform-wxapp": ["packages/ims-platform-wxapp/src/index"]
+      "ims-platform-wxapp": ["packages/ims-platform-wxapp/src/index"],
+      "ims-platform-electron": ["packages/ims-platform-electron/src/index"],
+      "ims-platform-android": ["packages/ims-platform-android/src/index"],
+      "ims-platform-ios": ["packages/ims-platform-ios/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],
