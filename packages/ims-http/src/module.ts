@@ -9,11 +9,6 @@ import {
   HttpInterceptorHandler,
   NoopInterceptor,
 } from './interceptor';
-import {
-  JsonpCallbackContext,
-  JsonpClientBackend,
-  JsonpInterceptor,
-} from './jsonp';
 import { HttpRequest } from './request';
 import { HttpEvent } from './response';
 import {
@@ -115,12 +110,3 @@ export class HttpClientXsrfModule {
   ],
 })
 export class HttpClientModule {}
-
-@NgModule({
-  providers: [
-    JsonpClientBackend,
-    { provide: JsonpCallbackContext, useFactory: jsonpCallbackContext },
-    { provide: HTTP_INTERCEPTORS, useClass: JsonpInterceptor, multi: true },
-  ],
-})
-export class HttpClientJsonpModule {}

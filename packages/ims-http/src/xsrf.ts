@@ -1,8 +1,11 @@
+import { parseCookieValue } from './cookie';
 import {
-  DOCUMENT,
-  ɵparseCookieValue as parseCookieValue,
-} from '@angular/common';
-import { Inject, Injectable, InjectionToken, PLATFORM_ID } from 'ims-core';
+  Inject,
+  Injectable,
+  InjectionToken,
+  PLATFORM_ID,
+  inject,
+} from 'ims-core';
 import { Observable } from 'rxjs';
 import { HttpHandler } from './backend';
 import { HttpInterceptor } from './interceptor';
@@ -10,6 +13,8 @@ import { HttpRequest } from './request';
 import { HttpEvent } from './response';
 export const XSRF_COOKIE_NAME = new InjectionToken<string>('XSRF_COOKIE_NAME');
 export const XSRF_HEADER_NAME = new InjectionToken<string>('XSRF_HEADER_NAME');
+export const COOKIE_TOKEN = new InjectionToken<string>('COOKIE_TOKEN');
+
 export abstract class HttpXsrfTokenExtractor {
   abstract getToken(): string | null;
 }
@@ -20,7 +25,6 @@ export class HttpXsrfCookieExtractor implements HttpXsrfTokenExtractor {
   private lastToken: string | null = null;
   parseCount: number = 0;
   constructor(
-    @Inject(DOCUMENT) private doc: any,
     @Inject(PLATFORM_ID) private platform: string,
     @Inject(XSRF_COOKIE_NAME) private cookieName: string,
   ) {}
@@ -29,7 +33,7 @@ export class HttpXsrfCookieExtractor implements HttpXsrfTokenExtractor {
     if (this.platform === 'server') {
       return null;
     }
-    const cookieString = this.doc.cookie || '';
+    const cookieString = inject(COOKIE_TOKEN);
     if (cookieString !== this.lastCookieString) {
       this.parseCount++;
       this.lastToken = parseCookieValue(cookieString, this.cookieName);
