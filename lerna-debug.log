@@ -1,19 +1,14 @@
-0 silly argv { _: [ 'create' ],
-0 silly argv   lernaVersion: '3.7.1',
-0 silly argv   '$0': 'lerna',
-0 silly argv   name: 'ims-wxapp' }
-1 notice cli v3.7.1
-2 verbose rootPath /Volumes/meepo/nestchain
-3 error Error: canceled
-3 error     at Interface.<anonymous> (/Volumes/meepo/nestchain/node_modules/read/lib/read.js:66:13)
-3 error     at Interface.emit (events.js:182:13)
-3 error     at Interface._ttyWrite (readline.js:783:16)
-3 error     at ReadStream.onkeypress (readline.js:168:10)
-3 error     at ReadStream.emit (events.js:182:13)
-3 error     at emitKeys (internal/readline.js:424:14)
-3 error     at emitKeys.next (<anonymous>)
-3 error     at ReadStream.onData (readline.js:1022:36)
-3 error     at ReadStream.emit (events.js:182:13)
-3 error     at addChunk (_stream_readable.js:283:12)
-3 error     at readableAddChunk (_stream_readable.js:264:11)
-3 error     at ReadStream.Readable.push (_stream_readable.js:219:10)
+20 error Error: Command failed: git remote update
+20 error error: cannot lock ref 'refs/remotes/origin/dev': is at daa8c6a26bfc5f7044af04af98abe8ddee3226e3 but expected 218c520f594a3044126539429ac074ae03942fed
+20 error From github.com:iwe7/nestchain
+20 error  ! 218c520..daa8c6a  dev        -> origin/dev  (unable to update local ref)
+20 error error: Could not fetch origin
+20 error
+20 error Fetching origin
+20 error
+20 error     at makeError (/Volumes/meepo/nestchain/node_modules/execa/index.js:174:9)
+20 error     at Function.module.exports.sync (/Volumes/meepo/nestchain/node_modules/execa/index.js:338:15)
+20 error     at Object.execSync (/Volumes/meepo/nestchain/node_modules/@lerna/child-process/index.js:22:16)
+20 error     at updateRemote (/Volumes/meepo/nestchain/node_modules/@lerna/version/lib/is-behind-upstream.js:26:16)
+20 error     at isBehindUpstream (/Volumes/meepo/nestchain/node_modules/@lerna/version/lib/is-behind-upstream.js:11:3)
+20 error     at VersionCommand.initialize (/Volumes/meepo/nestchain/node_modules/@lerna/version/index.js:120:7)
