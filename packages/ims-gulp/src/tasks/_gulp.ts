@@ -4,7 +4,7 @@ import { ts } from './ts';
 import { copy } from './copy';
 
 import { concatMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, forkJoin } from 'rxjs';
 
 export const gulp = (src: string, dest: string) => {
   return (watch: boolean) => {
@@ -23,17 +23,19 @@ export const gulp = (src: string, dest: string) => {
             dest,
           ).watch();
         } else {
-          scss([src + '/**/*.scss', src + '/*.scss'], dest).run();
-          ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest).run();
-          copy(
-            [
-              src +
-                '/**/*.{png,svg,gif,jpg,jpeg,json,html,xml,md,yml,log,js,wxml,wxss}',
-              src +
-                '/*.{png,svg,gif,jpg,jpeg,json,html,xml,md,yml,log,js,wxml,wxss}',
-            ],
-            dest,
-          ).run();
+          return forkJoin(
+            scss([src + '/**/*.scss', src + '/*.scss'], dest).run(),
+            ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest).run(),
+            copy(
+              [
+                src +
+                  '/**/*.{png,svg,gif,jpg,jpeg,json,html,xml,md,yml,log,js,wxml,wxss}',
+                src +
+                  '/*.{png,svg,gif,jpg,jpeg,json,html,xml,md,yml,log,js,wxml,wxss}',
+              ],
+              dest,
+            ).run(),
+          );
         }
         return of(null);
       }),

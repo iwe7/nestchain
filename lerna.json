@@ -1,6 +1,6 @@
 {
   "packages": [
-    "publish/*"
+    "packages/*"
   ],
   "version": "0.0.9"
 }

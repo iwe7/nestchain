@@ -34,7 +34,6 @@ export class BuildCommand extends ImsBinBase {
   }
 
   run() {
-    console.log(this.type);
     this.platform = this.platform || 'web';
     switch (this.type) {
       case 'dll':

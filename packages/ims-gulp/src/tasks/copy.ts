@@ -1,11 +1,14 @@
 import gulp = require('gulp');
-import { of } from 'rxjs';
+import { Observable } from 'rxjs';
 export const copy = (src: string | string[], dest: string) => {
   let run = () => {
-    console.log(`copy from ${src} to ${dest}`);
-    gulp.src(src).pipe(gulp.dest(dest));
-    console.log('copy');
-    return of(null);
+    return new Observable(obs => {
+      let stream: NodeJS.ReadWriteStream = gulp.src(src).pipe(gulp.dest(dest));
+      stream.on('end', () => {
+        obs.next();
+        obs.complete();
+      });
+    });
   };
   let watch = () => gulp.watch(src, run);
   return {

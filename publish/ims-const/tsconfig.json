@@ -1,7 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compileOnSave": false,
-  "compilerOptions": {
-    "outDir": "./lib"
-  }
-}

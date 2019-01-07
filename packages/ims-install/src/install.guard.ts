@@ -7,7 +7,8 @@ export class InstallGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    let res = this.install.notExistInstallLock();
-    return res;
+    // let res = this.install.notExistInstallLock();
+    // return res;
+    return false;
   }
 }

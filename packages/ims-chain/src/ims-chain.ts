@@ -1,6 +1,4 @@
-import { ImsPeerId } from 'ims-peer-id';
 import { fromCallback } from 'ims-rxjs';
-import { ImsLevel } from 'ims-level';
 import { of, PartialObserver } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import fs = require('fs');
@@ -28,18 +26,11 @@ export const DEFAULT_PRIVATE_KEY = path.join(DATA_PATH, 'private.dat');
 /**
  * 区块数据库
  */
-export const coreDb = new ImsLevel(CORE_DB_PATH);
 
 export function createPeerId(bits: number = 1024) {
   return of(null).pipe(
     switchMap(() => {
-      return fromCallback((opt: PartialObserver<any>) => {
-        ImsPeerId.create({ bits }, (err: Error, id: ImsPeerId) => {
-          if (err) opt.error(err);
-          opt.next(id);
-          opt.complete();
-        });
-      });
+      return fromCallback((opt: PartialObserver<any>) => {});
     }),
   );
 }

@@ -26,11 +26,6 @@ function getResponseUrl(xhr: any): string | null {
 export class HttpXhrBackend implements HttpBackend {
   constructor() {}
   handle(req: HttpRequest<any>): Observable<HttpEvent<any>> {
-    if (req.method === 'JSONP') {
-      throw new Error(
-        `Attempted to construct Jsonp request without JsonpClientModule installed.`,
-      );
-    }
     return new Observable((observer: Observer<HttpEvent<any>>) => {
       const xhr = new XMLHttpRequest();
       xhr.open(req.method, req.urlWithParams);
@@ -86,17 +81,13 @@ export class HttpXhrBackend implements HttpBackend {
           status = !!body ? 200 : 0;
         }
         let ok = status >= 200 && status < 300;
-        if (req.responseType === 'json' && typeof body === 'string') {
+        if (typeof body === 'string') {
           const originalBody = body;
           body = body.replace(XSSI_PREFIX, '');
           try {
             body = body !== '' ? JSON.parse(body) : null;
           } catch (error) {
             body = originalBody;
-            if (ok) {
-              ok = false;
-              body = { error, text: body } as HttpJsonParseError;
-            }
           }
         }
         if (ok) {

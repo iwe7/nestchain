@@ -40,7 +40,6 @@ imsBinPlatform([])
         let command = commands.find(command => command.match(_[0], opts));
         if (command) {
           let res = command.run();
-          console.log(res);
           if (res) {
             if (isPromise(res)) {
               return from(res);
