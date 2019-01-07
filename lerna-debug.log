@@ -1,14 +1,2183 @@
-20 error Error: Command failed: git remote update
-20 error error: cannot lock ref 'refs/remotes/origin/dev': is at daa8c6a26bfc5f7044af04af98abe8ddee3226e3 but expected 218c520f594a3044126539429ac074ae03942fed
-20 error From github.com:iwe7/nestchain
-20 error  ! 218c520..daa8c6a  dev        -> origin/dev  (unable to update local ref)
-20 error error: Could not fetch origin
-20 error
-20 error Fetching origin
-20 error
-20 error     at makeError (/Volumes/meepo/nestchain/node_modules/execa/index.js:174:9)
-20 error     at Function.module.exports.sync (/Volumes/meepo/nestchain/node_modules/execa/index.js:338:15)
-20 error     at Object.execSync (/Volumes/meepo/nestchain/node_modules/@lerna/child-process/index.js:22:16)
-20 error     at updateRemote (/Volumes/meepo/nestchain/node_modules/@lerna/version/lib/is-behind-upstream.js:26:16)
-20 error     at isBehindUpstream (/Volumes/meepo/nestchain/node_modules/@lerna/version/lib/is-behind-upstream.js:11:3)
-20 error     at VersionCommand.initialize (/Volumes/meepo/nestchain/node_modules/@lerna/version/index.js:120:7)
+0 silly argv { _: [ 'publish' ],
+0 silly argv   composed: 'publish',
+0 silly argv   lernaVersion: '3.7.1',
+0 silly argv   '$0': 'lerna' }
+1 notice cli v3.7.1
+2 verbose rootPath /Volumes/meepo/nestchain
+3 verbose session c65737b7228f05a7
+4 verbose user-agent lerna/3.7.1/node@v10.14.2+x64 (darwin)
+5 info Verifying npm credentials
+6 verbose Retrieving npm user profile
+7 http fetch GET 200 https://registry.npmjs.org/-/npm/v1/user 1073ms
+8 silly npm profile get received {"tfa":false,"name":"imeepos2","email":"1037483576@qq.com","email_verified":true,"created":"2017-12-12T03:37:48.830Z","updated":"2017-12-21T12:46:50.913Z","cidr_whitelist":null}
+9 silly npm whoami received {"username":"imeepos2"}
+10 silly argv { _: [ 'publish' ],
+10 silly argv   composed: 'publish',
+10 silly argv   lernaVersion: '3.7.1',
+10 silly argv   '$0': 'lerna' }
+11 verbose rootPath /Volumes/meepo/nestchain
+12 info current version 0.0.6-alpha.0
+13 silly isAnythingCommitted
+14 verbose isAnythingCommitted 1
+15 silly currentBranch
+16 verbose currentBranch master
+17 silly remoteBranchExists
+18 silly isBehindUpstream
+19 silly isBehindUpstream master is behind origin/master by 0 commit(s) and ahead by 0
+20 silly hasTags
+21 verbose hasTags true
+22 silly git-describe.sync "v0.0.6-alpha.0-2-gbf7e962" => {"lastTagName":"v0.0.6-alpha.0","lastVersion":"v0.0.6-alpha.0","refCount":"2","sha":"bf7e962","isDirty":false}
+23 info Looking for changed packages since v0.0.6-alpha.0
+24 silly diffSinceIn v0.0.6-alpha.0 publish/ims-addon
+25 silly diff publish/ims-addon/package.json
+26 silly diffSinceIn v0.0.6-alpha.0 publish/ims-bin
+27 silly diff publish/ims-bin/package.json
+28 silly diffSinceIn v0.0.6-alpha.0 publish/ims-cache
+29 silly diff publish/ims-cache/package.json
+30 silly diffSinceIn v0.0.6-alpha.0 publish/ims-chain
+31 silly diff publish/ims-chain/package.json
+32 silly diffSinceIn v0.0.6-alpha.0 publish/ims-child_process
+33 silly diff publish/ims-child_process/package.json
+34 silly diffSinceIn v0.0.6-alpha.0 publish/ims-consensus
+35 silly diff publish/ims-consensus/package.json
+36 silly diffSinceIn v0.0.6-alpha.0 publish/ims-const
+37 silly diff publish/ims-const/package.json
+38 silly diffSinceIn v0.0.6-alpha.0 publish/ims-core
+39 silly diff publish/ims-core/package.json
+40 silly diffSinceIn v0.0.6-alpha.0 publish/ims-crypto
+41 silly diff publish/ims-crypto/package.json
+42 silly diffSinceIn v0.0.6-alpha.0 publish/ims-db
+43 silly diff publish/ims-db/package.json
+44 silly diffSinceIn v0.0.6-alpha.0 publish/ims-decorator
+45 silly diff publish/ims-decorator/package.json
+46 silly diffSinceIn v0.0.6-alpha.0 publish/ims-dns
+47 silly diff publish/ims-dns/package.json
+48 silly diffSinceIn v0.0.6-alpha.0 publish/ims-docker
+49 silly diff publish/ims-docker/package.json
+50 silly diffSinceIn v0.0.6-alpha.0 publish/ims-error
+51 silly diff publish/ims-error/package.json
+52 silly diffSinceIn v0.0.6-alpha.0 publish/ims-fs
+53 silly diff publish/ims-fs/package.json
+54 silly diffSinceIn v0.0.6-alpha.0 publish/ims-grpc
+55 silly diff publish/ims-grpc/package.json
+56 silly diffSinceIn v0.0.6-alpha.0 publish/ims-gulp
+57 silly diff publish/ims-gulp/package.json
+58 silly diffSinceIn v0.0.6-alpha.0 publish/ims-http
+59 silly diff publish/ims-http/package.json
+60 silly diffSinceIn v0.0.6-alpha.0 publish/ims-install-addon
+61 silly diff publish/ims-install-addon/package.json
+62 silly diffSinceIn v0.0.6-alpha.0 publish/ims-install
+63 silly diff publish/ims-install/package.json
+64 silly diffSinceIn v0.0.6-alpha.0 publish/ims-ipfs
+65 silly diff publish/ims-ipfs/package.json
+66 silly diffSinceIn v0.0.6-alpha.0 publish/ims-level
+67 silly diff publish/ims-level/package.json
+68 silly diffSinceIn v0.0.6-alpha.0 publish/ims-merkle
+69 silly diff publish/ims-merkle/package.json
+70 silly diffSinceIn v0.0.6-alpha.0 publish/ims-micro
+71 silly diff publish/ims-micro/package.json
+72 silly diffSinceIn v0.0.6-alpha.0 publish/ims-mongo
+73 silly diff publish/ims-mongo/package.json
+74 silly diffSinceIn v0.0.6-alpha.0 publish/ims-mqtt
+75 silly diff publish/ims-mqtt/package.json
+76 silly diffSinceIn v0.0.6-alpha.0 publish/ims-nest
+77 silly diff publish/ims-nest/package.json
+78 silly diffSinceIn v0.0.6-alpha.0 publish/ims-node
+79 silly diff publish/ims-node/package.json
+80 silly diffSinceIn v0.0.6-alpha.0 publish/ims-os
+81 silly diff publish/ims-os/package.json
+82 silly diffSinceIn v0.0.6-alpha.0 publish/ims-p2p-client
+83 silly diff publish/ims-p2p-client/package.json
+84 silly diffSinceIn v0.0.6-alpha.0 publish/ims-p2p-server
+85 silly diff publish/ims-p2p-server/package.json
+86 silly diffSinceIn v0.0.6-alpha.0 publish/ims-p2p
+87 silly diff publish/ims-p2p/package.json
+88 silly diffSinceIn v0.0.6-alpha.0 publish/ims-peer
+89 silly diff publish/ims-peer/package.json
+90 silly diffSinceIn v0.0.6-alpha.0 publish/ims-platform-android
+91 silly diff publish/ims-platform-android/package.json
+92 silly diffSinceIn v0.0.6-alpha.0 publish/ims-platform-browser
+93 silly diff publish/ims-platform-browser/package.json
+94 silly diffSinceIn v0.0.6-alpha.0 publish/ims-platform-electron
+95 silly diff publish/ims-platform-electron/package.json
+96 silly diffSinceIn v0.0.6-alpha.0 publish/ims-platform-ios
+97 silly diff publish/ims-platform-ios/package.json
+98 silly diffSinceIn v0.0.6-alpha.0 publish/ims-platform-node
+99 silly diff publish/ims-platform-node/package.json
+100 silly diffSinceIn v0.0.6-alpha.0 publish/ims-platform-wxapp
+101 silly diff publish/ims-platform-wxapp/package.json
+102 silly diffSinceIn v0.0.6-alpha.0 publish/ims-protocol
+103 silly diff publish/ims-protocol/package.json
+104 silly diffSinceIn v0.0.6-alpha.0 publish/ims-redis
+105 silly diff publish/ims-redis/package.json
+106 silly diffSinceIn v0.0.6-alpha.0 publish/ims-rxjs
+107 silly diff publish/ims-rxjs/package.json
+108 silly diffSinceIn v0.0.6-alpha.0 publish/ims-scripts
+109 silly diff publish/ims-scripts/package.json
+110 silly diffSinceIn v0.0.6-alpha.0 publish/ims-security
+111 silly diff publish/ims-security/package.json
+112 silly diffSinceIn v0.0.6-alpha.0 publish/ims-server
+113 silly diff publish/ims-server/package.json
+114 silly diffSinceIn v0.0.6-alpha.0 publish/ims-tcp-client
+115 silly diff publish/ims-tcp-client/package.json
+116 silly diffSinceIn v0.0.6-alpha.0 publish/ims-tcp-server
+117 silly diff publish/ims-tcp-server/package.json
+118 silly diffSinceIn v0.0.6-alpha.0 publish/ims-theme
+119 silly diff publish/ims-theme/package.json
+120 silly diffSinceIn v0.0.6-alpha.0 publish/ims-transaction
+121 silly diff publish/ims-transaction/package.json
+122 silly diffSinceIn v0.0.6-alpha.0 publish/ims-typeorm
+123 silly diff publish/ims-typeorm/package.json
+124 silly diffSinceIn v0.0.6-alpha.0 publish/ims-types
+125 silly diff publish/ims-types/package.json
+126 silly diffSinceIn v0.0.6-alpha.0 publish/ims-udp-client
+127 silly diff publish/ims-udp-client/package.json
+128 silly diffSinceIn v0.0.6-alpha.0 publish/ims-udp-server
+129 silly diff publish/ims-udp-server/package.json
+130 silly diffSinceIn v0.0.6-alpha.0 publish/ims-upload
+131 silly diff publish/ims-upload/package.json
+132 silly diffSinceIn v0.0.6-alpha.0 publish/ims-user
+133 silly diff publish/ims-user/package.json
+134 silly diffSinceIn v0.0.6-alpha.0 publish/ims-util
+135 silly diff publish/ims-util/package.json
+136 silly diffSinceIn v0.0.6-alpha.0 publish/ims-web
+137 silly diff publish/ims-web/package.json
+138 silly diffSinceIn v0.0.6-alpha.0 publish/ims-webpack-addon
+139 silly diff publish/ims-webpack-addon/package.json
+140 silly diffSinceIn v0.0.6-alpha.0 publish/ims-webpack-main
+141 silly diff publish/ims-webpack-main/package.json
+142 silly diffSinceIn v0.0.6-alpha.0 publish/ims-webpack-manifest
+143 silly diff publish/ims-webpack-manifest/package.json
+144 silly diffSinceIn v0.0.6-alpha.0 publish/ims-webpack-util
+145 silly diff publish/ims-webpack-util/package.json
+146 silly diffSinceIn v0.0.6-alpha.0 publish/ims-webpack
+147 silly diff publish/ims-webpack/package.json
+148 silly diffSinceIn v0.0.6-alpha.0 publish/ims-ws-client
+149 silly diff publish/ims-ws-client/package.json
+150 silly diffSinceIn v0.0.6-alpha.0 publish/ims-ws-server
+151 silly diff publish/ims-ws-server/package.json
+152 silly diffSinceIn v0.0.6-alpha.0 publish/ims-wxapp-demo
+153 silly diff publish/ims-wxapp-demo/package.json
+154 verbose updated ims-addon
+155 verbose updated ims-bin
+156 verbose updated ims-cache
+157 verbose updated ims-chain
+158 verbose updated ims-child_process
+159 verbose updated ims-consensus
+160 verbose updated ims-const
+161 verbose updated ims-core
+162 verbose updated ims-crypto
+163 verbose updated ims-db
+164 verbose updated ims-decorator
+165 verbose updated ims-dns
+166 verbose updated ims-docker
+167 verbose updated ims-error
+168 verbose updated ims-fs
+169 verbose updated ims-grpc
+170 verbose updated ims-gulp
+171 verbose updated ims-http
+172 verbose updated ims-install-addon
+173 verbose updated ims-install
+174 verbose updated ims-ipfs
+175 verbose updated ims-level
+176 verbose updated ims-merkle
+177 verbose updated ims-micro
+178 verbose updated ims-mongo
+179 verbose updated ims-mqtt
+180 verbose updated ims-nest
+181 verbose updated ims-node
+182 verbose updated ims-os
+183 verbose updated ims-p2p-client
+184 verbose updated ims-p2p-server
+185 verbose updated ims-p2p
+186 verbose updated ims-peer
+187 verbose updated ims-platform-android
+188 verbose updated ims-platform-browser
+189 verbose updated ims-platform-electron
+190 verbose updated ims-platform-ios
+191 verbose updated ims-platform-node
+192 verbose updated ims-platform-wxapp
+193 verbose updated ims-protocol
+194 verbose updated ims-redis
+195 verbose updated ims-rxjs
+196 verbose updated ims-scripts
+197 verbose updated ims-security
+198 verbose updated ims-server
+199 verbose updated ims-tcp-client
+200 verbose updated ims-tcp-server
+201 verbose updated ims-theme
+202 verbose updated ims-transaction
+203 verbose updated ims-typeorm
+204 verbose updated ims-types
+205 verbose updated ims-udp-client
+206 verbose updated ims-udp-server
+207 verbose updated ims-upload
+208 verbose updated ims-user
+209 verbose updated ims-util
+210 verbose updated ims-web
+211 verbose updated ims-webpack-addon
+212 verbose updated ims-webpack-main
+213 verbose updated ims-webpack-manifest
+214 verbose updated ims-webpack-util
+215 verbose updated ims-webpack
+216 verbose updated ims-ws-client
+217 verbose updated ims-ws-server
+218 verbose updated ims-wxapp
+219 verbose git-describe undefined => "v0.0.6-alpha.0-2-gbf7e962"
+220 silly git-describe parsed => {"lastTagName":"v0.0.6-alpha.0","lastVersion":"v0.0.6-alpha.0","refCount":"2","sha":"bf7e962","isDirty":false}
+221 silly batched [ PackageGraphNode {
+221 silly batched     name: 'ims-addon',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-bin',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-cache',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-chain',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-child_process',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-consensus',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-const',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-crypto',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-db',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-decorator',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map { 'ims-core' => [PackageGraphNode] } },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-dns',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-docker',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-error',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-fs',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-grpc',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-gulp',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-install-addon',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-install',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-ipfs',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-level',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-merkle',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-micro',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-mongo',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-mqtt',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-nest',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-node',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-os',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-p2p-client',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-p2p-server',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-p2p',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-peer',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-platform-android',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-platform-browser',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-platform-electron',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-platform-ios',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-platform-node',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-platform-wxapp',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map { 'ims-wxapp' => [PackageGraphNode] } },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-protocol',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-redis',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-rxjs',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-scripts',
+221 silly batched     externalDependencies: Map { '@types/execa' => [Object], 'execa' => [Object] },
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-security',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-server',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-tcp-client',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-tcp-server',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-theme',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-transaction',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-typeorm',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-types',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-udp-client',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-udp-server',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-upload',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-user',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-util',
+221 silly batched     externalDependencies: Map { '@types/ramda' => [Object], 'ramda' => [Object] },
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents:
+221 silly batched      Map {
+221 silly batched        'ims-core' => [PackageGraphNode],
+221 silly batched        'ims-wxapp' => [PackageGraphNode] } },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-web',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-webpack-addon',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-webpack-main',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-webpack-manifest',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-webpack-util',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-webpack',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-ws-client',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} },
+221 silly batched   PackageGraphNode {
+221 silly batched     name: 'ims-ws-server',
+221 silly batched     externalDependencies: Map {},
+221 silly batched     localDependencies: Map {},
+221 silly batched     localDependents: Map {} } ]
+222 silly batched [ PackageGraphNode {
+222 silly batched     name: 'ims-core',
+222 silly batched     externalDependencies: Map { 'rxjs' => [Object] },
+222 silly batched     localDependencies: Map {},
+222 silly batched     localDependents:
+222 silly batched      Map {
+222 silly batched        'ims-http' => [PackageGraphNode],
+222 silly batched        'ims-wxapp' => [PackageGraphNode] } } ]
+223 silly batched [ PackageGraphNode {
+223 silly batched     name: 'ims-http',
+223 silly batched     externalDependencies: Map { 'rxjs' => [Object] },
+223 silly batched     localDependencies: Map {},
+223 silly batched     localDependents: Map {} },
+223 silly batched   PackageGraphNode {
+223 silly batched     name: 'ims-wxapp',
+223 silly batched     externalDependencies: Map { 'rxjs' => [Object] },
+223 silly batched     localDependencies: Map {},
+223 silly batched     localDependents: Map {} } ]
+224 silly run-lifecycle No script for "preversion" in "root", continuing
+225 silly run-lifecycle No script for "preversion" in "ims-addon", continuing
+226 silly run-lifecycle No script for "preversion" in "ims-bin", continuing
+227 silly run-lifecycle No script for "preversion" in "ims-cache", continuing
+228 silly run-lifecycle No script for "preversion" in "ims-chain", continuing
+229 silly run-lifecycle No script for "preversion" in "ims-child_process", continuing
+230 silly run-lifecycle No script for "preversion" in "ims-consensus", continuing
+231 silly run-lifecycle No script for "preversion" in "ims-const", continuing
+232 silly run-lifecycle No script for "preversion" in "ims-crypto", continuing
+233 silly run-lifecycle No script for "preversion" in "ims-db", continuing
+234 silly run-lifecycle No script for "preversion" in "ims-decorator", continuing
+235 silly run-lifecycle No script for "preversion" in "ims-dns", continuing
+236 silly run-lifecycle No script for "preversion" in "ims-docker", continuing
+237 silly run-lifecycle No script for "preversion" in "ims-error", continuing
+238 silly run-lifecycle No script for "preversion" in "ims-fs", continuing
+239 silly run-lifecycle No script for "preversion" in "ims-grpc", continuing
+240 silly run-lifecycle No script for "preversion" in "ims-gulp", continuing
+241 silly run-lifecycle No script for "preversion" in "ims-install-addon", continuing
+242 silly run-lifecycle No script for "preversion" in "ims-install", continuing
+243 silly run-lifecycle No script for "preversion" in "ims-ipfs", continuing
+244 silly run-lifecycle No script for "preversion" in "ims-level", continuing
+245 silly run-lifecycle No script for "preversion" in "ims-merkle", continuing
+246 silly run-lifecycle No script for "preversion" in "ims-micro", continuing
+247 silly run-lifecycle No script for "preversion" in "ims-mongo", continuing
+248 silly run-lifecycle No script for "preversion" in "ims-mqtt", continuing
+249 silly run-lifecycle No script for "preversion" in "ims-nest", continuing
+250 silly run-lifecycle No script for "preversion" in "ims-node", continuing
+251 silly run-lifecycle No script for "preversion" in "ims-os", continuing
+252 silly run-lifecycle No script for "preversion" in "ims-p2p-client", continuing
+253 silly run-lifecycle No script for "preversion" in "ims-p2p-server", continuing
+254 silly run-lifecycle No script for "preversion" in "ims-p2p", continuing
+255 silly run-lifecycle No script for "preversion" in "ims-peer", continuing
+256 silly run-lifecycle No script for "preversion" in "ims-platform-android", continuing
+257 silly run-lifecycle No script for "preversion" in "ims-platform-browser", continuing
+258 silly run-lifecycle No script for "preversion" in "ims-platform-electron", continuing
+259 silly run-lifecycle No script for "preversion" in "ims-platform-ios", continuing
+260 silly run-lifecycle No script for "preversion" in "ims-platform-node", continuing
+261 silly run-lifecycle No script for "preversion" in "ims-platform-wxapp", continuing
+262 silly run-lifecycle No script for "preversion" in "ims-protocol", continuing
+263 silly run-lifecycle No script for "preversion" in "ims-redis", continuing
+264 silly run-lifecycle No script for "preversion" in "ims-rxjs", continuing
+265 silly run-lifecycle No script for "preversion" in "ims-scripts", continuing
+266 silly run-lifecycle No script for "preversion" in "ims-security", continuing
+267 silly run-lifecycle No script for "preversion" in "ims-server", continuing
+268 silly run-lifecycle No script for "preversion" in "ims-tcp-client", continuing
+269 silly run-lifecycle No script for "preversion" in "ims-tcp-server", continuing
+270 silly run-lifecycle No script for "preversion" in "ims-theme", continuing
+271 silly run-lifecycle No script for "preversion" in "ims-transaction", continuing
+272 silly run-lifecycle No script for "preversion" in "ims-typeorm", continuing
+273 silly run-lifecycle No script for "preversion" in "ims-types", continuing
+274 silly run-lifecycle No script for "preversion" in "ims-udp-client", continuing
+275 silly run-lifecycle No script for "preversion" in "ims-udp-server", continuing
+276 silly run-lifecycle No script for "preversion" in "ims-upload", continuing
+277 silly run-lifecycle No script for "preversion" in "ims-user", continuing
+278 silly run-lifecycle No script for "preversion" in "ims-util", continuing
+279 silly run-lifecycle No script for "preversion" in "ims-web", continuing
+280 silly run-lifecycle No script for "preversion" in "ims-webpack-addon", continuing
+281 silly run-lifecycle No script for "preversion" in "ims-webpack-main", continuing
+282 silly run-lifecycle No script for "preversion" in "ims-webpack-manifest", continuing
+283 silly run-lifecycle No script for "preversion" in "ims-webpack-util", continuing
+284 silly run-lifecycle No script for "preversion" in "ims-webpack", continuing
+285 silly run-lifecycle No script for "preversion" in "ims-ws-client", continuing
+286 silly run-lifecycle No script for "preversion" in "ims-ws-server", continuing
+287 silly run-lifecycle No script for "version" in "ims-consensus", continuing
+288 silly run-lifecycle No script for "version" in "ims-addon", continuing
+289 silly run-lifecycle No script for "version" in "ims-const", continuing
+290 silly run-lifecycle No script for "version" in "ims-cache", continuing
+291 silly run-lifecycle No script for "version" in "ims-decorator", continuing
+292 silly run-lifecycle No script for "version" in "ims-crypto", continuing
+293 silly run-lifecycle No script for "version" in "ims-dns", continuing
+294 silly run-lifecycle No script for "version" in "ims-db", continuing
+295 silly run-lifecycle No script for "version" in "ims-docker", continuing
+296 silly run-lifecycle No script for "version" in "ims-bin", continuing
+297 silly run-lifecycle No script for "version" in "ims-fs", continuing
+298 silly run-lifecycle No script for "version" in "ims-gulp", continuing
+299 silly run-lifecycle No script for "version" in "ims-ipfs", continuing
+300 silly run-lifecycle No script for "version" in "ims-grpc", continuing
+301 silly run-lifecycle No script for "version" in "ims-install", continuing
+302 silly run-lifecycle No script for "version" in "ims-install-addon", continuing
+303 silly run-lifecycle No script for "version" in "ims-mongo", continuing
+304 silly run-lifecycle No script for "version" in "ims-chain", continuing
+305 silly run-lifecycle No script for "version" in "ims-child_process", continuing
+306 silly run-lifecycle No script for "version" in "ims-micro", continuing
+307 silly run-lifecycle No script for "version" in "ims-node", continuing
+308 silly run-lifecycle No script for "version" in "ims-mqtt", continuing
+309 silly run-lifecycle No script for "version" in "ims-nest", continuing
+310 silly run-lifecycle No script for "version" in "ims-p2p-client", continuing
+311 silly run-lifecycle No script for "version" in "ims-peer", continuing
+312 silly run-lifecycle No script for "version" in "ims-os", continuing
+313 silly run-lifecycle No script for "version" in "ims-p2p", continuing
+314 silly run-lifecycle No script for "version" in "ims-p2p-server", continuing
+315 silly run-lifecycle No script for "version" in "ims-platform-browser", continuing
+316 silly run-lifecycle No script for "version" in "ims-platform-node", continuing
+317 silly run-lifecycle No script for "version" in "ims-platform-ios", continuing
+318 silly run-lifecycle No script for "version" in "ims-platform-electron", continuing
+319 silly run-lifecycle No script for "version" in "ims-redis", continuing
+320 silly run-lifecycle No script for "version" in "ims-level", continuing
+321 silly run-lifecycle No script for "version" in "ims-platform-android", continuing
+322 silly run-lifecycle No script for "version" in "ims-security", continuing
+323 silly run-lifecycle No script for "version" in "ims-protocol", continuing
+324 silly run-lifecycle No script for "version" in "ims-tcp-client", continuing
+325 silly run-lifecycle No script for "version" in "ims-scripts", continuing
+326 silly run-lifecycle No script for "version" in "ims-rxjs", continuing
+327 silly run-lifecycle No script for "version" in "ims-server", continuing
+328 silly run-lifecycle No script for "version" in "ims-tcp-server", continuing
+329 silly run-lifecycle No script for "version" in "ims-theme", continuing
+330 silly run-lifecycle No script for "version" in "ims-upload", continuing
+331 silly run-lifecycle No script for "version" in "ims-typeorm", continuing
+332 silly run-lifecycle No script for "version" in "ims-transaction", continuing
+333 silly run-lifecycle No script for "version" in "ims-error", continuing
+334 silly run-lifecycle No script for "version" in "ims-types", continuing
+335 silly run-lifecycle No script for "version" in "ims-merkle", continuing
+336 silly run-lifecycle No script for "version" in "ims-udp-client", continuing
+337 silly run-lifecycle No script for "version" in "ims-webpack-manifest", continuing
+338 silly run-lifecycle No script for "version" in "ims-web", continuing
+339 silly run-lifecycle No script for "version" in "ims-webpack-addon", continuing
+340 silly run-lifecycle No script for "version" in "ims-util", continuing
+341 silly run-lifecycle No script for "version" in "ims-platform-wxapp", continuing
+342 silly run-lifecycle No script for "version" in "ims-webpack", continuing
+343 silly run-lifecycle No script for "version" in "ims-user", continuing
+344 silly run-lifecycle No script for "version" in "ims-webpack-main", continuing
+345 silly run-lifecycle No script for "version" in "ims-webpack-util", continuing
+346 silly run-lifecycle No script for "version" in "ims-ws-client", continuing
+347 silly run-lifecycle No script for "version" in "ims-ws-server", continuing
+348 silly run-lifecycle No script for "version" in "ims-udp-server", continuing
+349 silly run-lifecycle No script for "preversion" in "ims-core", continuing
+350 silly run-lifecycle No script for "version" in "ims-core", continuing
+351 silly run-lifecycle No script for "preversion" in "ims-http", continuing
+352 silly run-lifecycle No script for "preversion" in "ims-wxapp", continuing
+353 silly run-lifecycle No script for "version" in "ims-wxapp", continuing
+354 silly run-lifecycle No script for "version" in "ims-http", continuing
+355 silly run-lifecycle No script for "version" in "root", continuing
+356 silly gitAdd [ '/Volumes/meepo/nestchain/publish/ims-consensus/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-addon/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-const/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-cache/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-decorator/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-crypto/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-dns/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-db/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-docker/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-bin/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-fs/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-gulp/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-ipfs/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-grpc/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-install/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-install-addon/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-mongo/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-chain/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-child_process/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-micro/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-node/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-mqtt/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-nest/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-p2p-client/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-peer/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-os/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-p2p/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-p2p-server/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-platform-browser/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-platform-node/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-platform-ios/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-platform-electron/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-redis/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-level/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-platform-android/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-security/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-protocol/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-tcp-client/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-scripts/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-rxjs/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-server/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-tcp-server/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-theme/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-upload/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-typeorm/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-transaction/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-error/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-types/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-merkle/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-udp-client/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-webpack-manifest/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-web/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-webpack-addon/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-util/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-platform-wxapp/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-webpack/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-user/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-webpack-main/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-webpack-util/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-ws-client/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-ws-server/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-udp-server/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-core/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-wxapp-demo/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/publish/ims-http/package.json',
+356 silly gitAdd   '/Volumes/meepo/nestchain/lerna.json' ]
+357 silly gitCommit v0.0.6
+358 verbose git [ 'commit', '-m', 'v0.0.6' ]
+359 silly gitTag v0.0.6
+360 verbose git [ 'tag', 'v0.0.6', '-m', 'v0.0.6' ]
+361 silly run-lifecycle No script for "postversion" in "ims-addon", continuing
+362 silly run-lifecycle No script for "postversion" in "ims-bin", continuing
+363 silly run-lifecycle No script for "postversion" in "ims-cache", continuing
+364 silly run-lifecycle No script for "postversion" in "ims-chain", continuing
+365 silly run-lifecycle No script for "postversion" in "ims-child_process", continuing
+366 silly run-lifecycle No script for "postversion" in "ims-consensus", continuing
+367 silly run-lifecycle No script for "postversion" in "ims-const", continuing
+368 silly run-lifecycle No script for "postversion" in "ims-core", continuing
+369 silly run-lifecycle No script for "postversion" in "ims-crypto", continuing
+370 silly run-lifecycle No script for "postversion" in "ims-db", continuing
+371 silly run-lifecycle No script for "postversion" in "ims-decorator", continuing
+372 silly run-lifecycle No script for "postversion" in "ims-dns", continuing
+373 silly run-lifecycle No script for "postversion" in "ims-docker", continuing
+374 silly run-lifecycle No script for "postversion" in "ims-error", continuing
+375 silly run-lifecycle No script for "postversion" in "ims-fs", continuing
+376 silly run-lifecycle No script for "postversion" in "ims-grpc", continuing
+377 silly run-lifecycle No script for "postversion" in "ims-gulp", continuing
+378 silly run-lifecycle No script for "postversion" in "ims-http", continuing
+379 silly run-lifecycle No script for "postversion" in "ims-install-addon", continuing
+380 silly run-lifecycle No script for "postversion" in "ims-install", continuing
+381 silly run-lifecycle No script for "postversion" in "ims-ipfs", continuing
+382 silly run-lifecycle No script for "postversion" in "ims-level", continuing
+383 silly run-lifecycle No script for "postversion" in "ims-merkle", continuing
+384 silly run-lifecycle No script for "postversion" in "ims-micro", continuing
+385 silly run-lifecycle No script for "postversion" in "ims-mongo", continuing
+386 silly run-lifecycle No script for "postversion" in "ims-mqtt", continuing
+387 silly run-lifecycle No script for "postversion" in "ims-nest", continuing
+388 silly run-lifecycle No script for "postversion" in "ims-node", continuing
+389 silly run-lifecycle No script for "postversion" in "ims-os", continuing
+390 silly run-lifecycle No script for "postversion" in "ims-p2p-client", continuing
+391 silly run-lifecycle No script for "postversion" in "ims-p2p-server", continuing
+392 silly run-lifecycle No script for "postversion" in "ims-p2p", continuing
+393 silly run-lifecycle No script for "postversion" in "ims-peer", continuing
+394 silly run-lifecycle No script for "postversion" in "ims-platform-android", continuing
+395 silly run-lifecycle No script for "postversion" in "ims-platform-browser", continuing
+396 silly run-lifecycle No script for "postversion" in "ims-platform-electron", continuing
+397 silly run-lifecycle No script for "postversion" in "ims-platform-ios", continuing
+398 silly run-lifecycle No script for "postversion" in "ims-platform-node", continuing
+399 silly run-lifecycle No script for "postversion" in "ims-platform-wxapp", continuing
+400 silly run-lifecycle No script for "postversion" in "ims-protocol", continuing
+401 silly run-lifecycle No script for "postversion" in "ims-redis", continuing
+402 silly run-lifecycle No script for "postversion" in "ims-rxjs", continuing
+403 silly run-lifecycle No script for "postversion" in "ims-scripts", continuing
+404 silly run-lifecycle No script for "postversion" in "ims-security", continuing
+405 silly run-lifecycle No script for "postversion" in "ims-server", continuing
+406 silly run-lifecycle No script for "postversion" in "ims-tcp-client", continuing
+407 silly run-lifecycle No script for "postversion" in "ims-tcp-server", continuing
+408 silly run-lifecycle No script for "postversion" in "ims-theme", continuing
+409 silly run-lifecycle No script for "postversion" in "ims-transaction", continuing
+410 silly run-lifecycle No script for "postversion" in "ims-typeorm", continuing
+411 silly run-lifecycle No script for "postversion" in "ims-types", continuing
+412 silly run-lifecycle No script for "postversion" in "ims-udp-client", continuing
+413 silly run-lifecycle No script for "postversion" in "ims-udp-server", continuing
+414 silly run-lifecycle No script for "postversion" in "ims-upload", continuing
+415 silly run-lifecycle No script for "postversion" in "ims-user", continuing
+416 silly run-lifecycle No script for "postversion" in "ims-util", continuing
+417 silly run-lifecycle No script for "postversion" in "ims-web", continuing
+418 silly run-lifecycle No script for "postversion" in "ims-webpack-addon", continuing
+419 silly run-lifecycle No script for "postversion" in "ims-webpack-main", continuing
+420 silly run-lifecycle No script for "postversion" in "ims-webpack-manifest", continuing
+421 silly run-lifecycle No script for "postversion" in "ims-webpack-util", continuing
+422 silly run-lifecycle No script for "postversion" in "ims-webpack", continuing
+423 silly run-lifecycle No script for "postversion" in "ims-ws-client", continuing
+424 silly run-lifecycle No script for "postversion" in "ims-ws-server", continuing
+425 silly run-lifecycle No script for "postversion" in "ims-wxapp", continuing
+426 silly run-lifecycle No script for "postversion" in "root", continuing
+427 info git Pushing tags...
+428 silly gitPush origin master
+429 silly batched [ PackageGraphNode {
+429 silly batched     name: 'ims-addon',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-bin',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-cache',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-chain',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-child_process',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-consensus',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-const',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-crypto',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-db',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-decorator',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map { 'ims-core' => [PackageGraphNode] } },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-dns',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-docker',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-error',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-fs',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-grpc',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-gulp',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-install-addon',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-install',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-ipfs',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-level',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-merkle',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-micro',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-mongo',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-mqtt',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-nest',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-node',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-os',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-p2p-client',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-p2p-server',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-p2p',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-peer',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-platform-android',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-platform-browser',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-platform-electron',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-platform-ios',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-platform-node',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-platform-wxapp',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map { 'ims-wxapp' => [PackageGraphNode] } },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-protocol',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-redis',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-rxjs',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-scripts',
+429 silly batched     externalDependencies: Map { '@types/execa' => [Object], 'execa' => [Object] },
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-security',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-server',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-tcp-client',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-tcp-server',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-theme',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-transaction',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-typeorm',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-types',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-udp-client',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-udp-server',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-upload',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-user',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-util',
+429 silly batched     externalDependencies: Map { '@types/ramda' => [Object], 'ramda' => [Object] },
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents:
+429 silly batched      Map {
+429 silly batched        'ims-core' => [PackageGraphNode],
+429 silly batched        'ims-wxapp' => [PackageGraphNode] } },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-web',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-webpack-addon',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-webpack-main',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-webpack-manifest',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-webpack-util',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-webpack',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-ws-client',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} },
+429 silly batched   PackageGraphNode {
+429 silly batched     name: 'ims-ws-server',
+429 silly batched     externalDependencies: Map {},
+429 silly batched     localDependencies: Map {},
+429 silly batched     localDependents: Map {} } ]
+430 silly batched [ PackageGraphNode {
+430 silly batched     name: 'ims-core',
+430 silly batched     externalDependencies: Map { 'rxjs' => [Object] },
+430 silly batched     localDependencies: Map {},
+430 silly batched     localDependents:
+430 silly batched      Map {
+430 silly batched        'ims-http' => [PackageGraphNode],
+430 silly batched        'ims-wxapp' => [PackageGraphNode] } } ]
+431 silly batched [ PackageGraphNode {
+431 silly batched     name: 'ims-http',
+431 silly batched     externalDependencies: Map { 'rxjs' => [Object] },
+431 silly batched     localDependencies: Map {},
+431 silly batched     localDependents: Map {} },
+431 silly batched   PackageGraphNode {
+431 silly batched     name: 'ims-wxapp',
+431 silly batched     externalDependencies: Map { 'rxjs' => [Object] },
+431 silly batched     localDependencies: Map {},
+431 silly batched     localDependents: Map {} } ]
+432 info publish Publishing packages to npm...
+433 silly verifyNpmPackageAccess
+434 http fetch GET 200 https://registry.npmjs.org/-/org/imeepos2/package?format=cli 686ms
+435 warn ENOLICENSE Packages ims-addon, ims-bin, ims-cache, ims-chain, ims-child_process, ims-consensus, ims-const, ims-core, ims-crypto, ims-db, ims-decorator, ims-dns, ims-docker, ims-error, ims-fs, ims-grpc, ims-gulp, ims-http, ims-install-addon, ims-install, ims-ipfs, ims-level, ims-merkle, ims-micro, ims-mongo, ims-mqtt, ims-nest, ims-node, ims-os, ims-p2p-client, ims-p2p-server, ims-p2p, ims-peer, ims-platform-android, ims-platform-browser, ims-platform-electron, ims-platform-ios, ims-platform-node, ims-platform-wxapp, ims-protocol, ims-redis, ims-rxjs, ims-scripts, ims-security, ims-server, ims-tcp-client, ims-tcp-server, ims-theme, ims-transaction, ims-typeorm, ims-types, ims-udp-client, ims-udp-server, ims-upload, ims-user, ims-util, ims-web, ims-webpack-addon, ims-webpack-main, ims-webpack-manifest, ims-webpack-util, ims-webpack, ims-ws-client, ims-ws-server, ims-wxapp are missing a license
+436 silly getCurrentSHA
+437 verbose getCurrentSHA 1601a6fe81d2af398482f1bed04512d9776c0c86
+438 silly run-lifecycle No script for "prepare" in "root", continuing
+439 silly run-lifecycle No script for "prepublishOnly" in "root", continuing
+440 silly run-lifecycle No script for "prepack" in "root", continuing
+441 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-addon
+442 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-bin
+443 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-cache
+444 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-chain
+445 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-child_process
+446 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-consensus
+447 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-const
+448 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-crypto
+449 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-db
+450 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-decorator
+451 silly run-lifecycle No script for "prepare" in "ims-addon", continuing
+452 silly run-lifecycle No script for "prepare" in "ims-bin", continuing
+453 silly run-lifecycle No script for "prepare" in "ims-cache", continuing
+454 silly run-lifecycle No script for "prepare" in "ims-chain", continuing
+455 silly run-lifecycle No script for "prepare" in "ims-child_process", continuing
+456 silly run-lifecycle No script for "prepare" in "ims-consensus", continuing
+457 silly run-lifecycle No script for "prepare" in "ims-const", continuing
+458 silly run-lifecycle No script for "prepare" in "ims-crypto", continuing
+459 silly run-lifecycle No script for "prepare" in "ims-db", continuing
+460 silly run-lifecycle No script for "prepare" in "ims-decorator", continuing
+461 silly run-lifecycle No script for "prepublishOnly" in "ims-addon", continuing
+462 silly run-lifecycle No script for "prepublishOnly" in "ims-bin", continuing
+463 silly run-lifecycle No script for "prepublishOnly" in "ims-cache", continuing
+464 silly run-lifecycle No script for "prepublishOnly" in "ims-chain", continuing
+465 silly run-lifecycle No script for "prepublishOnly" in "ims-child_process", continuing
+466 silly run-lifecycle No script for "prepublishOnly" in "ims-consensus", continuing
+467 silly run-lifecycle No script for "prepublishOnly" in "ims-const", continuing
+468 silly run-lifecycle No script for "prepublishOnly" in "ims-crypto", continuing
+469 silly run-lifecycle No script for "prepublishOnly" in "ims-db", continuing
+470 silly run-lifecycle No script for "prepublishOnly" in "ims-decorator", continuing
+471 silly run-lifecycle No script for "prepack" in "ims-addon", continuing
+472 silly run-lifecycle No script for "prepack" in "ims-cache", continuing
+473 silly run-lifecycle No script for "prepack" in "ims-bin", continuing
+474 silly run-lifecycle No script for "prepack" in "ims-chain", continuing
+475 silly run-lifecycle No script for "prepack" in "ims-child_process", continuing
+476 silly run-lifecycle No script for "prepack" in "ims-consensus", continuing
+477 silly run-lifecycle No script for "prepack" in "ims-const", continuing
+478 silly run-lifecycle No script for "prepack" in "ims-crypto", continuing
+479 silly run-lifecycle No script for "prepack" in "ims-db", continuing
+480 silly run-lifecycle No script for "prepack" in "ims-decorator", continuing
+481 silly run-lifecycle No script for "postpack" in "ims-cache", continuing
+482 silly run-lifecycle No script for "postpack" in "ims-chain", continuing
+483 silly run-lifecycle No script for "postpack" in "ims-child_process", continuing
+484 silly run-lifecycle No script for "postpack" in "ims-consensus", continuing
+485 silly run-lifecycle No script for "postpack" in "ims-crypto", continuing
+486 silly run-lifecycle No script for "postpack" in "ims-const", continuing
+487 silly run-lifecycle No script for "postpack" in "ims-db", continuing
+488 silly run-lifecycle No script for "postpack" in "ims-decorator", continuing
+489 silly run-lifecycle No script for "postpack" in "ims-addon", continuing
+490 silly run-lifecycle No script for "postpack" in "ims-bin", continuing
+491 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-dns
+492 silly run-lifecycle No script for "prepare" in "ims-dns", continuing
+493 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-docker
+494 silly run-lifecycle No script for "prepare" in "ims-docker", continuing
+495 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-error
+496 silly run-lifecycle No script for "prepare" in "ims-error", continuing
+497 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-fs
+498 silly run-lifecycle No script for "prepare" in "ims-fs", continuing
+499 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-grpc
+500 silly run-lifecycle No script for "prepare" in "ims-grpc", continuing
+501 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-gulp
+502 silly run-lifecycle No script for "prepare" in "ims-gulp", continuing
+503 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-install-addon
+504 silly run-lifecycle No script for "prepare" in "ims-install-addon", continuing
+505 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-install
+506 silly run-lifecycle No script for "prepare" in "ims-install", continuing
+507 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-ipfs
+508 silly run-lifecycle No script for "prepare" in "ims-ipfs", continuing
+509 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-level
+510 silly run-lifecycle No script for "prepare" in "ims-level", continuing
+511 silly run-lifecycle No script for "prepublishOnly" in "ims-docker", continuing
+512 silly run-lifecycle No script for "prepublishOnly" in "ims-dns", continuing
+513 silly run-lifecycle No script for "prepublishOnly" in "ims-error", continuing
+514 silly run-lifecycle No script for "prepublishOnly" in "ims-fs", continuing
+515 silly run-lifecycle No script for "prepublishOnly" in "ims-grpc", continuing
+516 silly run-lifecycle No script for "prepublishOnly" in "ims-gulp", continuing
+517 silly run-lifecycle No script for "prepublishOnly" in "ims-install-addon", continuing
+518 silly run-lifecycle No script for "prepublishOnly" in "ims-install", continuing
+519 silly run-lifecycle No script for "prepublishOnly" in "ims-ipfs", continuing
+520 silly run-lifecycle No script for "prepublishOnly" in "ims-level", continuing
+521 silly run-lifecycle No script for "prepack" in "ims-docker", continuing
+522 silly run-lifecycle No script for "prepack" in "ims-dns", continuing
+523 silly run-lifecycle No script for "prepack" in "ims-error", continuing
+524 silly run-lifecycle No script for "prepack" in "ims-fs", continuing
+525 silly run-lifecycle No script for "prepack" in "ims-grpc", continuing
+526 silly run-lifecycle No script for "prepack" in "ims-gulp", continuing
+527 silly run-lifecycle No script for "prepack" in "ims-install-addon", continuing
+528 silly run-lifecycle No script for "prepack" in "ims-install", continuing
+529 silly run-lifecycle No script for "prepack" in "ims-ipfs", continuing
+530 silly run-lifecycle No script for "prepack" in "ims-level", continuing
+531 silly run-lifecycle No script for "postpack" in "ims-docker", continuing
+532 silly run-lifecycle No script for "postpack" in "ims-error", continuing
+533 silly run-lifecycle No script for "postpack" in "ims-dns", continuing
+534 silly run-lifecycle No script for "postpack" in "ims-fs", continuing
+535 silly run-lifecycle No script for "postpack" in "ims-grpc", continuing
+536 silly run-lifecycle No script for "postpack" in "ims-install-addon", continuing
+537 silly run-lifecycle No script for "postpack" in "ims-install", continuing
+538 silly run-lifecycle No script for "postpack" in "ims-ipfs", continuing
+539 silly run-lifecycle No script for "postpack" in "ims-level", continuing
+540 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-merkle
+541 silly run-lifecycle No script for "prepare" in "ims-merkle", continuing
+542 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-micro
+543 silly run-lifecycle No script for "prepare" in "ims-micro", continuing
+544 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-mongo
+545 silly run-lifecycle No script for "prepare" in "ims-mongo", continuing
+546 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-mqtt
+547 silly run-lifecycle No script for "prepare" in "ims-mqtt", continuing
+548 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-nest
+549 silly run-lifecycle No script for "prepare" in "ims-nest", continuing
+550 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-node
+551 silly run-lifecycle No script for "prepare" in "ims-node", continuing
+552 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-os
+553 silly run-lifecycle No script for "prepare" in "ims-os", continuing
+554 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-p2p-client
+555 silly run-lifecycle No script for "prepare" in "ims-p2p-client", continuing
+556 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-p2p-server
+557 silly run-lifecycle No script for "prepare" in "ims-p2p-server", continuing
+558 silly run-lifecycle No script for "prepublishOnly" in "ims-merkle", continuing
+559 silly run-lifecycle No script for "prepublishOnly" in "ims-micro", continuing
+560 silly run-lifecycle No script for "prepublishOnly" in "ims-mongo", continuing
+561 silly run-lifecycle No script for "prepublishOnly" in "ims-nest", continuing
+562 silly run-lifecycle No script for "prepublishOnly" in "ims-mqtt", continuing
+563 silly run-lifecycle No script for "prepublishOnly" in "ims-node", continuing
+564 silly run-lifecycle No script for "prepublishOnly" in "ims-os", continuing
+565 silly run-lifecycle No script for "prepublishOnly" in "ims-p2p-client", continuing
+566 silly run-lifecycle No script for "prepublishOnly" in "ims-p2p-server", continuing
+567 silly run-lifecycle No script for "prepack" in "ims-merkle", continuing
+568 silly run-lifecycle No script for "prepack" in "ims-mongo", continuing
+569 silly run-lifecycle No script for "prepack" in "ims-nest", continuing
+570 silly run-lifecycle No script for "prepack" in "ims-micro", continuing
+571 silly run-lifecycle No script for "prepack" in "ims-mqtt", continuing
+572 silly run-lifecycle No script for "prepack" in "ims-node", continuing
+573 silly run-lifecycle No script for "prepack" in "ims-os", continuing
+574 silly run-lifecycle No script for "prepack" in "ims-p2p-client", continuing
+575 silly run-lifecycle No script for "prepack" in "ims-p2p-server", continuing
+576 silly run-lifecycle No script for "postpack" in "ims-gulp", continuing
+577 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-p2p
+578 silly run-lifecycle No script for "prepare" in "ims-p2p", continuing
+579 silly run-lifecycle No script for "prepublishOnly" in "ims-p2p", continuing
+580 silly run-lifecycle No script for "prepack" in "ims-p2p", continuing
+581 silly run-lifecycle No script for "postpack" in "ims-merkle", continuing
+582 silly run-lifecycle No script for "postpack" in "ims-mongo", continuing
+583 silly run-lifecycle No script for "postpack" in "ims-nest", continuing
+584 silly run-lifecycle No script for "postpack" in "ims-micro", continuing
+585 silly run-lifecycle No script for "postpack" in "ims-mqtt", continuing
+586 silly run-lifecycle No script for "postpack" in "ims-node", continuing
+587 silly run-lifecycle No script for "postpack" in "ims-os", continuing
+588 silly run-lifecycle No script for "postpack" in "ims-p2p-client", continuing
+589 silly run-lifecycle No script for "postpack" in "ims-p2p-server", continuing
+590 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-peer
+591 silly run-lifecycle No script for "prepare" in "ims-peer", continuing
+592 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-platform-android
+593 silly run-lifecycle No script for "prepare" in "ims-platform-android", continuing
+594 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-platform-browser
+595 silly run-lifecycle No script for "prepare" in "ims-platform-browser", continuing
+596 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-platform-electron
+597 silly run-lifecycle No script for "prepare" in "ims-platform-electron", continuing
+598 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-platform-ios
+599 silly run-lifecycle No script for "prepare" in "ims-platform-ios", continuing
+600 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-platform-node
+601 silly run-lifecycle No script for "prepare" in "ims-platform-node", continuing
+602 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-platform-wxapp
+603 silly run-lifecycle No script for "prepare" in "ims-platform-wxapp", continuing
+604 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-protocol
+605 silly run-lifecycle No script for "prepare" in "ims-protocol", continuing
+606 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-redis
+607 silly run-lifecycle No script for "prepare" in "ims-redis", continuing
+608 silly run-lifecycle No script for "prepublishOnly" in "ims-peer", continuing
+609 silly run-lifecycle No script for "prepublishOnly" in "ims-platform-android", continuing
+610 silly run-lifecycle No script for "prepublishOnly" in "ims-platform-browser", continuing
+611 silly run-lifecycle No script for "prepublishOnly" in "ims-platform-electron", continuing
+612 silly run-lifecycle No script for "prepublishOnly" in "ims-platform-ios", continuing
+613 silly run-lifecycle No script for "prepublishOnly" in "ims-platform-node", continuing
+614 silly run-lifecycle No script for "prepublishOnly" in "ims-platform-wxapp", continuing
+615 silly run-lifecycle No script for "prepublishOnly" in "ims-protocol", continuing
+616 silly run-lifecycle No script for "prepublishOnly" in "ims-redis", continuing
+617 silly run-lifecycle No script for "prepack" in "ims-peer", continuing
+618 silly run-lifecycle No script for "prepack" in "ims-platform-android", continuing
+619 silly run-lifecycle No script for "prepack" in "ims-platform-browser", continuing
+620 silly run-lifecycle No script for "prepack" in "ims-platform-electron", continuing
+621 silly run-lifecycle No script for "prepack" in "ims-platform-ios", continuing
+622 silly run-lifecycle No script for "prepack" in "ims-platform-node", continuing
+623 silly run-lifecycle No script for "prepack" in "ims-platform-wxapp", continuing
+624 silly run-lifecycle No script for "prepack" in "ims-protocol", continuing
+625 silly run-lifecycle No script for "prepack" in "ims-redis", continuing
+626 silly run-lifecycle No script for "postpack" in "ims-p2p", continuing
+627 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-rxjs
+628 silly run-lifecycle No script for "prepare" in "ims-rxjs", continuing
+629 silly run-lifecycle No script for "prepublishOnly" in "ims-rxjs", continuing
+630 silly run-lifecycle No script for "prepack" in "ims-rxjs", continuing
+631 silly run-lifecycle No script for "postpack" in "ims-platform-android", continuing
+632 silly run-lifecycle No script for "postpack" in "ims-peer", continuing
+633 silly run-lifecycle No script for "postpack" in "ims-platform-electron", continuing
+634 silly run-lifecycle No script for "postpack" in "ims-platform-ios", continuing
+635 silly run-lifecycle No script for "postpack" in "ims-protocol", continuing
+636 silly run-lifecycle No script for "postpack" in "ims-redis", continuing
+637 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-scripts
+638 silly run-lifecycle No script for "prepare" in "ims-scripts", continuing
+639 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-security
+640 silly run-lifecycle No script for "prepare" in "ims-security", continuing
+641 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-server
+642 silly run-lifecycle No script for "prepare" in "ims-server", continuing
+643 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-tcp-client
+644 silly run-lifecycle No script for "prepare" in "ims-tcp-client", continuing
+645 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-tcp-server
+646 silly run-lifecycle No script for "prepare" in "ims-tcp-server", continuing
+647 silly run-lifecycle No script for "postpack" in "ims-platform-browser", continuing
+648 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-theme
+649 silly run-lifecycle No script for "prepare" in "ims-theme", continuing
+650 silly run-lifecycle No script for "postpack" in "ims-platform-node", continuing
+651 silly run-lifecycle No script for "prepublishOnly" in "ims-scripts", continuing
+652 silly run-lifecycle No script for "prepublishOnly" in "ims-security", continuing
+653 silly run-lifecycle No script for "prepublishOnly" in "ims-server", continuing
+654 silly run-lifecycle No script for "prepublishOnly" in "ims-tcp-client", continuing
+655 silly run-lifecycle No script for "prepublishOnly" in "ims-tcp-server", continuing
+656 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-transaction
+657 silly run-lifecycle No script for "prepare" in "ims-transaction", continuing
+658 silly run-lifecycle No script for "postpack" in "ims-platform-wxapp", continuing
+659 silly run-lifecycle No script for "prepublishOnly" in "ims-theme", continuing
+660 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-typeorm
+661 silly run-lifecycle No script for "prepare" in "ims-typeorm", continuing
+662 silly run-lifecycle No script for "prepack" in "ims-scripts", continuing
+663 silly run-lifecycle No script for "prepack" in "ims-security", continuing
+664 silly run-lifecycle No script for "prepack" in "ims-server", continuing
+665 silly run-lifecycle No script for "prepack" in "ims-tcp-client", continuing
+666 silly run-lifecycle No script for "prepack" in "ims-tcp-server", continuing
+667 silly run-lifecycle No script for "prepublishOnly" in "ims-transaction", continuing
+668 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-types
+669 silly run-lifecycle No script for "prepare" in "ims-types", continuing
+670 silly run-lifecycle No script for "prepack" in "ims-theme", continuing
+671 silly run-lifecycle No script for "prepublishOnly" in "ims-typeorm", continuing
+672 silly run-lifecycle No script for "postpack" in "ims-rxjs", continuing
+673 silly run-lifecycle No script for "prepack" in "ims-transaction", continuing
+674 silly run-lifecycle No script for "prepublishOnly" in "ims-types", continuing
+675 silly run-lifecycle No script for "prepack" in "ims-typeorm", continuing
+676 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-udp-client
+677 silly run-lifecycle No script for "prepare" in "ims-udp-client", continuing
+678 silly run-lifecycle No script for "prepack" in "ims-types", continuing
+679 silly run-lifecycle No script for "prepublishOnly" in "ims-udp-client", continuing
+680 silly run-lifecycle No script for "prepack" in "ims-udp-client", continuing
+681 silly run-lifecycle No script for "postpack" in "ims-scripts", continuing
+682 silly run-lifecycle No script for "postpack" in "ims-server", continuing
+683 silly run-lifecycle No script for "postpack" in "ims-tcp-client", continuing
+684 silly run-lifecycle No script for "postpack" in "ims-tcp-server", continuing
+685 silly run-lifecycle No script for "postpack" in "ims-security", continuing
+686 silly run-lifecycle No script for "postpack" in "ims-theme", continuing
+687 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-udp-server
+688 silly run-lifecycle No script for "prepare" in "ims-udp-server", continuing
+689 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-upload
+690 silly run-lifecycle No script for "prepare" in "ims-upload", continuing
+691 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-user
+692 silly run-lifecycle No script for "prepare" in "ims-user", continuing
+693 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-util
+694 silly run-lifecycle No script for "prepare" in "ims-util", continuing
+695 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-web
+696 silly run-lifecycle No script for "prepare" in "ims-web", continuing
+697 silly run-lifecycle No script for "postpack" in "ims-typeorm", continuing
+698 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-webpack-addon
+699 silly run-lifecycle No script for "prepare" in "ims-webpack-addon", continuing
+700 silly run-lifecycle No script for "prepublishOnly" in "ims-udp-server", continuing
+701 silly run-lifecycle No script for "postpack" in "ims-transaction", continuing
+702 silly run-lifecycle No script for "prepublishOnly" in "ims-upload", continuing
+703 silly run-lifecycle No script for "prepublishOnly" in "ims-user", continuing
+704 silly run-lifecycle No script for "prepublishOnly" in "ims-util", continuing
+705 silly run-lifecycle No script for "prepublishOnly" in "ims-web", continuing
+706 silly run-lifecycle No script for "postpack" in "ims-types", continuing
+707 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-webpack-main
+708 silly run-lifecycle No script for "prepare" in "ims-webpack-main", continuing
+709 silly run-lifecycle No script for "prepublishOnly" in "ims-webpack-addon", continuing
+710 silly run-lifecycle No script for "prepack" in "ims-udp-server", continuing
+711 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-webpack-manifest
+712 silly run-lifecycle No script for "prepare" in "ims-webpack-manifest", continuing
+713 silly run-lifecycle No script for "prepack" in "ims-upload", continuing
+714 silly run-lifecycle No script for "prepack" in "ims-user", continuing
+715 silly run-lifecycle No script for "prepack" in "ims-util", continuing
+716 silly run-lifecycle No script for "prepack" in "ims-web", continuing
+717 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-webpack-util
+718 silly run-lifecycle No script for "prepare" in "ims-webpack-util", continuing
+719 silly run-lifecycle No script for "prepublishOnly" in "ims-webpack-main", continuing
+720 silly run-lifecycle No script for "prepack" in "ims-webpack-addon", continuing
+721 silly run-lifecycle No script for "prepublishOnly" in "ims-webpack-manifest", continuing
+722 silly run-lifecycle No script for "postpack" in "ims-udp-client", continuing
+723 silly run-lifecycle No script for "prepublishOnly" in "ims-webpack-util", continuing
+724 silly run-lifecycle No script for "prepack" in "ims-webpack-main", continuing
+725 silly run-lifecycle No script for "prepack" in "ims-webpack-manifest", continuing
+726 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-webpack
+727 silly run-lifecycle No script for "prepare" in "ims-webpack", continuing
+728 silly run-lifecycle No script for "prepack" in "ims-webpack-util", continuing
+729 silly run-lifecycle No script for "prepublishOnly" in "ims-webpack", continuing
+730 silly run-lifecycle No script for "prepack" in "ims-webpack", continuing
+731 silly run-lifecycle No script for "postpack" in "ims-udp-server", continuing
+732 silly run-lifecycle No script for "postpack" in "ims-upload", continuing
+733 silly run-lifecycle No script for "postpack" in "ims-user", continuing
+734 silly run-lifecycle No script for "postpack" in "ims-util", continuing
+735 silly run-lifecycle No script for "postpack" in "ims-web", continuing
+736 silly run-lifecycle No script for "postpack" in "ims-webpack-addon", continuing
+737 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-ws-client
+738 silly run-lifecycle No script for "prepare" in "ims-ws-client", continuing
+739 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-ws-server
+740 silly run-lifecycle No script for "prepare" in "ims-ws-server", continuing
+741 silly run-lifecycle No script for "postpack" in "ims-webpack-main", continuing
+742 silly run-lifecycle No script for "prepublishOnly" in "ims-ws-client", continuing
+743 silly run-lifecycle No script for "postpack" in "ims-webpack-manifest", continuing
+744 silly run-lifecycle No script for "prepublishOnly" in "ims-ws-server", continuing
+745 silly run-lifecycle No script for "postpack" in "ims-webpack-util", continuing
+746 silly run-lifecycle No script for "prepack" in "ims-ws-client", continuing
+747 silly run-lifecycle No script for "prepack" in "ims-ws-server", continuing
+748 silly run-lifecycle No script for "postpack" in "ims-webpack", continuing
+749 silly run-lifecycle No script for "postpack" in "ims-ws-client", continuing
+750 silly run-lifecycle No script for "postpack" in "ims-ws-server", continuing
+751 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-core
+752 silly run-lifecycle No script for "prepare" in "ims-core", continuing
+753 silly run-lifecycle No script for "prepublishOnly" in "ims-core", continuing
+754 silly run-lifecycle No script for "prepack" in "ims-core", continuing
+755 silly run-lifecycle No script for "postpack" in "ims-core", continuing
+756 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-http
+757 verbose packDirectory /Volumes/meepo/nestchain/publish/ims-wxapp-demo
+758 silly run-lifecycle No script for "prepare" in "ims-http", continuing
+759 silly run-lifecycle No script for "prepare" in "ims-wxapp", continuing
+760 silly run-lifecycle No script for "prepublishOnly" in "ims-http", continuing
+761 silly run-lifecycle No script for "prepublishOnly" in "ims-wxapp", continuing
+762 silly run-lifecycle No script for "prepack" in "ims-http", continuing
+763 silly run-lifecycle No script for "prepack" in "ims-wxapp", continuing
+764 silly run-lifecycle No script for "postpack" in "ims-wxapp", continuing
+765 silly run-lifecycle No script for "postpack" in "ims-http", continuing
+766 silly run-lifecycle No script for "postpack" in "root", continuing
+767 verbose publish ims-addon
+768 verbose publish ims-bin
+769 verbose publish ims-cache
+770 verbose publish ims-chain
+771 silly run-lifecycle No script for "publish" in "ims-addon", continuing
+772 silly run-lifecycle No script for "postpublish" in "ims-addon", continuing
+773 success published ims-addon 0.0.6
+774 notice
+775 notice 📦  ims-addon@0.0.6
+776 notice === Tarball Contents ===
+777 notice 639B package.json
+777 notice 17B  README.md
+777 notice 166B src/index.js
+778 notice === Tarball Details ===
+779 notice name:          ims-addon
+779 notice version:       0.0.6
+779 notice filename:      ims-addon-0.0.6.tgz
+779 notice package size:  631 B
+779 notice unpacked size: 822 B
+779 notice shasum:        a2db2a3c49ca4d5f51c860d15850f6ef5579a595
+779 notice integrity:     sha512-12VnCRZQwqQwU[...]J1yJhHPs7P/ug==
+779 notice total files:   3
+780 notice
+781 verbose publish ims-child_process
+782 http fetch PUT 200 https://registry.npmjs.org/ims-addon 4924ms
+783 silly run-lifecycle No script for "publish" in "ims-cache", continuing
+784 silly run-lifecycle No script for "postpublish" in "ims-cache", continuing
+785 success published ims-cache 0.0.6
+786 notice
+787 notice 📦  ims-cache@0.0.6
+788 notice === Tarball Contents ===
+789 notice 643B package.json
+789 notice 119B README.md
+790 notice === Tarball Details ===
+791 notice name:          ims-cache
+791 notice version:       0.0.6
+791 notice filename:      ims-cache-0.0.6.tgz
+791 notice package size:  555 B
+791 notice unpacked size: 762 B
+791 notice shasum:        f47ee44ff8fe92e047f8865316af29869f5dcc99
+791 notice integrity:     sha512-YJvWIGrXkc6lj[...]ByTelC0O/zXWg==
+791 notice total files:   2
+792 notice
+793 verbose publish ims-consensus
+794 http fetch PUT 200 https://registry.npmjs.org/ims-cache 4928ms
+795 silly run-lifecycle No script for "publish" in "ims-bin", continuing
+796 silly run-lifecycle No script for "postpublish" in "ims-bin", continuing
+797 success published ims-bin 0.0.6
+798 notice
+799 notice 📦  ims-bin@0.0.6
+800 notice === Tarball Contents ===
+801 notice 637B  package.json
+801 notice 546B  README.md
+801 notice 2.1kB src/index.js
+802 notice === Tarball Details ===
+803 notice name:          ims-bin
+803 notice version:       0.0.6
+803 notice filename:      ims-bin-0.0.6.tgz
+803 notice package size:  1.5 kB
+803 notice unpacked size: 3.3 kB
+803 notice shasum:        5b075e7bc98c33897c5b97c998b484690e344e33
+803 notice integrity:     sha512-NntqpByvAhphg[...]JAW8zpIaGUeqQ==
+803 notice total files:   3
+804 notice
+805 verbose publish ims-const
+806 http fetch PUT 200 https://registry.npmjs.org/ims-bin 5025ms
+807 silly run-lifecycle No script for "publish" in "ims-chain", continuing
+808 silly run-lifecycle No script for "postpublish" in "ims-chain", continuing
+809 success published ims-chain 0.0.6
+810 notice
+811 notice 📦  ims-chain@0.0.6
+812 notice === Tarball Contents ===
+813 notice 643B package.json
+813 notice 117B README.md
+814 notice === Tarball Details ===
+815 notice name:          ims-chain
+815 notice version:       0.0.6
+815 notice filename:      ims-chain-0.0.6.tgz
+815 notice package size:  577 B
+815 notice unpacked size: 760 B
+815 notice shasum:        5877f12b48aa94d78e8a6a8bed2d4613829ad32e
+815 notice integrity:     sha512-TuoXUQVb6PYDu[...]1TK5FZi2oEwaQ==
+815 notice total files:   2
+816 notice
+817 verbose publish ims-crypto
+818 http fetch PUT 200 https://registry.npmjs.org/ims-chain 5026ms
+819 silly run-lifecycle No script for "publish" in "ims-consensus", continuing
+820 silly run-lifecycle No script for "postpublish" in "ims-consensus", continuing
+821 success published ims-consensus 0.0.6
+822 notice
+823 notice 📦  ims-consensus@0.0.6
+824 notice === Tarball Contents ===
+825 notice 652B package.json
+825 notice 132B README.md
+826 notice === Tarball Details ===
+827 notice name:          ims-consensus
+827 notice version:       0.0.6
+827 notice filename:      ims-consensus-0.0.6.tgz
+827 notice package size:  590 B
+827 notice unpacked size: 784 B
+827 notice shasum:        c59834828051893db11216cd4c6c2e4b99200dac
+827 notice integrity:     sha512-BsAqsdpepwqsg[...]W6Cm/L+2NyS0Q==
+827 notice total files:   2
+828 notice
+829 verbose publish ims-db
+830 http fetch PUT 200 https://registry.npmjs.org/ims-consensus 5704ms
+831 silly run-lifecycle No script for "publish" in "ims-const", continuing
+832 silly run-lifecycle No script for "postpublish" in "ims-const", continuing
+833 success published ims-const 0.0.6
+834 notice
+835 notice 📦  ims-const@0.0.6
+836 notice === Tarball Contents ===
+837 notice 643B package.json
+837 notice 119B README.md
+838 notice === Tarball Details ===
+839 notice name:          ims-const
+839 notice version:       0.0.6
+839 notice filename:      ims-const-0.0.6.tgz
+839 notice package size:  553 B
+839 notice unpacked size: 762 B
+839 notice shasum:        f1bae5dfe7c2c6a6e03959e2a40bad80a63bba9b
+839 notice integrity:     sha512-VyrtZqklUVnsJ[...]o13P8xZuOC3rA==
+839 notice total files:   2
+840 notice
+841 verbose publish ims-decorator
+842 http fetch PUT 200 https://registry.npmjs.org/ims-const 5876ms
+843 silly run-lifecycle No script for "publish" in "ims-child_process", continuing
+844 silly run-lifecycle No script for "postpublish" in "ims-child_process", continuing
+845 success published ims-child_process 0.0.6
+846 notice
+847 notice 📦  ims-child_process@0.0.6
+848 notice === Tarball Contents ===
+849 notice 659B package.json
+849 notice 271B README.md
+850 notice === Tarball Details ===
+851 notice name:          ims-child_process
+851 notice version:       0.0.6
+851 notice filename:      ims-child_process-0.0.6.tgz
+851 notice package size:  612 B
+851 notice unpacked size: 930 B
+851 notice shasum:        f32604e2e5674be2c2fe2e2c35b9f7def420da70
+851 notice integrity:     sha512-ZMOBz8zg6slTC[...]sCbqeZPRSZmrw==
+851 notice total files:   2
+852 notice
+853 verbose publish ims-dns
+854 http fetch PUT 200 https://registry.npmjs.org/ims-child_process 7582ms
+855 silly run-lifecycle No script for "publish" in "ims-crypto", continuing
+856 silly run-lifecycle No script for "postpublish" in "ims-crypto", continuing
+857 success published ims-crypto 0.0.6
+858 notice
+859 notice 📦  ims-crypto@0.0.6
+860 notice === Tarball Contents ===
+861 notice 645B  package.json
+861 notice 1.0kB README.md
+862 notice === Tarball Details ===
+863 notice name:          ims-crypto
+863 notice version:       0.0.6
+863 notice filename:      ims-crypto-0.0.6.tgz
+863 notice package size:  1.1 kB
+863 notice unpacked size: 1.7 kB
+863 notice shasum:        465fb37d57d9f60125d70991ba75db130706d580
+863 notice integrity:     sha512-tQUK678IfmS11[...]xtUD34QmHBXSA==
+863 notice total files:   2
+864 notice
+865 verbose publish ims-docker
+866 http fetch PUT 200 https://registry.npmjs.org/ims-crypto 7666ms
+867 silly run-lifecycle No script for "publish" in "ims-decorator", continuing
+868 silly run-lifecycle No script for "postpublish" in "ims-decorator", continuing
+869 success published ims-decorator 0.0.6
+870 notice
+871 notice 📦  ims-decorator@0.0.6
+872 notice === Tarball Contents ===
+873 notice 625B  package.json
+873 notice 1.2kB README.md
+874 notice === Tarball Details ===
+875 notice name:          ims-decorator
+875 notice version:       0.0.6
+875 notice filename:      ims-decorator-0.0.6.tgz
+875 notice package size:  925 B
+875 notice unpacked size: 1.8 kB
+875 notice shasum:        0d4ab9ce750383a0be21c2dc8998db3ac51b8479
+875 notice integrity:     sha512-EC+0748nU5R9Z[...]OBxEp9Gp2zaaA==
+875 notice total files:   2
+876 notice
+877 verbose publish ims-error
+878 http fetch PUT 200 https://registry.npmjs.org/ims-decorator 3106ms
+879 silly run-lifecycle No script for "publish" in "ims-db", continuing
+880 silly run-lifecycle No script for "postpublish" in "ims-db", continuing
+881 success published ims-db 0.0.6
+882 notice
+883 notice 📦  ims-db@0.0.6
+884 notice === Tarball Contents ===
+885 notice 637B package.json
+885 notice 880B README.md
+886 notice === Tarball Details ===
+887 notice name:          ims-db
+887 notice version:       0.0.6
+887 notice filename:      ims-db-0.0.6.tgz
+887 notice package size:  1.1 kB
+887 notice unpacked size: 1.5 kB
+887 notice shasum:        4c9a55ae909fb10c75f23c0c96d14d3e05659f62
+887 notice integrity:     sha512-DR98/19uT0wpM[...]jd+uv53RgvXUg==
+887 notice total files:   2
+888 notice
+889 verbose publish ims-fs
+890 http fetch PUT 200 https://registry.npmjs.org/ims-db 4298ms
+891 silly run-lifecycle No script for "publish" in "ims-error", continuing
+892 silly run-lifecycle No script for "postpublish" in "ims-error", continuing
+893 success published ims-error 0.0.6
+894 notice
+895 notice 📦  ims-error@0.0.6
+896 notice === Tarball Contents ===
+897 notice 643B package.json
+897 notice 119B README.md
+898 notice === Tarball Details ===
+899 notice name:          ims-error
+899 notice version:       0.0.6
+899 notice filename:      ims-error-0.0.6.tgz
+899 notice package size:  554 B
+899 notice unpacked size: 762 B
+899 notice shasum:        24add751a0b6104ece4c6e1640b6a6c14a14f487
+899 notice integrity:     sha512-sa5EoPf8xYDNb[...]UT8loXOl+ivyg==
+899 notice total files:   2
+900 notice
+901 verbose publish ims-grpc
+902 http fetch PUT 200 https://registry.npmjs.org/ims-error 3126ms
+903 silly run-lifecycle No script for "publish" in "ims-dns", continuing
+904 silly run-lifecycle No script for "postpublish" in "ims-dns", continuing
+905 success published ims-dns 0.0.6
+906 notice
+907 notice 📦  ims-dns@0.0.6
+908 notice === Tarball Contents ===
+909 notice 639B package.json
+909 notice 130B README.md
+910 notice === Tarball Details ===
+911 notice name:          ims-dns
+911 notice version:       0.0.6
+911 notice filename:      ims-dns-0.0.6.tgz
+911 notice package size:  603 B
+911 notice unpacked size: 769 B
+911 notice shasum:        e60e65bc366bca38af3c3cef73f62eb10f423920
+911 notice integrity:     sha512-q2qkZKM85yQdM[...]X87s9STRVzw2g==
+911 notice total files:   2
+912 notice
+913 verbose publish ims-gulp
+914 http fetch PUT 200 https://registry.npmjs.org/ims-dns 5181ms
+915 silly run-lifecycle No script for "publish" in "ims-docker", continuing
+916 silly run-lifecycle No script for "postpublish" in "ims-docker", continuing
+917 success published ims-docker 0.0.6
+918 notice
+919 notice 📦  ims-docker@0.0.6
+920 notice === Tarball Contents ===
+921 notice 621B package.json
+921 notice 122B README.md
+922 notice === Tarball Details ===
+923 notice name:          ims-docker
+923 notice version:       0.0.6
+923 notice filename:      ims-docker-0.0.6.tgz
+923 notice package size:  536 B
+923 notice unpacked size: 743 B
+923 notice shasum:        2d5da65635aeca76bc564d035d4f1241fbb6ba5d
+923 notice integrity:     sha512-xm+A+tg9OWiUL[...]04KMMZZkiMQ8w==
+923 notice total files:   2
+924 notice
+925 verbose publish ims-install-addon
+926 http fetch PUT 200 https://registry.npmjs.org/ims-docker 5117ms
+927 silly run-lifecycle No script for "publish" in "ims-fs", continuing
+928 silly run-lifecycle No script for "postpublish" in "ims-fs", continuing
+929 success published ims-fs 0.0.6
+930 notice
+931 notice 📦  ims-fs@0.0.6
+932 notice === Tarball Contents ===
+933 notice 637B package.json
+933 notice 170B README.md
+934 notice === Tarball Details ===
+935 notice name:          ims-fs
+935 notice version:       0.0.6
+935 notice filename:      ims-fs-0.0.6.tgz
+935 notice package size:  639 B
+935 notice unpacked size: 807 B
+935 notice shasum:        d475399d37701e2c4e67f005bbac32f6eed0de4b
+935 notice integrity:     sha512-cX/Jvd5otjXUQ[...]PFZmmzLmYhXsQ==
+935 notice total files:   2
+936 notice
+937 verbose publish ims-install
+938 http fetch PUT 200 https://registry.npmjs.org/ims-fs 3125ms
+939 silly run-lifecycle No script for "publish" in "ims-grpc", continuing
+940 silly run-lifecycle No script for "postpublish" in "ims-grpc", continuing
+941 success published ims-grpc 0.0.6
+942 notice
+943 notice 📦  ims-grpc@0.0.6
+944 notice === Tarball Contents ===
+945 notice 641B  package.json
+945 notice 2.5kB README.md
+946 notice === Tarball Details ===
+947 notice name:          ims-grpc
+947 notice version:       0.0.6
+947 notice filename:      ims-grpc-0.0.6.tgz
+947 notice package size:  1.9 kB
+947 notice unpacked size: 3.2 kB
+947 notice shasum:        9633f9dc73adabd2d61b4d20a3a3263bd73f6a06
+947 notice integrity:     sha512-Y+VrPa9lYr+Lk[...]6IfBMmrE5drNA==
+947 notice total files:   2
+948 notice
+949 verbose publish ims-ipfs
+950 http fetch PUT 200 https://registry.npmjs.org/ims-grpc 3794ms
+951 silly run-lifecycle No script for "publish" in "ims-install", continuing
+952 silly run-lifecycle No script for "postpublish" in "ims-install", continuing
+953 success published ims-install 0.0.6
+954 notice
+955 notice 📦  ims-install@0.0.6
+956 notice === Tarball Contents ===
+957 notice 647B package.json
+957 notice 46B  README.md
+958 notice === Tarball Details ===
+959 notice name:          ims-install
+959 notice version:       0.0.6
+959 notice filename:      ims-install-0.0.6.tgz
+959 notice package size:  543 B
+959 notice unpacked size: 693 B
+959 notice shasum:        ccbe38598ac8a7c2be7de2cda62984269da0ce5d
+959 notice integrity:     sha512-Isqw5ONbtLASW[...]AA5xpMGiGXMYg==
+959 notice total files:   2
+960 notice
+961 verbose publish ims-level
+962 http fetch PUT 200 https://registry.npmjs.org/ims-install 2972ms
+963 silly run-lifecycle No script for "publish" in "ims-gulp", continuing
+964 silly run-lifecycle No script for "postpublish" in "ims-gulp", continuing
+965 success published ims-gulp 0.0.6
+966 notice
+967 notice 📦  ims-gulp@0.0.6
+968 notice === Tarball Contents ===
+969 notice 572B  package.json
+969 notice 116B  README.md
+969 notice 131B  src/index.d.ts
+969 notice 1.0kB src/index.js
+969 notice 90B   src/tasks/clean.d.ts
+969 notice 341B  src/tasks/clean.js
+969 notice 156B  src/tasks/copy.d.ts
+969 notice 360B  src/tasks/copy.js
+969 notice 186B  src/tasks/image.d.ts
+969 notice 653B  src/tasks/image.js
+969 notice 120B  src/tasks/index.d.ts
+969 notice 361B  src/tasks/index.js
+969 notice 185B  src/tasks/scss.d.ts
+969 notice 460B  src/tasks/scss.js
+969 notice 183B  src/tasks/ts.d.ts
+969 notice 549B  src/tasks/ts.js
+970 notice === Tarball Details ===
+971 notice name:          ims-gulp
+971 notice version:       0.0.6
+971 notice filename:      ims-gulp-0.0.6.tgz
+971 notice package size:  2.0 kB
+971 notice unpacked size: 5.5 kB
+971 notice shasum:        3ec04ad312a0821b0a014ad32ecc9a4822e56ac3
+971 notice integrity:     sha512-riQHbSuPcAeq8[...]yrh93IKRKAQrw==
+971 notice total files:   16
+972 notice
+973 verbose publish ims-merkle
+974 http fetch PUT 200 https://registry.npmjs.org/ims-gulp 4451ms
+975 silly run-lifecycle No script for "publish" in "ims-install-addon", continuing
+976 silly run-lifecycle No script for "postpublish" in "ims-install-addon", continuing
+977 success published ims-install-addon 0.0.6
+978 notice
+979 notice 📦  ims-install-addon@0.0.6
+980 notice === Tarball Contents ===
+981 notice 659B package.json
+981 notice 38B  README.md
+982 notice === Tarball Details ===
+983 notice name:          ims-install-addon
+983 notice version:       0.0.6
+983 notice filename:      ims-install-addon-0.0.6.tgz
+983 notice package size:  529 B
+983 notice unpacked size: 697 B
+983 notice shasum:        28324f0f73e722889d262c828f80a6114884a8ce
+983 notice integrity:     sha512-kioKevztpVJPT[...]Ap+cdPOSmy39A==
+983 notice total files:   2
+984 notice
+985 verbose publish ims-micro
+986 http fetch PUT 200 https://registry.npmjs.org/ims-install-addon 4639ms
+987 silly run-lifecycle No script for "publish" in "ims-ipfs", continuing
+988 silly run-lifecycle No script for "postpublish" in "ims-ipfs", continuing
+989 success published ims-ipfs 0.0.6
+990 notice
+991 notice 📦  ims-ipfs@0.0.6
+992 notice === Tarball Contents ===
+993 notice 641B package.json
+993 notice 116B README.md
+994 notice === Tarball Details ===
+995 notice name:          ims-ipfs
+995 notice version:       0.0.6
+995 notice filename:      ims-ipfs-0.0.6.tgz
+995 notice package size:  552 B
+995 notice unpacked size: 757 B
+995 notice shasum:        a25741ea2b158b008fb9ca2daace1983181dafcd
+995 notice integrity:     sha512-tgJ37en118t2b[...]zTOL41UYxVbHQ==
+995 notice total files:   2
+996 notice
+997 verbose publish ims-mongo
+998 http fetch PUT 200 https://registry.npmjs.org/ims-ipfs 2903ms
+999 silly run-lifecycle No script for "publish" in "ims-level", continuing
+1000 silly run-lifecycle No script for "postpublish" in "ims-level", continuing
+1001 success published ims-level 0.0.6
+1002 notice
+1003 notice 📦  ims-level@0.0.6
+1004 notice === Tarball Contents ===
+1005 notice 643B package.json
+1005 notice 119B README.md
+1006 notice === Tarball Details ===
+1007 notice name:          ims-level
+1007 notice version:       0.0.6
+1007 notice filename:      ims-level-0.0.6.tgz
+1007 notice package size:  557 B
+1007 notice unpacked size: 762 B
+1007 notice shasum:        8891f55e66efb0787b62f848b2598ed42e09e944
+1007 notice integrity:     sha512-0duCZGh4SWBi3[...]q16YpipO3l0ig==
+1007 notice total files:   2
+1008 notice
+1009 verbose publish ims-mqtt
+1010 http fetch PUT 200 https://registry.npmjs.org/ims-level 3875ms
+1011 silly run-lifecycle No script for "publish" in "ims-merkle", continuing
+1012 silly run-lifecycle No script for "postpublish" in "ims-merkle", continuing
+1013 success published ims-merkle 0.0.6
+1014 notice
+1015 notice 📦  ims-merkle@0.0.6
+1016 notice === Tarball Contents ===
+1017 notice 645B package.json
+1017 notice 122B README.md
+1018 notice === Tarball Details ===
+1019 notice name:          ims-merkle
+1019 notice version:       0.0.6
+1019 notice filename:      ims-merkle-0.0.6.tgz
+1019 notice package size:  559 B
+1019 notice unpacked size: 767 B
+1019 notice shasum:        6dd2cedd5c84fe580b1f3d440db63f02c2e3a529
+1019 notice integrity:     sha512-cqCN4uYHBMHh6[...]HKz4mT8QUE+ZA==
+1019 notice total files:   2
+1020 notice
+1021 verbose publish ims-nest
+1022 http fetch PUT 200 https://registry.npmjs.org/ims-merkle 4378ms
+1023 silly run-lifecycle No script for "publish" in "ims-micro", continuing
+1024 silly run-lifecycle No script for "postpublish" in "ims-micro", continuing
+1025 success published ims-micro 0.0.6
+1026 notice
+1027 notice 📦  ims-micro@0.0.6
+1028 notice === Tarball Contents ===
+1029 notice 643B package.json
+1029 notice 149B README.md
+1030 notice === Tarball Details ===
+1031 notice name:          ims-micro
+1031 notice version:       0.0.6
+1031 notice filename:      ims-micro-0.0.6.tgz
+1031 notice package size:  611 B
+1031 notice unpacked size: 792 B
+1031 notice shasum:        c5f0bb8e80c8948da27b21af16a2c6ffe524498c
+1031 notice integrity:     sha512-ZH8LVEn++eVrV[...]qlDrErwx6veqg==
+1031 notice total files:   2
+1032 notice
+1033 verbose publish ims-node
+1034 http fetch PUT 200 https://registry.npmjs.org/ims-micro 4397ms
+1035 silly run-lifecycle No script for "publish" in "ims-mongo", continuing
+1036 silly run-lifecycle No script for "postpublish" in "ims-mongo", continuing
+1037 success published ims-mongo 0.0.6
+1038 notice
+1039 notice 📦  ims-mongo@0.0.6
+1040 notice === Tarball Contents ===
+1041 notice 643B package.json
+1041 notice 119B README.md
+1042 notice === Tarball Details ===
+1043 notice name:          ims-mongo
+1043 notice version:       0.0.6
+1043 notice filename:      ims-mongo-0.0.6.tgz
+1043 notice package size:  556 B
+1043 notice unpacked size: 762 B
+1043 notice shasum:        da08a92c8f98b8e5a6e81d0421f7c09350e10b70
+1043 notice integrity:     sha512-y3K+wmV7vtJCu[...]b0d08UA3I+tZg==
+1043 notice total files:   2
+1044 notice
+1045 verbose publish ims-os
+1046 http fetch PUT 200 https://registry.npmjs.org/ims-mongo 3843ms
+1047 silly run-lifecycle No script for "publish" in "ims-mqtt", continuing
+1048 silly run-lifecycle No script for "postpublish" in "ims-mqtt", continuing
+1049 success published ims-mqtt 0.0.6
+1050 notice
+1051 notice 📦  ims-mqtt@0.0.6
+1052 notice === Tarball Contents ===
+1053 notice 641B  package.json
+1053 notice 1.7kB README.md
+1054 notice === Tarball Details ===
+1055 notice name:          ims-mqtt
+1055 notice version:       0.0.6
+1055 notice filename:      ims-mqtt-0.0.6.tgz
+1055 notice package size:  1.6 kB
+1055 notice unpacked size: 2.3 kB
+1055 notice shasum:        9716cef9fad70084076d06857f31f74dc0dad7f2
+1055 notice integrity:     sha512-94Qnrs016xwsE[...]HMzjVIRu/hwSA==
+1055 notice total files:   2
+1056 notice
+1057 verbose publish ims-p2p-client
+1058 http fetch PUT 200 https://registry.npmjs.org/ims-mqtt 4394ms
+1059 silly run-lifecycle No script for "publish" in "ims-nest", continuing
+1060 silly run-lifecycle No script for "postpublish" in "ims-nest", continuing
+1061 success published ims-nest 0.0.6
+1062 notice
+1063 notice 📦  ims-nest@0.0.6
+1064 notice === Tarball Contents ===
+1065 notice 641B package.json
+1065 notice 116B README.md
+1066 notice === Tarball Details ===
+1067 notice name:          ims-nest
+1067 notice version:       0.0.6
+1067 notice filename:      ims-nest-0.0.6.tgz
+1067 notice package size:  552 B
+1067 notice unpacked size: 757 B
+1067 notice shasum:        c38c17f4d95c35c94f97fc8595b5f83e429cd1a9
+1067 notice integrity:     sha512-T7GtAtIfGuERG[...]BBbv8X9oZyEUQ==
+1067 notice total files:   2
+1068 notice
+1069 verbose publish ims-p2p-server
+1070 http fetch PUT 200 https://registry.npmjs.org/ims-nest 3725ms
+1071 silly run-lifecycle No script for "publish" in "ims-node", continuing
+1072 silly run-lifecycle No script for "postpublish" in "ims-node", continuing
+1073 success published ims-node 0.0.6
+1074 notice
+1075 notice 📦  ims-node@0.0.6
+1076 notice === Tarball Contents ===
+1077 notice 641B package.json
+1077 notice 47B  README.md
+1078 notice === Tarball Details ===
+1079 notice name:          ims-node
+1079 notice version:       0.0.6
+1079 notice filename:      ims-node-0.0.6.tgz
+1079 notice package size:  545 B
+1079 notice unpacked size: 688 B
+1079 notice shasum:        cf63d78337f5b228fcad9d90d0ad80b7f926d7c3
+1079 notice integrity:     sha512-1P37je37PoYeu[...]PqyvMz5U3Nyng==
+1079 notice total files:   2
+1080 notice
+1081 verbose publish ims-p2p
+1082 http fetch PUT 200 https://registry.npmjs.org/ims-node 3816ms
+1083 silly run-lifecycle No script for "publish" in "ims-os", continuing
+1084 silly run-lifecycle No script for "postpublish" in "ims-os", continuing
+1085 success published ims-os 0.0.6
+1086 notice
+1087 notice 📦  ims-os@0.0.6
+1088 notice === Tarball Contents ===
+1089 notice 637B package.json
+1089 notice 33B  README.md
+1090 notice === Tarball Details ===
+1091 notice name:          ims-os
+1091 notice version:       0.0.6
+1091 notice filename:      ims-os-0.0.6.tgz
+1091 notice package size:  528 B
+1091 notice unpacked size: 670 B
+1091 notice shasum:        317dc9fbd447d2593fe3db93e9cb1213cb124b43
+1091 notice integrity:     sha512-Ml6NqTnLqU930[...]Pyw8SkxnQ8AFw==
+1091 notice total files:   2
+1092 notice
+1093 verbose publish ims-peer
+1094 http fetch PUT 200 https://registry.npmjs.org/ims-os 3005ms
+1095 silly run-lifecycle No script for "publish" in "ims-p2p-client", continuing
+1096 silly run-lifecycle No script for "postpublish" in "ims-p2p-client", continuing
+1097 success published ims-p2p-client 0.0.6
+1098 notice
+1099 notice 📦  ims-p2p-client@0.0.6
+1100 notice === Tarball Contents ===
+1101 notice 653B package.json
+1101 notice 133B README.md
+1102 notice === Tarball Details ===
+1103 notice name:          ims-p2p-client
+1103 notice version:       0.0.6
+1103 notice filename:      ims-p2p-client-0.0.6.tgz
+1103 notice package size:  563 B
+1103 notice unpacked size: 786 B
+1103 notice shasum:        1552d7691e24c885239af4ed58e685cd69e4ffd4
+1103 notice integrity:     sha512-xfypfoCkF7oyv[...]a7B5HND3ZS9VQ==
+1103 notice total files:   2
+1104 notice
+1105 verbose publish ims-platform-android
+1106 http fetch PUT 200 https://registry.npmjs.org/ims-p2p-client 3748ms
+1107 silly run-lifecycle No script for "publish" in "ims-p2p-server", continuing
+1108 silly run-lifecycle No script for "postpublish" in "ims-p2p-server", continuing
+1109 success published ims-p2p-server 0.0.6
+1110 notice
+1111 notice 📦  ims-p2p-server@0.0.6
+1112 notice === Tarball Contents ===
+1113 notice 653B package.json
+1113 notice 133B README.md
+1114 notice === Tarball Details ===
+1115 notice name:          ims-p2p-server
+1115 notice version:       0.0.6
+1115 notice filename:      ims-p2p-server-0.0.6.tgz
+1115 notice package size:  562 B
+1115 notice unpacked size: 786 B
+1115 notice shasum:        91488f683b3382d3f410840297e3dba78b03d28e
+1115 notice integrity:     sha512-wXj0kbZ5we4eg[...]xDA0EwDAivA2w==
+1115 notice total files:   2
+1116 notice
+1117 verbose publish ims-platform-browser
+1118 http fetch PUT 200 https://registry.npmjs.org/ims-p2p-server 3013ms
+1119 silly run-lifecycle No script for "publish" in "ims-peer", continuing
+1120 silly run-lifecycle No script for "postpublish" in "ims-peer", continuing
+1121 success published ims-peer 0.0.6
+1122 notice
+1123 notice 📦  ims-peer@0.0.6
+1124 notice === Tarball Contents ===
+1125 notice 641B package.json
+1125 notice 196B README.md
+1126 notice === Tarball Details ===
+1127 notice name:          ims-peer
+1127 notice version:       0.0.6
+1127 notice filename:      ims-peer-0.0.6.tgz
+1127 notice package size:  649 B
+1127 notice unpacked size: 837 B
+1127 notice shasum:        f83cd3b94aeb7b2d21b009af316fdd0b66795c16
+1127 notice integrity:     sha512-wt7TA3qpcCuN7[...]xqfXb81pnna5A==
+1127 notice total files:   2
+1128 notice
+1129 verbose publish ims-platform-electron
+1130 http fetch PUT 200 https://registry.npmjs.org/ims-peer 5083ms
+1131 silly run-lifecycle No script for "publish" in "ims-p2p", continuing
+1132 silly run-lifecycle No script for "postpublish" in "ims-p2p", continuing
+1133 success published ims-p2p 0.0.6
+1134 notice
+1135 notice 📦  ims-p2p@0.0.6
+1136 notice === Tarball Contents ===
+1137 notice 639B package.json
+1137 notice 263B README.md
+1138 notice === Tarball Details ===
+1139 notice name:          ims-p2p
+1139 notice version:       0.0.6
+1139 notice filename:      ims-p2p-0.0.6.tgz
+1139 notice package size:  702 B
+1139 notice unpacked size: 902 B
+1139 notice shasum:        1231ce360629e3ef0888419d7a39aad4e381da2f
+1139 notice integrity:     sha512-s3xBtIevg/2EN[...]q9qHgkDyiDAKw==
+1139 notice total files:   2
+1140 notice
+1141 verbose publish ims-platform-ios
+1142 http fetch PUT 200 https://registry.npmjs.org/ims-p2p 5279ms
+1143 silly run-lifecycle No script for "publish" in "ims-platform-android", continuing
+1144 silly run-lifecycle No script for "postpublish" in "ims-platform-android", continuing
+1145 success published ims-platform-android 0.0.6
+1146 notice
+1147 notice 📦  ims-platform-android@0.0.6
+1148 notice === Tarball Contents ===
+1149 notice 665B package.json
+1149 notice 151B README.md
+1150 notice === Tarball Details ===
+1151 notice name:          ims-platform-android
+1151 notice version:       0.0.6
+1151 notice filename:      ims-platform-android-0.0.6.tgz
+1151 notice package size:  568 B
+1151 notice unpacked size: 816 B
+1151 notice shasum:        d3e84f23fb73ce65cabe068285684bdac355dfc9
+1151 notice integrity:     sha512-0n5fZWyjQ1+mD[...]XhUAbCIMLS15A==
+1151 notice total files:   2
+1152 notice
+1153 verbose publish ims-platform-node
+1154 http fetch PUT 200 https://registry.npmjs.org/ims-platform-android 2912ms
+1155 silly run-lifecycle No script for "publish" in "ims-platform-browser", continuing
+1156 silly run-lifecycle No script for "postpublish" in "ims-platform-browser", continuing
+1157 success published ims-platform-browser 0.0.6
+1158 notice
+1159 notice 📦  ims-platform-browser@0.0.6
+1160 notice === Tarball Contents ===
+1161 notice 599B  package.json
+1161 notice 151B  README.md
+1161 notice 271B  src/httpBackend.d.ts
+1161 notice 7.1kB src/httpBackend.js
+1161 notice 57B   src/index.d.ts
+1161 notice 220B  src/index.js
+1161 notice 50B   src/module.d.ts
+1161 notice 670B  src/module.js
+1162 notice === Tarball Details ===
+1163 notice name:          ims-platform-browser
+1163 notice version:       0.0.6
+1163 notice filename:      ims-platform-browser-0.0.6.tgz
+1163 notice package size:  2.7 kB
+1163 notice unpacked size: 9.1 kB
+1163 notice shasum:        c721fc4cc06b68c92514a371236fe0a0e4e4651b
+1163 notice integrity:     sha512-5JQ9riAmP2Jpo[...]B8sGUbQQExrvw==
+1163 notice total files:   8
+1164 notice
+1165 verbose publish ims-platform-wxapp
+1166 http fetch PUT 200 https://registry.npmjs.org/ims-platform-browser 4095ms
+1167 http fetch PUT 403 https://registry.npmjs.org/ims-platform-wxapp 402ms
+1168 error Error: 403 Forbidden - PUT https://registry.npmjs.org/ims-platform-wxapp - You cannot publish over the previously published versions: 0.0.6.
+1168 error     at res.buffer.catch.then.body (/Volumes/meepo/nestchain/node_modules/npm-registry-fetch/check-response.js:104:15)

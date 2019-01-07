@@ -26,5 +26,6 @@
   "dependencies": {
     "@types/execa": "^0.9.0",
     "execa": "^1.0.0"
-  }
+  },
+  "gitHead": "1601a6fe81d2af398482f1bed04512d9776c0c86"
 }
