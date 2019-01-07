@@ -1,0 +1,30 @@
+{
+  "name": "ims-bin",
+  "version": "0.0.10",
+  "description": "> TODO: description",
+  "author": "meepobrother <1037483576@qq.com>",
+  "homepage": "https://github.com/iwe7/nestchain#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "miniprogram": "lib",
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "ims-const": "^0.0.10",
+    "ims-core": "^0.0.10",
+    "ims-gulp": "^0.0.10",
+    "reflect-metadata": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iwe7/nestchain.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/iwe7/nestchain/issues"
+  }
+}

@@ -1,6 +1,6 @@
 import gulp = require('gulp');
 import typescript = require('gulp-typescript');
-import { ROOT } from 'ims-const';
+const ROOT = process.cwd();
 import path = require('path');
 import { Observable } from 'rxjs';
 export const ts = (

@@ -1,3 +1,5 @@
+/// <reference types="../../ims-types/src/wxapp" />
+
 export * from './module';
 export * from './httpBackend';
 

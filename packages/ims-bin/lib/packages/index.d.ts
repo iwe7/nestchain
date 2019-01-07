@@ -1,6 +1,6 @@
 import { ImsBinBase } from '../base';
 export declare class PackagesCommand extends ImsBinBase {
-    root: string;
+    name: string;
     match(s: string, ...args: any[]): boolean;
-    run(): import("rxjs").Subscription;
+    run(): import("rxjs").Observable<any>;
 }

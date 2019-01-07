@@ -3,7 +3,6 @@ import { ROOT } from 'ims-const';
 import path = require('path');
 import { handlerError } from 'ims-webpack-util';
 import webpack = require('webpack');
-import { gulp } from 'ims-gulp';
 import { ImsBinBase } from '../base';
 
 export class BuildCommand extends ImsBinBase {

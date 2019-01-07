@@ -87,5 +87,5 @@
     "www",
     "_book"
   ],
-  "include": ["packages", "src", "demo"]
+  "include": ["packages", "src", "demo", "packages/ims-types/src/wxapp.d.ts"]
 }

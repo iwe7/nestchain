@@ -1,19 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ims_const_1 = require("ims-const");
-const path = require("path");
 const ims_gulp_1 = require("ims-gulp");
 const base_1 = require("../base");
 class PackagesCommand extends base_1.ImsBinBase {
-    constructor() {
-        super(...arguments);
-        this.root = path.join(ims_const_1.ROOT, 'www/public');
-    }
     match(s, ...args) {
-        return s === 'packages' || s === 'p';
+        if (s === 'packages' || s === 'p') {
+            args.forEach(it => {
+                Object.keys(it).forEach(key => {
+                    let val = it[key];
+                    if (key === 'name' || key === 'n') {
+                        this.name = val;
+                    }
+                });
+            });
+            return true;
+        }
+        return false;
     }
     run() {
-        return ims_gulp_1.gulpPackages();
+        if (this.name) {
+            return ims_gulp_1.gulpPackages(this.name);
+        }
     }
 }
 exports.PackagesCommand = PackagesCommand;

@@ -54,6 +54,5 @@ async function savePeer(p, data) {
 }
 exports.savePeer = savePeer;
 checkInstalled().then(res => {
-    console.log(res);
     debugger;
 });

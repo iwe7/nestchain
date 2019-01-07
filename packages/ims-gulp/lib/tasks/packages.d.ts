@@ -1,1 +1,2 @@
-export declare const gulpPackages: () => import("rxjs").Subscription;
+import { Observable } from 'rxjs';
+export declare const gulpPackages: (name?: string) => Observable<any>;

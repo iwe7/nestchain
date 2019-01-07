@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const path = require("path");
+exports.ROOT = process.cwd();
+exports.DATA_PATH = path.join(exports.ROOT, 'www/data');
+exports.CORE_DB_PATH = path.join(exports.DATA_PATH, 'coredb');
+exports.INSTALL_LOCK = path.join(exports.DATA_PATH, 'install.lock');
+exports.DEFAULT_PRIVATE_KEY = path.join(exports.DATA_PATH, 'private.dat');
+exports.PUBLIC_PATH = path.join(exports.ROOT, 'www/public');
+exports.WEB_TEMPLATE_PATH = path.join(exports.PUBLIC_PATH, 'web');
+exports.WEB_TEMPLATE_INDEX_PATH = path.join(exports.WEB_TEMPLATE_PATH, 'index.html');
+exports.MOBILE_TEMPLATE_PATH = path.join(exports.PUBLIC_PATH, 'mobile');
+exports.MOBILE_TEMPLATE_INDEX_PATH = path.join(exports.MOBILE_TEMPLATE_PATH, 'index.html');
+exports.ADDONS_SRC_PATH = path.join(exports.ROOT, 'src/addons');
+exports.ADDONS_BUILD_PATH = path.join(exports.ROOT, 'www/addons');

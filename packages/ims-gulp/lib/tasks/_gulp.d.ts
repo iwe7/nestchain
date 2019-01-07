@@ -1,2 +1,2 @@
-export declare const gulp: (src: string, dest: string) => (watch: boolean) => import("rxjs").Observable<any>;
+export declare const gulp: (src: string, dest: string, dev?: boolean) => import("rxjs").Observable<[{}, {}, {}]>;
 export default gulp;
