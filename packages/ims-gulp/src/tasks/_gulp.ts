@@ -6,13 +6,13 @@ import { copy } from './copy';
 import { concatMap } from 'rxjs/operators';
 import { of, forkJoin } from 'rxjs';
 
-export const gulp = (src: string, dest: string) => {
+export const gulp = (src: string, dest: string, dev: boolean = false) => {
   return (watch: boolean) => {
     return clean(dest + '/**/*').run.pipe(
       concatMap(() => {
         if (watch) {
           scss([src + '/**/*.scss', src + '/*.scss'], dest).watch();
-          ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest).watch();
+          ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest, dev).watch();
           copy(
             [
               src +
@@ -25,7 +25,7 @@ export const gulp = (src: string, dest: string) => {
         } else {
           return forkJoin(
             scss([src + '/**/*.scss', src + '/*.scss'], dest).run(),
-            ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest).run(),
+            ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest, dev).run(),
             copy(
               [
                 src +
