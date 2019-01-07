@@ -5,10 +5,11 @@
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
-  "main": "src/index.js",
-  "miniprogram": "src",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "miniprogram": "lib",
   "files": [
-    "src"
+    "lib"
   ],
   "repository": {
     "type": "git",

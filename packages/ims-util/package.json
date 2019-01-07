@@ -6,10 +6,11 @@
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "miniprogram": "lib",
   "files": [
-    "src"
+    "lib"
   ],
-  "miniprogram": "src",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iwe7/nestchain.git"
