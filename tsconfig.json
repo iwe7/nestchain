@@ -16,6 +16,8 @@
     "outDir": "./dist",
     "jsx": "react",
     "jsxFactory": "createElement",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "composite": true,
     "baseUrl": ".",
     "rootDir": ".",
@@ -89,5 +91,11 @@
     "www",
     "_book"
   ],
-  "include": ["packages", "src", "demo","packages/ims-ployfill/src/index.ts", "packages/ims-types/src/wxapp.d.ts"]
+  "include": [
+    "packages",
+    "src",
+    "demo",
+    "packages/ims-ployfill/src/index.ts",
+    "packages/ims-types/src/wxapp.d.ts"
+  ]
 }
