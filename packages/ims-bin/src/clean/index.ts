@@ -15,6 +15,6 @@ export class CleanCommand extends ImsBinBase {
      * clean command
      **/
         `);
-    return clean;
+    return clean();
   }
 }

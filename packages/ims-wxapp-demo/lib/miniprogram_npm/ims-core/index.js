@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+tslib_1.__exportStar(require("./type"), exports);
+tslib_1.__exportStar(require("./createPlatform"), exports);
+tslib_1.__exportStar(require("./application_init"), exports);
+tslib_1.__exportStar(require("./application_ref"), exports);
+tslib_1.__exportStar(require("./interface/index"), exports);
+tslib_1.__exportStar(require("./util/index"), exports);
+tslib_1.__exportStar(require("./di/ngModule"), exports);
+tslib_1.__exportStar(require("./di/injectable"), exports);
+tslib_1.__exportStar(require("./di/inject"), exports);
+tslib_1.__exportStar(require("./di/metadata"), exports);
+tslib_1.__exportStar(require("./di/injection_token"), exports);
+tslib_1.__exportStar(require("./di/injector"), exports);
+tslib_1.__exportStar(require("./platform/core"), exports);

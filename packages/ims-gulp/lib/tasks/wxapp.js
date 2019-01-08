@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const fs = require("fs");
-const gulp = require("gulp");
 const ims_const_1 = require("ims-const");
 const rxjs_1 = require("rxjs");
+const fs = require("fs-extra");
 async function gulpWeixin() {
     let name = 'ims-wxapp-demo';
     let deps = [
@@ -32,16 +31,9 @@ function miniprogramNpm(base, name) {
     let rootPath = path.join(ims_const_1.ROOT, 'packages', name);
     if (fs.existsSync(rootPath)) {
         return new rxjs_1.Observable(obser => {
-            let stream = gulp
-                .src([
-                `${ims_const_1.ROOT}/packages/${name}/lib/**/*.js`,
-                `${ims_const_1.ROOT}/packages/${name}/lib/*.js`,
-            ])
-                .pipe(gulp.dest(`${ims_const_1.ROOT}/packages/${base}/lib/miniprogram_npm/${name}`));
-            stream.on('end', () => {
-                obser.next();
-                obser.complete();
-            });
+            fs.copySync(`${ims_const_1.ROOT}/packages/${name}/lib/`, `${ims_const_1.ROOT}/packages/${base}/lib/miniprogram_npm/${name}`);
+            obser.next();
+            obser.complete();
         });
     }
     else {

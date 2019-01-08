@@ -1,17 +1,12 @@
 {
-  "name": "ims-wxapp",
+  "name": "ramda",
   "version": "0.0.13",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
-  "main": "lib/ims-wxapp.js",
-  "dependencies": {
-    "ims-core": "^0.0.13",
-    "ims-http": "^0.0.13",
-    "ims-platform-wxapp": "^0.0.13",
-    "ims-util": "^0.0.13"
-  },
+  "main": "lib/index.js",
+  "miniprogram": "lib",
   "files": [
     "lib"
   ],
@@ -24,6 +19,5 @@
   },
   "bugs": {
     "url": "https://github.com/iwe7/nestchain/issues"
-  },
-  "gitHead": "7321c290fec6b244783a56f10b5dd10eaa1a6de8"
+  }
 }

@@ -15,7 +15,7 @@ class CleanCommand extends base_1.ImsBinBase {
      * clean command
      **/
         `);
-        return ims_gulp_1.clean;
+        return ims_gulp_1.clean();
     }
 }
 exports.CleanCommand = CleanCommand;
