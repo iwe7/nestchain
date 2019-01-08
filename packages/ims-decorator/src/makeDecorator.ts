@@ -7,13 +7,12 @@ import {
   ConstructorMetadata,
   defineMetadata,
 } from './metadata';
-import { isNullOrUndefined, isNumber, isFunction } from 'ims-util';
+import { isNullOrUndefined, isNumber, isFunction, Type } from 'ims-util';
 import {
   getDesignParamTypes,
   getDesignReturnType,
   getDesignType,
 } from './util';
-import { Type } from 'ims-core';
 export interface TypeDecorator {
   (type: any): any;
   (target: any, propertyKey?: any, parameterIndex?: any): void;

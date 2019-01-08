@@ -12,7 +12,7 @@ class BuildCommand extends base_1.ImsBinBase {
         this.root = path.join(ims_const_1.ROOT, 'www/public');
     }
     match(s, ...args) {
-        if (s === 'build' || s === 'b') {
+        if (s === 'build') {
             args.forEach(it => {
                 Object.keys(it).forEach(key => {
                     let val = it[key];

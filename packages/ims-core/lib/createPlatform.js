@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const injection_token_1 = require("./di/injection_token");
 const injector_1 = require("./di/injector");
-const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
-const operators_2 = require("rxjs/operators");
+const ims_rxjs_1 = require("ims-rxjs");
+const operators_1 = require("ims-rxjs/operators");
 const application_init_1 = require("./application_init");
 const application_ref_1 = require("./application_ref");
 const ngModule_1 = require("./di/ngModule");
@@ -17,7 +16,7 @@ class PlatformRef {
         return this._injector;
     }
     bootstrapModule(moduleType) {
-        return ngModule_1.compileNgModuleFactory(this.injector, moduleType).pipe(operators_2.concatMap(factory => {
+        return ngModule_1.compileNgModuleFactory(this.injector, moduleType).pipe(operators_1.concatMap(factory => {
             return this.bootstrapModuleFactory(factory);
         }));
     }
@@ -32,7 +31,7 @@ class PlatformRef {
             ngDoBootstrap(appRef);
         }
         this._modules.push(moduleRef);
-        return rxjs_1.from(initStatus.donePromise).pipe(operators_1.map(() => moduleRef));
+        return ims_rxjs_1.from(initStatus.donePromise).pipe(operators_1.map(() => moduleRef));
     }
 }
 exports.PlatformRef = PlatformRef;

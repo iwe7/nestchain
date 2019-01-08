@@ -7,10 +7,12 @@ const ims_core_1 = require("ims-core");
 const build_1 = require("./build");
 const base_1 = require("./base");
 const parser = require("yargs-parser");
-const operators_1 = require("rxjs/operators");
-const rxjs_1 = require("rxjs");
+const operators_1 = require("ims-rxjs/operators");
+const ims_rxjs_1 = require("ims-rxjs");
 const ims_util_1 = require("ims-util");
 const packages_1 = require("./packages");
+const uglify_1 = require("./uglify");
+const clean_1 = require("./clean");
 let ImsBinModule = class ImsBinModule {
 };
 ImsBinModule = tslib_1.__decorate([
@@ -24,7 +26,19 @@ ImsBinModule = tslib_1.__decorate([
             },
             {
                 provide: base_1.ImsBinToken,
+                useClass: clean_1.CleanCommand,
+                multi: true,
+                deps: [],
+            },
+            {
+                provide: base_1.ImsBinToken,
                 useClass: packages_1.PackagesCommand,
+                multi: true,
+                deps: [],
+            },
+            {
+                provide: base_1.ImsBinToken,
+                useClass: uglify_1.UglifyCommand,
                 multi: true,
                 deps: [],
             },
@@ -45,20 +59,20 @@ imsBinPlatform([])
             let res = command.run();
             if (res) {
                 if (ims_util_1.isPromise(res)) {
-                    return rxjs_1.from(res);
+                    return ims_rxjs_1.from(res);
                 }
-                if (rxjs_1.isObservable(res)) {
+                if (ims_rxjs_1.isObservable(res)) {
                     return res;
                 }
-                return rxjs_1.of(res);
+                return ims_rxjs_1.of(res);
             }
             else {
-                return rxjs_1.of(void 0);
+                return ims_rxjs_1.of(void 0);
             }
         }
         else {
             console.log(`can not find command ${_[0]}`);
-            return rxjs_1.of(void 0);
+            return ims_rxjs_1.of(void 0);
         }
     }
 }))

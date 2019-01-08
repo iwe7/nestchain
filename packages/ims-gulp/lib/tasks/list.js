@@ -17,4 +17,4 @@ function listDirTask(dir) {
     });
     return files;
 }
-exports.default = listDirTask;
+exports.listDirTask = listDirTask;

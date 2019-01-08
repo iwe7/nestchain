@@ -1,5 +1,5 @@
-import { Type } from 'ims-core';
-import { Observable } from 'rxjs';
+import { Type } from './type';
+import { Observable } from 'ims-rxjs';
 export declare type AllTypes = 'array' | 'null' | 'undefined' | 'object' | 'number' | 'string' | 'symbol' | 'symbol' | 'boolean' | 'function' | 'regexp' | 'date' | 'arguments' | 'error' | 'weakmap' | 'map' | 'set' | 'weakset' | 'bigint';
 export declare function getType(val: any): AllTypes;
 export declare function isNumber(v: any): v is number;

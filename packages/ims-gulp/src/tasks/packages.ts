@@ -1,44 +1,28 @@
 import { gulp } from './_gulp';
 import { join } from 'path';
 import { ROOT } from 'ims-const';
-import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, tap } from 'rxjs/operators';
-let cache: Map<string, boolean> = new Map();
+import { forkJoin, Observable } from 'ims-rxjs';
+import { concatMap } from 'ims-rxjs/operators';
+let cache: Map<string, Observable<any>> = new Map();
 
 export const gulpPackages = (name: string = ''): Observable<any> => {
-  let deps: string[] = packages[name] || [];
-  if (cache.has(name)) return of(null);
-  // todo
-  if (deps.length > 0) {
-    return forkJoin(
-      ...deps.map(dep =>
-        gulpPackages(dep).pipe(tap(name => cache.set(name, true))),
-      ),
-    ).pipe(
-      concatMap(() =>
-        gulp(
-          join(ROOT, 'packages', name, 'src'),
-          join(ROOT, 'packages', name, 'lib'),
-          false,
-        ),
-      ),
-    );
-  } else {
-    return gulp(
-      join(ROOT, 'packages', name, 'src'),
-      join(ROOT, 'packages', name, 'lib'),
-      false,
-    );
-  }
+  return gulp(
+    join(ROOT, 'packages', name, 'src'),
+    join(ROOT, 'packages', name, 'lib'),
+  );
 };
-
-const packages = {
-  'ims-bin': ['ims-const', 'ims-gulp', 'ims-webpack-util'],
-  'ims-const': [],
-  'ims-gulp': [],
-  'ims-wxapp-demo': ['ims-core', 'ims-platform-wxapp', 'ims-util', 'ims-types'],
-  'ims-core': ['ims-util', 'ims-decorator'],
-  'ims-platform-wxapp': ['ims-core'],
-  'ims-decorator': ['ims-util'],
-  'ims-types': [],
-};
+export async function doPackages() {
+  await gulpPackages('ims-const').toPromise();
+  await gulpPackages('ims-rxjs').toPromise();
+  await gulpPackages('ims-util').toPromise();
+  await gulpPackages('ims-decorator').toPromise();
+  await gulpPackages('ims-core').toPromise();
+  await gulpPackages('ims-types').toPromise();
+  await gulpPackages('ims-http').toPromise();
+  await gulpPackages('ims-gulp').toPromise();
+  await gulpPackages('ims-webpack-util').toPromise();
+  await gulpPackages('ims-webpack-manifest').toPromise();
+  await gulpPackages('ims-bin').toPromise();
+  await gulpPackages('ims-platform-wxapp').toPromise();
+  await gulpPackages('ims-wxapp-demo').toPromise();
+}

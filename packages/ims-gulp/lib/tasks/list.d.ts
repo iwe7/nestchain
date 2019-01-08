@@ -1,4 +1,4 @@
-export default function listDirTask(dir: string): {
+export declare function listDirTask(dir: string): {
     name: string;
     path: string;
 }[];

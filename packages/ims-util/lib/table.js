@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
+const ims_rxjs_1 = require("ims-rxjs");
+const operators_1 = require("ims-rxjs/operators");
 const lang_1 = require("./lang");
 const ramda_1 = require("ramda");
-class Table extends rxjs_1.Subject {
+class Table extends ims_rxjs_1.Subject {
     constructor(name, opt, debug = false) {
         super();
         this.name = name;

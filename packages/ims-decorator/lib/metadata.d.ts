@@ -1,5 +1,4 @@
-import { Type, ObjectLiteral } from 'ims-core';
-import { Table } from 'ims-util';
+import { Table, ObjectLiteral, Type } from 'ims-util';
 export declare const metadataTable: Table<any>;
 export declare enum MetadataType {
     class = 0,

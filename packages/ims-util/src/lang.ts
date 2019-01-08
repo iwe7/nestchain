@@ -1,5 +1,5 @@
-import { Type } from 'ims-core';
-import { Observable } from 'rxjs';
+import { Type } from './type';
+import { Observable } from 'ims-rxjs';
 export type AllTypes =
   | 'array'
   | 'null'

@@ -28,6 +28,7 @@
       "ims-block": ["packages/ims-block/lib/index"],
       "ims-peer": ["packages/ims-peer/lib/index"],
       "ims-rxjs": ["packages/ims-rxjs/lib/index"],
+      "ims-rxjs/operators": ["packages/ims-rxjs/lib/operators"],
       "ims-nest": ["packages/ims-nest/lib/index"],
       "ims-typeorm": ["packages/ims-typeorm/lib/index"],
       "ims-decorator": ["packages/ims-decorator/lib/index"],
@@ -74,12 +75,7 @@
       "ims-platform-android": ["packages/ims-platform-android/lib/index"],
       "ims-platform-ios": ["packages/ims-platform-ios/lib/index"]
     },
-    "lib": [
-      "dom",
-      "es2017",
-      "es2016.array.include",
-      "esnext"
-    ],
+    "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],
     "typeRoots": ["node_modules/@types"]
   },
@@ -90,7 +86,9 @@
     "docker",
     "static",
     "www",
-    "_book"
+    "_book",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
   "include": ["packages", "src", "demo", "packages/ims-types/src/wxapp.d.ts"]
 }

@@ -15,3 +15,4 @@ exports.createMerge = merge_1.createMerge;
 tslib_1.__exportStar(require("./stringify"), exports);
 tslib_1.__exportStar(require("./property"), exports);
 tslib_1.__exportStar(require("./staticError"), exports);
+tslib_1.__exportStar(require("./type"), exports);

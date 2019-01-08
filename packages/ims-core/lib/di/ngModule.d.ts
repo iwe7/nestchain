@@ -2,7 +2,7 @@ import { TypeDecorator } from 'ims-decorator';
 import { Provider, StaticProvider } from './provider';
 import { Type } from '../type';
 import { Injector } from './injector';
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 export interface ModuleWithProviders<T = any> {
     ngModule: Type<T>;
     providers?: Provider[];

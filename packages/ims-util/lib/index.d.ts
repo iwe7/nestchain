@@ -10,3 +10,4 @@ export { default as merge, createMerge } from './merge';
 export * from './stringify';
 export * from './property';
 export * from './staticError';
+export * from './type';

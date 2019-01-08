@@ -1,15 +1,13 @@
-import { clean } from './clean';
 import { scss } from './scss';
 import { ts } from './ts';
 import { copy } from './copy';
+import { forkJoin } from 'ims-rxjs';
+import { shareReplay } from 'rxjs/operators';
 
-import { concatMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
-
-export const gulp = (src: string, dest: string, dev: boolean = false) => {
+export const gulp = (src: string, dest: string) => {
   return forkJoin(
     scss([src + '/**/*.scss', src + '/*.scss'], dest).run(),
-    ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest, dev).run(),
+    ts([src + '/**/*.{ts,tsx}', src + '/*.{ts,tsx}'], dest).run(),
     copy(
       [
         src +

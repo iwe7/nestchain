@@ -1,4 +1,4 @@
-import { Type } from 'ims-core';
+import { Type } from './type';
 export interface IWithIs {
   className: string;
   symbolName: string;

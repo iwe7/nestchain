@@ -5,7 +5,7 @@ const provider_1 = require("./provider");
 const type_1 = require("../type");
 const injector_1 = require("./injector");
 const proxy_1 = require("./proxy");
-const rxjs_1 = require("rxjs");
+const ims_rxjs_1 = require("ims-rxjs");
 const ims_util_1 = require("ims-util");
 function isModuleWithProviders(val) {
     return val.ngModule;
@@ -54,7 +54,7 @@ function getNgModuleStaticProvider(type) {
                         if (type_1.isType(imt)) {
                             getNgModuleStaticProvider(imt).forEach((it) => {
                                 if (!ims_util_1.isArray(it)) {
-                                    staticProviderMap.set(it.provide, it);
+                                    staticProviderMap.set(it, it);
                                 }
                             });
                         }
@@ -62,7 +62,7 @@ function getNgModuleStaticProvider(type) {
                             imt.providers.forEach(provide => {
                                 let staticProvider = providerToStaticProvider(provide);
                                 if (!ims_util_1.isArray(staticProvider)) {
-                                    staticProviderMap.set(staticProvider.provide, staticProvider);
+                                    staticProviderMap.set(staticProvider, staticProvider);
                                 }
                             });
                         }
@@ -71,7 +71,7 @@ function getNgModuleStaticProvider(type) {
                     providers.forEach(provide => {
                         let staticProvider = providerToStaticProvider(provide);
                         if (!ims_util_1.isArray(staticProvider)) {
-                            staticProviderMap.set(staticProvider.provide, staticProvider);
+                            staticProviderMap.set(staticProvider, staticProvider);
                         }
                     });
             }
@@ -119,6 +119,6 @@ class NgModuleRef_ extends NgModuleRef {
 }
 exports.NgModuleRef_ = NgModuleRef_;
 function compileNgModuleFactory(injector, moduleType) {
-    return rxjs_1.of(createNgModuleFactory(moduleType, injector));
+    return ims_rxjs_1.of(createNgModuleFactory(moduleType, injector));
 }
 exports.compileNgModuleFactory = compileNgModuleFactory;

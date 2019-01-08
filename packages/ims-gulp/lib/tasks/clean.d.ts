@@ -1,3 +1,1 @@
-export declare const clean: (src: string) => {
-    run: import("rxjs").Observable<{}>;
-};
+export declare const clean: import("../../../ims-rxjs/lib").Observable<any>;

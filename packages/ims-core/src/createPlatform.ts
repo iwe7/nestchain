@@ -2,10 +2,9 @@ import { StaticProvider } from './di/provider';
 import { InjectionToken } from './di/injection_token';
 import { Injector } from './di/injector';
 import { Type } from './type';
-import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, from } from 'ims-rxjs';
+import { concatMap, map } from 'ims-rxjs/operators';
 
-import { concatMap } from 'rxjs/operators';
 import { ApplicationInitStatus } from './application_init';
 import { ApplicationRef } from './application_ref';
 import {

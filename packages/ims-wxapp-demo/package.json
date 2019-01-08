@@ -10,7 +10,8 @@
     "ims-core": "^0.0.11",
     "ims-platform-wxapp": "^0.0.11",
     "ims-util": "^0.0.11",
-    "rxjs": "*"
+    "rxjs": "*",
+    "ims-http": "*"
   },
   "directories": {
     "lib": "lib",

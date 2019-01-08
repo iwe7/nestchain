@@ -4,9 +4,7 @@ import {
   isPropertyMetadata,
   isMethodMetadata,
 } from './metadata';
-import { compose } from 'ims-util';
-import { Type } from 'ims-core';
-
+import { compose, Type } from 'ims-util';
 import 'reflect-metadata';
 
 const _getMetadata = (type: string) => (v: any, key?: string | symbol) => {

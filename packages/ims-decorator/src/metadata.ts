@@ -1,5 +1,4 @@
-import { Type, ObjectLiteral } from 'ims-core';
-import { keys, Table } from 'ims-util';
+import { keys, Table, ObjectLiteral, Type } from 'ims-util';
 
 export const metadataTable = new Table(
   'metadata-table',

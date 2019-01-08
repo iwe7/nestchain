@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const gulp = require("gulp");
 const sass = require("gulp-sass");
-const rxjs_1 = require("rxjs");
+const ims_rxjs_1 = require("ims-rxjs");
 exports.scss = (src, dest) => {
     let run = () => {
-        return new rxjs_1.Observable(obs => {
+        return new ims_rxjs_1.Observable(obs => {
             let stream = gulp
                 .src(src)
                 .pipe(sass({

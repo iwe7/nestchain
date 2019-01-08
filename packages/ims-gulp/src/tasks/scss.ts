@@ -1,6 +1,6 @@
 import gulp = require('gulp');
 import sass = require('gulp-sass');
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 
 export const scss = (src: string | string[], dest: string) => {
   let run = () => {

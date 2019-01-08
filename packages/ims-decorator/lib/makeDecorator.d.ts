@@ -1,4 +1,4 @@
-import { Type } from 'ims-core';
+import { Type } from 'ims-util';
 export interface TypeDecorator {
     (type: any): any;
     (target: any, propertyKey?: any, parameterIndex?: any): void;

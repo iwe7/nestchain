@@ -5,10 +5,12 @@ import { BuildCommand } from './build';
 import { ImsBinToken } from './base';
 
 import parser = require('yargs-parser');
-import { concatMap } from 'rxjs/operators';
-import { from, of, isObservable } from 'rxjs';
+import { concatMap } from 'ims-rxjs/operators';
+import { from, of, isObservable } from 'ims-rxjs';
 import { isPromise } from 'ims-util';
 import { PackagesCommand } from './packages';
+import { UglifyCommand } from './uglify';
+import { CleanCommand } from './clean';
 
 @NgModule({
   providers: [
@@ -20,7 +22,19 @@ import { PackagesCommand } from './packages';
     },
     {
       provide: ImsBinToken,
+      useClass: CleanCommand,
+      multi: true,
+      deps: [],
+    },
+    {
+      provide: ImsBinToken,
       useClass: PackagesCommand,
+      multi: true,
+      deps: [],
+    },
+    {
+      provide: ImsBinToken,
+      useClass: UglifyCommand,
       multi: true,
       deps: [],
     },

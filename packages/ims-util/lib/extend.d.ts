@@ -1,4 +1,4 @@
-import { Type } from 'ims-core';
+import { Type } from './type';
 export declare function extend<T, U>(target: Type<T>, source1: Type<U>): Type<T & U>;
 export declare function extend<T, U, V>(target: Type<T>, source1: Type<U>, source2: Type<V>): Type<T & U & V>;
 export declare function extend<T, U, V, W>(target: Type<T>, source1: Type<U>, source2: Type<V>, source3: Type<W>): Type<T & U & V & W>;

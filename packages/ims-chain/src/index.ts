@@ -1,6 +1,5 @@
-import { fromCallback } from 'ims-rxjs';
-import { of, PartialObserver } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { of, PartialObserver } from 'ims-rxjs';
+import { switchMap, fromCallback } from 'ims-rxjs/operators';
 import fs = require('fs');
 import path = require('path');
 import util = require('util');

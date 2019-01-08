@@ -13,7 +13,7 @@ import {
 import { Type, isType } from '../type';
 import { Injector } from './injector';
 import { createProxyType } from './proxy';
-import { Observable, of } from 'rxjs';
+import { Observable, of } from 'ims-rxjs';
 import { isArray } from 'ims-util';
 export interface ModuleWithProviders<T = any> {
   ngModule: Type<T>;
@@ -82,7 +82,7 @@ export class NgModuleFactory_<T> extends NgModuleFactory<T> {
 export function getNgModuleStaticProvider(type: Type<any>) {
   let meta = getMetadata(type);
   let staticProviders: StaticProvider[] = [];
-  let staticProviderMap: Map<any, StaticProvider> = new Map();
+  let staticProviderMap: Map<StaticProvider, StaticProvider> = new Map();
   meta.forEach(it => {
     if (isClassMetadata<NgModule>(it)) {
       if (it.metadataKey === NgModuleMetadataKey) {
@@ -92,7 +92,7 @@ export function getNgModuleStaticProvider(type: Type<any>) {
             if (isType(imt)) {
               getNgModuleStaticProvider(imt).forEach((it: StaticProvider) => {
                 if (!isArray(it)) {
-                  staticProviderMap.set(it.provide, it);
+                  staticProviderMap.set(it, it);
                 }
               });
             }
@@ -100,7 +100,7 @@ export function getNgModuleStaticProvider(type: Type<any>) {
               imt.providers.forEach(provide => {
                 let staticProvider = providerToStaticProvider(provide);
                 if (!isArray(staticProvider)) {
-                  staticProviderMap.set(staticProvider.provide, staticProvider);
+                  staticProviderMap.set(staticProvider, staticProvider);
                 }
               });
             }
@@ -113,7 +113,7 @@ export function getNgModuleStaticProvider(type: Type<any>) {
           providers.forEach(provide => {
             let staticProvider = providerToStaticProvider(provide);
             if (!isArray(staticProvider)) {
-              staticProviderMap.set(staticProvider.provide, staticProvider);
+              staticProviderMap.set(staticProvider, staticProvider);
             }
           });
       }

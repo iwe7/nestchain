@@ -8,3 +8,5 @@ tslib_1.__exportStar(require("./copy"), exports);
 tslib_1.__exportStar(require("./clean"), exports);
 tslib_1.__exportStar(require("./_gulp"), exports);
 tslib_1.__exportStar(require("./packages"), exports);
+tslib_1.__exportStar(require("./uglify"), exports);
+tslib_1.__exportStar(require("./list"), exports);

@@ -2,7 +2,7 @@ import { StaticProvider } from './di/provider';
 import { InjectionToken } from './di/injection_token';
 import { Injector } from './di/injector';
 import { Type } from './type';
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 import { NgModuleRef, NgModuleFactory } from './di/ngModule';
 export declare class PlatformRef {
     _injector: Injector;

@@ -1,4 +1,4 @@
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable } from 'ims-rxjs';
 export declare type TableName = string;
 export declare type ColumnName = string;
 export declare type ColumnValue = string | number | any;

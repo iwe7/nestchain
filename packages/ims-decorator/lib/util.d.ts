@@ -1,5 +1,5 @@
 import { MetadataDef } from './metadata';
-import { Type } from 'ims-core';
+import { Type } from 'ims-util';
 import 'reflect-metadata';
 export declare const getDesignParamTypes: (v: any, key?: string | symbol) => any;
 export declare const getDesignReturnType: (v: any, key?: string | symbol) => any;
