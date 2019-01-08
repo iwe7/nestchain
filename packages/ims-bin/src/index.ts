@@ -11,12 +11,19 @@ import { isPromise } from 'ims-util';
 import { PackagesCommand } from './packages';
 import { UglifyCommand } from './uglify';
 import { CleanCommand } from './clean';
+import { WxappCommand } from './wxapp';
 
 @NgModule({
   providers: [
     {
       provide: ImsBinToken,
       useClass: BuildCommand,
+      multi: true,
+      deps: [],
+    },
+    {
+      provide: ImsBinToken,
+      useClass: WxappCommand,
       multi: true,
       deps: [],
     },

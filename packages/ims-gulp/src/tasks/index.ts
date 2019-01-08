@@ -7,3 +7,4 @@ export * from './_gulp';
 export * from './packages';
 export * from './uglify';
 export * from './list';
+export * from './wxapp';
