@@ -9,7 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "strictBindCallApply": true,
     "target": "es5",
     "sourceMap": false,
@@ -23,6 +23,7 @@
     "paths": {
       "ims-chain": ["packages/ims-chain/src/index"],
       "ims-util": ["packages/ims-util/src/index"],
+      "ims-polyfill": ["packages/ims-polyfill/src/index"],
       "ims-core": ["packages/ims-core/src/index"],
       "ims-cli": ["packages/ims-cli/src/index"],
       "ims-block": ["packages/ims-block/src/index"],
@@ -88,5 +89,5 @@
     "www",
     "_book"
   ],
-  "include": ["packages", "src", "demo", "packages/ims-types/src/wxapp.d.ts"]
+  "include": ["packages", "src", "demo","packages/ims-ployfill/src/index.ts", "packages/ims-types/src/wxapp.d.ts"]
 }

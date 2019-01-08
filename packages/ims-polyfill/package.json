@@ -1,22 +1,13 @@
 {
-  "name": "ims-wxapp",
-  "version": "0.0.11",
+  "name": "ims-polyfill",
+  "version": "0.0.12",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
-  "main": "lib/ims-wxapp.js",
-  "dependencies": {
-    "ims-core": "*",
-    "ims-platform-wxapp": "*",
-    "ims-util": "*",
-    "ims-rxjs": "*",
-    "ims-http": "*"
-  },
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "miniprogram": "lib",
   "files": [
     "lib"
   ],

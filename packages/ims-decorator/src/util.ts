@@ -5,7 +5,7 @@ import {
   isMethodMetadata,
 } from './metadata';
 import { compose, Type } from 'ims-util';
-import 'reflect-metadata';
+import 'ims-polyfill';
 
 const _getMetadata = (type: string) => (v: any, key?: string | symbol) => {
   return Reflect.getMetadata(type, v, key);

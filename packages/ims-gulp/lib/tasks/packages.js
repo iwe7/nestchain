@@ -8,6 +8,7 @@ exports.gulpPackages = (name = '') => {
     return _gulp_1.gulp(path_1.join(ims_const_1.ROOT, 'packages', name, 'src'), path_1.join(ims_const_1.ROOT, 'packages', name, 'lib'));
 };
 async function doPackages() {
+    await exports.gulpPackages('ims-polyfill').toPromise();
     await exports.gulpPackages('ims-const').toPromise();
     await exports.gulpPackages('ims-rxjs').toPromise();
     await exports.gulpPackages('ims-util').toPromise();

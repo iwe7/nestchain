@@ -12,6 +12,7 @@ export const gulpPackages = (name: string = ''): Observable<any> => {
   );
 };
 export async function doPackages() {
+  await gulpPackages('ims-polyfill').toPromise();
   await gulpPackages('ims-const').toPromise();
   await gulpPackages('ims-rxjs').toPromise();
   await gulpPackages('ims-util').toPromise();

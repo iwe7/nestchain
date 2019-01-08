@@ -23,6 +23,7 @@
     "paths": {
       "ims-chain": ["packages/ims-chain/lib/index"],
       "ims-util": ["packages/ims-util/lib/index"],
+      "ims-polyfill": ["packages/ims-polyfill/lib/index"],
       "ims-core": ["packages/ims-core/lib/index"],
       "ims-cli": ["packages/ims-cli/lib/index"],
       "ims-block": ["packages/ims-block/lib/index"],
@@ -90,5 +91,11 @@
     "**/*.test.ts",
     "**/*.test.tsx"
   ],
-  "include": ["packages", "src", "demo", "packages/ims-types/src/wxapp.d.ts"]
+  "include": [
+    "packages",
+    "src",
+    "demo",
+    "packages/ims-ployfill/src/index.ts",
+    "packages/ims-types/src/wxapp.d.ts"
+  ]
 }

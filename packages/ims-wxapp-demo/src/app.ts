@@ -1,3 +1,4 @@
+import 'ims-polyfill';
 import { platformWxapp } from 'ims-platform-wxapp';
 import { NgModule } from 'ims-core';
 
