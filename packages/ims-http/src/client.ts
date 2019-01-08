@@ -1,6 +1,6 @@
 import { Injectable } from 'ims-core';
-import { Observable, of } from 'rxjs';
-import { concatMap, filter, map } from 'rxjs/operators';
+import { Observable, of } from 'ims-rxjs';
+import { concatMap, filter, map } from 'ims-rxjs/operators';
 import { HttpHandler } from './backend';
 import { HttpHeaders } from './headers';
 import { HttpParams, HttpParamsOptions } from './params';

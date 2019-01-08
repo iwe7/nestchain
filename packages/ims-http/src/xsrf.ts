@@ -6,7 +6,7 @@ import {
   PLATFORM_ID,
   inject,
 } from 'ims-core';
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 import { HttpHandler } from './backend';
 import { HttpInterceptor } from './interceptor';
 import { HttpRequest } from './request';

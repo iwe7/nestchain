@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 import { HttpRequest } from './request';
 import { HttpEvent } from './response';
 export declare abstract class HttpHandler {

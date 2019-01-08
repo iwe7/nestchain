@@ -34,6 +34,7 @@ export const platformWxapp = createPlatformFactory(
           });
         };
       },
+      deps: [],
       multi: true,
     },
   ],

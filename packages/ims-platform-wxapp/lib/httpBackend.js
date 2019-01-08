@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const ims_core_1 = require("ims-core");
 const ims_http_1 = require("ims-http");
-const rxjs_1 = require("rxjs");
+const ims_rxjs_1 = require("ims-rxjs");
 let HttpNodeBackend = class HttpNodeBackend {
     handle(req) {
-        return new rxjs_1.Observable(obser => {
+        return new ims_rxjs_1.Observable(obser => {
             wx.request({
                 url: req.url,
                 data: req.body,

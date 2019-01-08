@@ -1,5 +1,5 @@
 import { Injectable, InjectionToken } from 'ims-core';
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 import { HttpHandler } from './backend';
 import { HttpRequest } from './request';
 import { HttpEvent } from './response';

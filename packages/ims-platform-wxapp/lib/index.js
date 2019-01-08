@@ -26,6 +26,7 @@ exports.platformWxapp = ims_core_1.createPlatformFactory(ims_core_1.corePlatform
                 });
             };
         },
+        deps: [],
         multi: true,
     },
 ], [module_1.ImsPlatformWxappModule]);

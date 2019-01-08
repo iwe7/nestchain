@@ -9,6 +9,7 @@ import { concatMap } from 'ims-rxjs/operators';
 import { from, of, isObservable } from 'ims-rxjs';
 import { isPromise } from 'ims-util';
 import { PackagesCommand } from './packages';
+import { PackageCommand } from './package';
 import { UglifyCommand } from './uglify';
 import { CleanCommand } from './clean';
 import { WxappCommand } from './wxapp';
@@ -18,6 +19,12 @@ import { WxappCommand } from './wxapp';
     {
       provide: ImsBinToken,
       useClass: BuildCommand,
+      multi: true,
+      deps: [],
+    },
+    {
+      provide: ImsBinToken,
+      useClass: PackageCommand,
       multi: true,
       deps: [],
     },

@@ -11,20 +11,15 @@ async function gulpWeixin() {
         'ims-rxjs',
         'reflect-metadata',
         'tslib',
+        'ramda',
         'ims-util',
         'ims-decorator',
         'ims-http',
         'ims-platform-wxapp',
     ];
-    let packageJson = {
-        name: name,
-        version: '1.0',
-        dependencies: deps.map(dep => `${dep}:"*"`),
-    };
     deps.map(async (dep) => {
         await miniprogramNpm(name, dep).toPromise();
     });
-    fs.writeFileSync(path.join(ims_const_1.ROOT, 'packages', name, 'lib', 'package.json'), JSON.stringify(packageJson, null, 2));
 }
 exports.gulpWeixin = gulpWeixin;
 function miniprogramNpm(base, name) {

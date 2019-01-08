@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const ims_core_1 = require("ims-core");
-const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
+const ims_rxjs_1 = require("ims-rxjs");
+const operators_1 = require("ims-rxjs/operators");
 const backend_1 = require("./backend");
 const headers_1 = require("./headers");
 const params_1 = require("./params");
@@ -56,7 +56,7 @@ let HttpClient = class HttpClient {
                 withCredentials: options.withCredentials,
             });
         }
-        const events$ = rxjs_1.of(req).pipe(operators_1.concatMap((req) => this.handler.handle(req)));
+        const events$ = ims_rxjs_1.of(req).pipe(operators_1.concatMap((req) => this.handler.handle(req)));
         if (first instanceof request_1.HttpRequest || options.observe === 'events') {
             return events$;
         }

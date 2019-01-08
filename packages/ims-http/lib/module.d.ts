@@ -1,5 +1,5 @@
 import { Injector, ModuleWithProviders } from 'ims-core';
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 import { HttpBackend, HttpHandler } from './backend';
 import { HttpInterceptor } from './interceptor';
 import { HttpRequest } from './request';

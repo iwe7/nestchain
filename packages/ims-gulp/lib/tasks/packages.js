@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const _gulp_1 = require("./_gulp");
 const path_1 = require("path");
 const ims_const_1 = require("ims-const");
-let cache = new Map();
 exports.gulpPackages = (name = '') => {
     return _gulp_1.gulp(path_1.join(ims_const_1.ROOT, 'packages', name, 'src'), path_1.join(ims_const_1.ROOT, 'packages', name, 'lib'));
 };

@@ -1,6 +1,6 @@
 import { Injectable } from 'ims-core';
 import { HttpBackend, HttpEvent, HttpRequest, HttpResponse } from 'ims-http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 
 @Injectable()
 export class HttpNodeBackend implements HttpBackend {

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'ims-rxjs';
 import { HttpHandler } from './backend';
 import { HttpHeaders } from './headers';
 import { HttpParams } from './params';
