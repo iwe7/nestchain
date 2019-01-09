@@ -1,8 +1,3 @@
-const uuid = require('uuid/v4');
-const pathSepS = '/';
-const pathSepB = Buffer.from(pathSepS);
-const pathSep = pathSepB[0];
-
 export abstract class Key {
   get [Symbol.toStringTag]() /* : string */ {
     return `[Key ${this.toString()}]`;
@@ -29,4 +24,5 @@ export abstract class Key {
 export abstract class KeyFactory {
   abstract withNamespaces(list: string[]): Key;
   abstract random(): Key;
+  abstract create(str: string): Key;
 }

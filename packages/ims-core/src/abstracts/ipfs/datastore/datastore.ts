@@ -23,11 +23,8 @@ export type QueryEntry<T> = {
   value?: T;
 };
 export type QueryResult<T> = PullSource<QueryEntry<T>>;
-export type Order<T> = (
-  res: QueryResult<T>,
-  call: Callback<QueryResult<T>>,
-) => void;
-export type Filter<T> = (entry: QueryEntry<T>, call: Callback<boolean>) => void;
+export type Order<T> = (res: QueryResult<T>) => -1 | 0 | 1;
+export type Filter<T> = (entry: QueryEntry<T>) => boolean;
 export abstract class Datastore<T> {
   abstract open(): Promise<void>;
   abstract close(): Promise<void>;
