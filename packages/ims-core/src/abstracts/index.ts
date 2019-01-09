@@ -4,3 +4,4 @@ export * from './varint';
 export * from './cid';
 export * from './multibase';
 export * from './multicodec';
+export * from './ipfs/index';

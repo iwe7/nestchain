@@ -4,11 +4,16 @@ import {
   Varint,
   MultihashDecode,
   MultihashType,
+  BaseXFactory,
 } from 'ims-core';
 import { Buffer } from 'buffer';
 export class MultihashImpl extends Multihash {
-  constructor(private bs58: BaseX, private varint: Varint) {
+  bs58: BaseX;
+  constructor(basexFactory: BaseXFactory, private varint: Varint) {
     super();
+    this.bs58 = basexFactory.create(
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
+    );
   }
   toHexString(hash: Buffer): string {
     if (!Buffer.isBuffer(hash)) {

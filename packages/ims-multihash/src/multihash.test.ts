@@ -12,9 +12,7 @@ import createBaseXProvider from 'ims-base-x';
 let platform = createPlatformFactory(corePlatform, 'platform-varint', [
   createProvider(),
   createVarintProvider(),
-  createBaseXProvider(
-    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
-  ),
+  createBaseXProvider(),
 ]);
 @NgModule()
 export class MultihashModule {}

@@ -1,15 +1,10 @@
-import { StaticProvider, BaseX } from 'ims-core';
-import { BaseXImpl } from './base-x';
-export default function createProvider(
-  ALPHABET: string,
-  token?: any,
-): StaticProvider[] {
+import { StaticProvider, BaseXFactory } from 'ims-core';
+import { BaseXImpl, BaseXFactoryImpl } from './base-x';
+export default function createProvider(): StaticProvider[] {
   const provider: StaticProvider[] = [
     {
-      provide: token || BaseX,
-      useFactory: () => {
-        return new BaseXImpl(ALPHABET);
-      },
+      provide: BaseXFactory,
+      useClass: BaseXFactoryImpl,
       deps: [],
     },
   ];

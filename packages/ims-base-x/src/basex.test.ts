@@ -1,7 +1,7 @@
 import { createPlatformFactory, corePlatform, NgModule, BaseX } from 'ims-core';
 import createProvider from './index';
 let platform = createPlatformFactory(corePlatform, 'platform-base-x', [
-  createProvider('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'),
+  createProvider(),
 ]);
 @NgModule()
 export class BaseXModule {}

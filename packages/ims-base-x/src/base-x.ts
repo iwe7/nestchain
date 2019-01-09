@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import { BaseX } from 'ims-core';
+import { BaseX, BaseXFactory } from 'ims-core';
 export class BaseXImpl extends BaseX {
   BASE: number;
   LEADER: string;
@@ -129,5 +129,11 @@ export class BaseXImpl extends BaseX {
     const buffer = this.decodeUnsafe(str);
     if (buffer) return buffer;
     throw new Error('Non-base' + this.BASE + ' character');
+  }
+}
+
+export class BaseXFactoryImpl extends BaseXFactory {
+  create(str: string) {
+    return new BaseXImpl(str);
   }
 }

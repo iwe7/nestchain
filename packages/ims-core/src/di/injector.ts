@@ -91,6 +91,10 @@ export class StaticInjector implements Injector {
     flags: InjectFlags = InjectFlags.Default,
   ): any {
     const record = this._records.get(token);
+    if (!record) {
+      // throw new Error(`can not found record`);
+      // console.log(this);
+    }
     try {
       return tryResolveToken(
         token,
