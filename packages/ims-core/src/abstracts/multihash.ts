@@ -16,6 +16,7 @@ export abstract class Multihash {
   abstract isAppCode(code: number): boolean;
   abstract isValidCode(code: number): boolean;
   abstract prefix(multihash: Buffer): any;
+  abstract validate(multihash: Buffer): any;
 }
 
 export enum MultihashType {
