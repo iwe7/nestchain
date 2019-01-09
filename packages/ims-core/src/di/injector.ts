@@ -133,7 +133,7 @@ export abstract class Injector {
    * @deprecated from v4.0.0 use Type<T> or InjectionToken<T>
    * @suppress {duplicate}
    */
-  abstract get(token: any, notFoundValue?: any): any;
+  abstract get<T = any>(token: any, notFoundValue?: any): T;
 
   /**
    * @deprecated from v5 use the new signature Injector.create(options)

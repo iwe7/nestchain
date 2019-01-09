@@ -1,3 +1,4 @@
+var Reflect;
 (function (Reflect) {
     (function (factory) {
         const root = typeof global === 'object'

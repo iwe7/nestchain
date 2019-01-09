@@ -15,10 +15,9 @@ export const ts = (
     let tsProject = typescript.createProject(
       path.join(ROOT, 'tsconfig.build.json'),
     );
-    let stream: NodeJS.ReadWriteStream = gulp
-      .src(src)
-      .pipe(tsProject())
-      .pipe(gulp.dest(dest));
+    let tsResult = gulp.src(src).pipe(tsProject());
+    let stream: NodeJS.ReadWriteStream = tsResult.js.pipe(gulp.dest(dest));
+    tsResult.dts.pipe(gulp.dest(path.join(dest, '../types')));
     stream.on('end', () => {
       console.log(`tsc end`);
       observer.next(void 0);

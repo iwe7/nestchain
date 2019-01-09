@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
     "strict": false,
@@ -76,7 +76,9 @@
       "ims-platform-wxapp": ["packages/ims-platform-wxapp/src/index"],
       "ims-platform-electron": ["packages/ims-platform-electron/src/index"],
       "ims-platform-android": ["packages/ims-platform-android/src/index"],
-      "ims-platform-ios": ["packages/ims-platform-ios/src/index"]
+      "ims-platform-ios": ["packages/ims-platform-ios/src/index"],
+      "ims-base-x": ["packages/ims-base-x/src/index"],
+      "ims-varint": ["packages/ims-varint/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

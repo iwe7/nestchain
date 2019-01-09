@@ -1,4 +1,4 @@
-var types = ['default', 'primary', 'warn']
+var types = ['default', 'primary', 'warn'];
 var pageObject = {
   data: {
     defaultSize: 'default',
@@ -6,35 +6,34 @@ var pageObject = {
     warnSize: 'default',
     disabled: false,
     plain: false,
-    loading: false
+    loading: false,
   },
   setDisabled: function(e) {
     this.setData({
-      disabled: !this.data.disabled
-    })
+      disabled: !this.data.disabled,
+    });
   },
   setPlain: function(e) {
     this.setData({
-      plain: !this.data.plain
-    })
+      plain: !this.data.plain,
+    });
   },
   setLoading: function(e) {
     this.setData({
-      loading: !this.data.loading
-    })
-  }
-}
+      loading: !this.data.loading,
+    });
+  },
+};
 
 for (var i = 0; i < types.length; ++i) {
   (function(type) {
     pageObject[type] = function(e) {
-      var key = type + 'Size'
-      var changedData = {}
-      changedData[key] =
-        this.data[key] === 'default' ? 'mini' : 'default'
-      this.setData(changedData)
-    }
-  })(types[i])
+      var key = type + 'Size';
+      var changedData = {};
+      changedData[key] = this.data[key] === 'default' ? 'mini' : 'default';
+      this.setData(changedData);
+    };
+  })(types[i]);
 }
 
-Page(pageObject)
+Page(pageObject);

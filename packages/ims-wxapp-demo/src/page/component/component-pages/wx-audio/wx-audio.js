@@ -1,10 +1,10 @@
 Page({
   data: {
     audioAction: {
-      method: 'pause'
-    }
+      method: 'pause',
+    },
   },
   audioPlayed: function(e) {
-    console.log('audio is played')
-  }
-})
+    console.log('audio is played');
+  },
+});

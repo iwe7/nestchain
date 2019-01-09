@@ -1,4 +1,4 @@
-Page({
+  mPage({
   onReady: function () {
     this.position = {
       x: 150,

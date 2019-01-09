@@ -33,7 +33,9 @@ export class PlatformRef {
   ): Observable<NgModuleRef<M>> {
     let moduleRef = moduleFactory.create(this.injector);
     moduleRef.onDestroy(() => remove(this._modules, moduleRef));
-    const initStatus = moduleRef.injector.get(ApplicationInitStatus);
+    const initStatus = moduleRef.injector.get<ApplicationInitStatus>(
+      ApplicationInitStatus,
+    );
     initStatus.runInitializers();
     let { ngDoBootstrap } = moduleRef.instance as any;
     if (ngDoBootstrap) {
