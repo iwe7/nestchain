@@ -32,7 +32,7 @@ export class MulticodecImpl extends Multicodec {
     return codecName;
   }
   getCodeVarint(codecName: string): string {
-    const code = this.names[codecName];
+    const code = this.varints[codecName];
     if (code === undefined) {
       throw new Error('Codec `' + codecName + '` not found');
     }

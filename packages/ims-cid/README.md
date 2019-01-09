@@ -1,11 +1,10 @@
 # `ims-cid`
 
-> TODO: description
+> 分布式系统的自描述内容寻址标识符
 
-## Usage
+cid 是一个自我描述的内容寻址标识符。
+它使用加密散列来实现内容寻址。
+它使用多种多样的格式来实现灵活的自我描述，
+即哈希的 multihash、数据内容类型的 multidec 以及将 cid 本身编码为字符串的 multibase。
 
-```
-const imsCid = require('ims-cid');
-
-// TODO: DEMONSTRATE API
-```
+具体来说，它是类型化内容地址：一个（内容类型，内容地址）的元组。

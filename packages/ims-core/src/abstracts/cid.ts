@@ -1,23 +1,18 @@
-import { Multihash } from './multihash';
-import { Multicodec } from './multicodec';
-import { Multibase } from './multibase';
+import { MultibaseType } from './multibase';
+import { Injector } from '@angular/core';
 
 export abstract class Cid {
   get [Symbol.for('type')]() {
     return '@ims/core/cid';
   }
-  readonly mh: Multihash;
-  readonly mc: Multicodec;
-  readonly mb: Multibase;
-
-  readonly version: number;
-  readonly codec: string;
-  readonly multihash: Buffer;
+  version: number;
+  codec: string;
+  multihash: Buffer;
 
   abstract toV0(): any;
   abstract toV1(): any;
-  abstract toBaseEncodedString(base: string): string;
-  abstract toString(base: string): string;
+  abstract toBaseEncodedString(base?: MultibaseType): string;
+  abstract toString(base: MultibaseType): string;
   abstract toJSON(): CidJson;
   abstract equals(other: Cid): boolean;
   abstract validateCid(other: Cid): any;
@@ -29,4 +24,12 @@ export interface CidJson {
   codec: string;
   version: number;
   hash: Buffer;
+}
+
+export abstract class CidFactory {
+  abstract create(
+    version: number | string | Buffer,
+    codec?: string,
+    multihash?: Buffer,
+  ): Cid;
 }

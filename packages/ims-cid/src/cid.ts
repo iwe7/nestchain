@@ -1,4 +1,12 @@
-import { Cid, Multihash, CidJson } from 'ims-core';
+import {
+  Cid,
+  Multihash,
+  CidJson,
+  Injector,
+  MultibaseType,
+  Multicodec,
+  Multibase,
+} from 'ims-core';
 
 function checkCIDComponents(cid: Cid, mh: Multihash) {
   if (cid == null) {
@@ -26,8 +34,51 @@ function checkCIDComponents(cid: Cid, mh: Multihash) {
   return '';
 }
 export class CidImpl extends Cid {
-  constructor(public mh: Multihash) {
+  mh: Multihash;
+  mc: Multicodec;
+  mb: Multibase;
+  injector: Injector;
+  constructor(
+    version: number,
+    injector: Injector,
+    codec?: string,
+    multihash?: Buffer,
+  ) {
     super();
+    this.injector = injector;
+    this.mh = this.injector.get(Multihash);
+    this.mc = this.injector.get(Multicodec);
+    this.mb = this.injector.get(Multibase);
+    if (typeof version === 'string') {
+      if (this.mb.isEncoded(version)) {
+        const cid = this.mb.decode(version);
+        version = parseInt(cid.slice(0, 1).toString('hex'), 16);
+        codec = this.mc.getCodec(cid.slice(1));
+        multihash = this.mc.rmPrefix(cid.slice(1));
+      } else {
+        codec = 'dag-pb';
+        multihash = this.mh.fromB58String(version);
+        version = 0;
+      }
+    } else if (Buffer.isBuffer(version)) {
+      const firstByte = version.slice(0, 1);
+      const v = parseInt(firstByte.toString('hex'), 16);
+      if (v === 0 || v === 1) {
+        // CID
+        const cid = version;
+        version = v;
+        codec = this.mc.getCodec(cid.slice(1));
+        multihash = this.mc.rmPrefix(cid.slice(1));
+      } else {
+        // multihash
+        codec = 'dag-pb';
+        multihash = version;
+        version = 0;
+      }
+    }
+    this.version = version;
+    this.codec = codec;
+    this.multihash = multihash;
   }
   toV0(): any {
     if (this.codec !== 'dag-pb') {
@@ -37,20 +88,40 @@ export class CidImpl extends Cid {
     if (name !== 'sha2-256') {
       throw new Error('Cannot convert non sha2-256 multihash CID to CIDv0');
     }
-
     if (length !== 32) {
       throw new Error('Cannot convert non 32 byte multihash CID to CIDv0');
     }
-    return new CidImpl(0, this.codec, this.multihash);
+    return new CidImpl(0, this.injector, this.codec, this.multihash);
   }
   toV1(): any {
-    return new CidImpl(1, this.codec, this.multihash);
+    return new CidImpl(1, this.injector, this.codec, this.multihash);
   }
-  toBaseEncodedString(base): string {
-    base = base || 'base58btc';
+  get buffer() {
+    switch (this.version) {
+      case 0:
+        return this.multihash;
+      case 1:
+        return Buffer.concat([
+          Buffer.from('01', 'hex'),
+          this.mc.getCodeVarint(this.codec) as any,
+          this.multihash,
+        ]);
+      default:
+        throw new Error('unsupported version');
+    }
+  }
+  get prefix() {
+    return Buffer.concat([
+      Buffer.from(`0${this.version}`, 'hex'),
+      this.mc.getCodeVarint(this.codec),
+      this.mh.prefix(this.multihash),
+    ]);
+  }
+  toBaseEncodedString(base: MultibaseType): string {
+    base = base || MultibaseType.base58btc;
     switch (this.version) {
       case 0: {
-        if (base !== 'base58btc') {
+        if (base !== MultibaseType.base58btc) {
           throw new Error(
             'not supported with CIDv0, to support different bases, please migrate the instance do CIDv1, you can do that through cid.toV1()',
           );
@@ -58,12 +129,12 @@ export class CidImpl extends Cid {
         return this.mh.toB58String(this.multihash);
       }
       case 1:
-        return this.mh.encode(base, this.buffer).toString();
+        return this.mb.encode(base, this.buffer).toString();
       default:
         throw new Error('Unsupported version');
     }
   }
-  toString(base: string): string {
+  toString(base: MultibaseType): string {
     return this.toBaseEncodedString(base);
   }
   toJSON(): CidJson {

@@ -4,6 +4,21 @@ export class MultibaseImpl extends Multibase {
   constructor(private injector: Injector) {
     super();
   }
+  isEncoded(bufOrString: string | Buffer): MultibaseType | false {
+    if (Buffer.isBuffer(bufOrString)) {
+      bufOrString = bufOrString.toString();
+    }
+    if (Object.prototype.toString.call(bufOrString) !== '[object String]') {
+      return false;
+    }
+    const code = bufOrString.substring(0, 1);
+    try {
+      const base = this.getBase(code as any);
+      return base.name;
+    } catch (err) {
+      return false;
+    }
+  }
   encode(type: MultibaseType, buf: Buffer): Buffer {
     const base = this.getBase(type);
     const name = base.name;

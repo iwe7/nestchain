@@ -1,6 +1,7 @@
 export abstract class Multibase {
   abstract encode(type: MultibaseType, buf: Buffer): Buffer;
   abstract decode(buf: Buffer | string): Buffer;
+  abstract isEncoded(bufOrString: string | Buffer): MultibaseType | false;
 }
 
 export enum MultibaseType {

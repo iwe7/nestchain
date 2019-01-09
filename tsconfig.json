@@ -78,7 +78,10 @@
       "ims-platform-android": ["packages/ims-platform-android/src/index"],
       "ims-platform-ios": ["packages/ims-platform-ios/src/index"],
       "ims-base-x": ["packages/ims-base-x/src/index"],
-      "ims-varint": ["packages/ims-varint/src/index"]
+      "ims-varint": ["packages/ims-varint/src/index"],
+      "ims-multihash": ["packages/ims-multihash/src/index"],
+      "ims-multicodec": ["packages/ims-multicodec/src/index"],
+      "ims-multibase": ["packages/ims-multibase/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

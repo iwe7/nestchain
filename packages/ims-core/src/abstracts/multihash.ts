@@ -1,3 +1,5 @@
+import { MultibaseType } from "./multibase";
+
 export interface MultihashDecode {
   code: number;
   name: string;
