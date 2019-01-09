@@ -1,6 +1,9 @@
+import { Varint } from './varint';
+
 export abstract class Multicodec {
-  abstract addPrefix(): any;
-  abstract rmPrefix(): any;
-  abstract getCodec(): any;
-  abstract getCodeVarint(): any;
+  varint: Varint;
+  abstract addPrefix(multicodecStrOrCode, data: Buffer): Buffer;
+  abstract rmPrefix(data: Buffer): Buffer;
+  abstract getCodec(prefixedData: number[] | Buffer): string;
+  abstract getCodeVarint(codecName: string): string;
 }

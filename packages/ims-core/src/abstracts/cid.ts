@@ -1,5 +1,6 @@
 import { Multihash } from './multihash';
 import { Multicodec } from './multicodec';
+import { Multibase } from './multibase';
 
 export abstract class Cid {
   get [Symbol.for('type')]() {
@@ -7,10 +8,12 @@ export abstract class Cid {
   }
   readonly mh: Multihash;
   readonly mc: Multicodec;
+  readonly mb: Multibase;
 
   readonly version: number;
   readonly codec: string;
   readonly multihash: Buffer;
+
   abstract toV0(): any;
   abstract toV1(): any;
   abstract toBaseEncodedString(base: string): string;
