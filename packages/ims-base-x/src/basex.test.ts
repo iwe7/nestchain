@@ -1,15 +1,14 @@
-import { createPlatformFactory, corePlatform, NgModule, BaseX } from 'ims-core';
-import createProvider from './index';
-let platform = createPlatformFactory(corePlatform, 'platform-base-x', [
-  createProvider(),
-]);
-@NgModule()
-export class BaseXModule {}
+import { createPlatformFactory, corePlatform, BaseXFactory } from 'ims-core';
+import { BaseXModule } from './index';
+let platform = createPlatformFactory(corePlatform, 'platform-base-x', []);
 
 platform()
   .bootstrapModule(BaseXModule)
   .subscribe(res => {
-    let basex = res.injector.get<BaseX>(BaseX);
+    let basexFactory = res.injector.get<BaseXFactory>(BaseXFactory);
+    let basex = basexFactory.create(
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
+    );
     let buffer = Buffer.from('1234', 'utf8');
     let result = basex.encode(buffer);
     let deresult = basex.decode(result).toString();

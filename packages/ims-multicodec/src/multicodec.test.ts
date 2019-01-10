@@ -1,22 +1,10 @@
-import {
-  createPlatformFactory,
-  corePlatform,
-  NgModule,
-  Multicodec,
-  MultihashType,
-} from 'ims-core';
-import createProvider from './index';
-import createVarintProvider from 'ims-varint';
+import { createPlatformFactory, corePlatform, Multicodec } from 'ims-core';
+import { MulticodecModule } from './index';
 
-let platform = createPlatformFactory(corePlatform, 'platform-varint', [
-  ...createProvider(),
-  ...createVarintProvider(),
-]);
-@NgModule()
-export class MultihashModule {}
+let platform = createPlatformFactory(corePlatform, 'platform-varint', []);
 
 platform()
-  .bootstrapModule(MultihashModule)
+  .bootstrapModule(MulticodecModule)
   .subscribe(res => {
     let buf = new Buffer('0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33', 'hex');
     let multicodec = res.injector.get<Multicodec>(Multicodec);

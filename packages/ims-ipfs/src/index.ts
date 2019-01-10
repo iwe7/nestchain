@@ -1,32 +1,21 @@
-import { Ipfs, IpfsFactory, IpfsOptions } from 'ims-core';
-import { StaticProvider, Injector } from '@angular/core';
-export class IpfsImpl extends Ipfs {
-  init(): any {}
-  preStart(): any {}
-  start(): any {}
-  stop(): any {}
-  isOnline(): boolean {
-    return true;
-  }
-  id(): any {}
-  ping(): any {}
-  pingPullStream(): any {}
-  pingReadableStream(): any {}
-  version(): any {}
-}
+import {
+  IpfsFactory,
+  StaticProvider,
+  Injector,
+  Ipfs,
+  IpfsOptions,
+} from 'ims-core';
+import IPFS = require('ipfs');
 export class IpfsFactoryImpl extends IpfsFactory {
-  constructor(private injector: Injector) {
-    super();
-  }
-  create(options: IpfsOptions): Ipfs {
-    return new IpfsImpl();
+  create(options?: IpfsOptions): Ipfs {
+    return new IPFS(options);
   }
 }
 export const imsIpfsProviders: StaticProvider[] = [
   {
     provide: IpfsFactory,
     useFactory: (injector: Injector) => {
-      return new IpfsFactoryImpl(injector);
+      return new IpfsFactoryImpl();
     },
     deps: [Injector],
   },

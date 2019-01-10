@@ -33,6 +33,7 @@ function checkCIDComponents(cid: Cid, mh: Multihash) {
   }
   return '';
 }
+
 export class CidImpl extends Cid {
   mh: Multihash;
   mc: Multicodec;

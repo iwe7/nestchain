@@ -1,13 +1,15 @@
-import { Multicodec, StaticProvider, Varint } from 'ims-core';
+import { Multicodec, StaticProvider, Varint, NgModule, Inject } from 'ims-core';
 import { MulticodecImpl } from './multicodec';
+import { VarintModule } from 'ims-varint';
 
-export default function createProviders(): StaticProvider[] {
-  const provider: StaticProvider[] = [
+@NgModule({
+  providers: [
     {
       provide: Multicodec,
-      useClass: MulticodecImpl,
+      useFactory: (varint: Varint) => new MulticodecImpl(varint),
       deps: [Varint],
     },
-  ];
-  return provider;
-}
+  ],
+  imports: [VarintModule],
+})
+export class MulticodecModule {}

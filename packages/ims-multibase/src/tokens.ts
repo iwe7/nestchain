@@ -1,5 +1,5 @@
 import { Base } from './base';
-import { InjectionToken, MultibaseType, Injector } from 'ims-core';
+import { InjectionToken } from 'ims-core';
 export const base1 = new InjectionToken<Base>('baes1');
 export const base2 = new InjectionToken<Base>('base2');
 export const base8 = new InjectionToken<Base>('base8');

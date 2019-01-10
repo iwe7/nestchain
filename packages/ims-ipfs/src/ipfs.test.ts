@@ -14,5 +14,9 @@ createPlatformFactory(corePlatform, 'ims-ipfs', [...imsIpfsProviders])()
     let injector = res.injector;
     let factory = injector.get<IpfsFactory>(IpfsFactory);
     let ipfs = factory.create();
-    debugger;
+    ipfs.on('ready', async () => {
+      console.log('ipfs on ready');
+      ipfs.start();
+      debugger;
+    });
   });

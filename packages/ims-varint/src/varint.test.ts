@@ -1,15 +1,6 @@
-import {
-  createPlatformFactory,
-  corePlatform,
-  NgModule,
-  Varint,
-} from 'ims-core';
-import createProvider from './index';
-let platform = createPlatformFactory(corePlatform, 'platform-varint', [
-  createProvider(),
-]);
-@NgModule()
-export class VarintModule {}
+import { createPlatformFactory, corePlatform, Varint } from 'ims-core';
+import { VarintModule } from './index';
+let platform = createPlatformFactory(corePlatform, 'platform-varint', []);
 
 platform()
   .bootstrapModule(VarintModule)

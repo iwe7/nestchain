@@ -131,7 +131,6 @@ export class BaseXImpl extends BaseX {
     throw new Error('Non-base' + this.BASE + ' character');
   }
 }
-
 export class BaseXFactoryImpl extends BaseXFactory {
   create(str: string) {
     return new BaseXImpl(str);

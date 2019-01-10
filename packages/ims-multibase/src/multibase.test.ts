@@ -1,20 +1,14 @@
 import {
   createPlatformFactory,
   corePlatform,
-  NgModule,
   Multibase,
   MultibaseType,
 } from 'ims-core';
-import createProvider from './index';
-let platform = createPlatformFactory(corePlatform, 'platform-multibase', [
-  createProvider(),
-]);
-
-@NgModule()
-export class MultihashModule {}
+import { MultibaseModule } from './index';
+let platform = createPlatformFactory(corePlatform, 'platform-multibase', []);
 
 platform()
-  .bootstrapModule(MultihashModule)
+  .bootstrapModule(MultibaseModule)
   .subscribe(res => {
     let buf = new Buffer('0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33', 'hex');
     let basex = res.injector.get<Multibase>(Multibase);

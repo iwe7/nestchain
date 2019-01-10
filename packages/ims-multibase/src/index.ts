@@ -1,16 +1,24 @@
 import { MultibaseImpl } from './multibase';
-import { Multibase, StaticProvider, Injector, MultibaseType } from 'ims-core';
+import {
+  Multibase,
+  Injector,
+  MultibaseType,
+  NgModule,
+  BaseXFactory,
+} from 'ims-core';
 import * as tokens from './tokens';
 
 import { Base } from './base';
-import { createBasex } from 'ims-base-x';
+import { BaseXModule } from 'ims-base-x';
 import { Base16 } from './base16';
 import { Base32 } from './base32';
-export default function createProviders() {
-  const provider: StaticProvider[] = [
+
+@NgModule({
+  imports: [BaseXModule],
+  providers: [
     {
       provide: Multibase,
-      useClass: MultibaseImpl,
+      useFactory: (injector: Injector) => new MultibaseImpl(injector),
       deps: [Injector],
     },
     {
@@ -22,24 +30,24 @@ export default function createProviders() {
     },
     {
       provide: tokens.base2,
-      useFactory: () => {
-        return new Base(MultibaseType.base2, '0', '01', createBasex);
+      useFactory: (fac: BaseXFactory) => {
+        return new Base(MultibaseType.base2, '0', '01', fac.create);
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base8,
-      useFactory: () => {
-        return new Base(MultibaseType.base8, '7', '01234567', createBasex);
+      useFactory: (fac: BaseXFactory) => {
+        return new Base(MultibaseType.base8, '7', '01234567', fac.create);
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base10,
-      useFactory: () => {
-        return new Base(MultibaseType.base10, '9', '0123456789', createBasex);
+      useFactory: (fac: BaseXFactory) => {
+        return new Base(MultibaseType.base10, '9', '0123456789', fac.create);
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base16,
@@ -127,76 +135,76 @@ export default function createProviders() {
     },
     {
       provide: tokens.base58flickr,
-      useFactory: () => {
+      useFactory: (fac: BaseXFactory) => {
         return new Base(
           MultibaseType.base58flickr,
           'Z',
           '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ',
-          createBasex,
+          fac.create,
         );
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base58btc,
-      useFactory: () => {
+      useFactory: (fac: BaseXFactory) => {
         return new Base(
           MultibaseType.base58btc,
           'z',
           '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
-          createBasex,
+          fac.create,
         );
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base64,
-      useFactory: () => {
+      useFactory: (fac: BaseXFactory) => {
         return new Base(
           MultibaseType.base64,
           'm',
           'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-          createBasex,
+          fac.create,
         );
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base64pad,
-      useFactory: () => {
+      useFactory: (fac: BaseXFactory) => {
         return new Base(
           MultibaseType.base64pad,
           'M',
           'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-          createBasex,
+          fac.create,
         );
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base64url,
-      useFactory: () => {
+      useFactory: (fac: BaseXFactory) => {
         return new Base(
           MultibaseType.base64url,
           'u',
           'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
-          createBasex,
+          fac.create,
         );
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
     {
       provide: tokens.base64urlpad,
-      useFactory: () => {
+      useFactory: (fac: BaseXFactory) => {
         return new Base(
           MultibaseType.base64urlpad,
           'U',
           'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=',
-          createBasex,
+          fac.create,
         );
       },
-      deps: [],
+      deps: [BaseXFactory],
     },
-  ];
-  return provider;
-}
+  ],
+})
+export class MultibaseModule {}

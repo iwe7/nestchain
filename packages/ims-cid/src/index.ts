@@ -1,5 +1,6 @@
-import { StaticProvider, CidFactory, Injector } from 'ims-core';
+import { CidFactory, Injector, NgModule } from 'ims-core';
 import { CidImpl } from './cid';
+
 export class CidFactoryImpl extends CidFactory {
   constructor(private injector: Injector) {
     super();
@@ -8,13 +9,14 @@ export class CidFactoryImpl extends CidFactory {
     return new CidImpl(version, this.injector, codec, multihash);
   }
 }
-export default function createProviders() {
-  const provider: StaticProvider[] = [
+
+@NgModule({
+  providers: [
     {
       provide: CidFactory,
       useClass: CidFactoryImpl,
       deps: [Injector],
     },
-  ];
-  return provider;
-}
+  ],
+})
+export class CidModule {}

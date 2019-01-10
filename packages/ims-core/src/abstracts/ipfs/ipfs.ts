@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-interface IpfsRepo {
+interface IIpfsRepo {
   init;
   version;
   gc;
@@ -52,8 +52,13 @@ interface IpfsSwarm {
   connect;
   disconnect;
 }
+import { IpfsRepo } from './repo';
+import { PeerBook } from './peer_book';
+import { PeerInfo } from './peer_info';
+import { IpfsBlockService } from './block-service';
+
 export abstract class Ipfs extends EventEmitter {
-  repo: IpfsRepo;
+  repo: IIpfsRepo;
   bootstrap: IpfsBootstrap;
   config: IpfsConfig;
   block: IpfsBlock;
@@ -62,10 +67,15 @@ export abstract class Ipfs extends EventEmitter {
   libp2p: IpfsLibp2p;
   swarm: IpfsSwarm;
 
+  _repo: IpfsRepo;
+  _peerInfoBook: PeerBook;
+  _peerInfo: PeerInfo;
+  _blockService: IpfsBlockService;
+
   abstract init(): any;
-  abstract preStart(): any;
-  abstract start(): any;
-  abstract stop(): any;
+  abstract preStart(): Promise<void>;
+  abstract start(): Promise<void>;
+  abstract stop(): Promise<void>;
   abstract isOnline(): boolean;
   abstract id(): any;
   abstract ping(): any;
@@ -77,30 +87,32 @@ export abstract class Ipfs extends EventEmitter {
   }
 }
 export interface IpfsOptions {
-  repo: string;
-  init: boolean;
-  start: boolean;
-  pass: string;
-  silent: boolean;
-  relay: {
+  storageBackends?: any;
+  storageBackendOptions?: any;
+  repo?: string;
+  init?: boolean;
+  start?: boolean;
+  pass?: string;
+  silent?: boolean;
+  relay?: {
     enabled: boolean;
     hop: {
       enabled: boolean;
       active: boolean;
     };
   };
-  preload: {
+  preload?: {
     enabled: boolean;
     addresses: string[];
   };
-  EXPERIMENTAL: {
+  EXPERIMENTAL?: {
     pubsub: boolean;
     sharding: boolean;
     dht: boolean;
   };
-  config: any;
-  libp2p: any;
-  connectionManager: any;
+  config?: any;
+  libp2p?: any;
+  connectionManager?: any;
 }
 export abstract class IpfsFactory {
   abstract create(options?: IpfsOptions): Ipfs;

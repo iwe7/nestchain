@@ -1,13 +1,9 @@
-import {
-  StaticProvider,
-  Multihash,
-  Varint,
-  Injector,
-  BaseXFactory,
-} from 'ims-core';
+import { Multihash, Varint, Injector, BaseXFactory, NgModule } from 'ims-core';
 import { MultihashImpl } from './multihash';
-export default function createProvider(): StaticProvider[] {
-  const provider: StaticProvider[] = [
+import { VarintModule } from 'ims-varint';
+import { BaseXModule } from 'ims-base-x';
+@NgModule({
+  providers: [
     {
       provide: Multihash,
       useFactory: (injector: Injector) => {
@@ -18,8 +14,7 @@ export default function createProvider(): StaticProvider[] {
       },
       deps: [Injector],
     },
-  ];
-  return provider;
-}
-
-export * from './multihash';
+  ],
+  imports: [VarintModule, BaseXModule],
+})
+export class MultihashModule {}

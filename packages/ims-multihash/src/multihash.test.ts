@@ -1,21 +1,12 @@
 import {
   createPlatformFactory,
   corePlatform,
-  NgModule,
   Multihash,
   MultihashType,
 } from 'ims-core';
-import createProvider, { MultihashImpl } from './index';
-import createVarintProvider from 'ims-varint';
-import createBaseXProvider from 'ims-base-x';
+import { MultihashModule } from './index';
 
-let platform = createPlatformFactory(corePlatform, 'platform-varint', [
-  createProvider(),
-  createVarintProvider(),
-  createBaseXProvider(),
-]);
-@NgModule()
-export class MultihashModule {}
+let platform = createPlatformFactory(corePlatform, 'platform-varint', []);
 
 platform()
   .bootstrapModule(MultihashModule)

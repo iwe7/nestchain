@@ -4,27 +4,26 @@ import {
   NgModule,
   CidFactory,
 } from 'ims-core';
-import createProvider from './index';
+import { CidModule } from './index';
 import createMultihashProvider from 'ims-multihash';
-import createBasexProvider from 'ims-base-x';
-import createVarintProvider from 'ims-varint';
+import { BaseXModule } from 'ims-base-x';
+import { VarintModule } from 'ims-varint';
 import createMulticodecProvider from 'ims-multicodec';
 import createMultibaseProvider from 'ims-multibase';
 
-let platform = createPlatformFactory(corePlatform, 'platform-multibase', [
-  ...createProvider(),
-  ...createMultihashProvider(),
-  ...createBasexProvider(),
-  ...createVarintProvider(),
-  ...createMulticodecProvider(),
-  ...createMultibaseProvider(),
-]);
-
-@NgModule()
-export class MultihashModule {}
+let platform = createPlatformFactory(
+  corePlatform,
+  'platform-multibase',
+  [
+    ...createMultihashProvider(),
+    ...createMulticodecProvider(),
+    ...createMultibaseProvider(),
+  ],
+  [BaseXModule, VarintModule, CidModule],
+);
 
 platform()
-  .bootstrapModule(MultihashModule)
+  .bootstrapModule(CidModule)
   .subscribe(res => {
     let basex = res.injector.get<CidFactory>(CidFactory);
     const multihashStr = 'QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB';

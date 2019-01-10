@@ -2,9 +2,8 @@ import { Multicodec, Varint } from 'ims-core';
 import { MulticodecBase } from './base';
 
 export class MulticodecImpl extends Multicodec {
-  constructor(varint: Varint) {
+  constructor(public varint: Varint) {
     super();
-    this.varint = varint;
   }
   addPrefix(multicodecStrOrCode: Buffer | string, data: Buffer): Buffer {
     let prefix;
