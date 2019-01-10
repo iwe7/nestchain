@@ -24,5 +24,5 @@ export abstract class Key {
 export abstract class KeyFactory {
   abstract withNamespaces(list: string[]): Key;
   abstract random(): Key;
-  abstract create(str: string): Key;
+  abstract create(str: string, d?: boolean): Key;
 }

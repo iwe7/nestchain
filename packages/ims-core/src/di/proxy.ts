@@ -22,7 +22,7 @@ export function createProxyType(type: Type<any>) {
         type = it.metadataFactory(type);
       }
     });
-  return createProxy(type, {
+  return createProxyWidthDefault(type, {
     /**
      * new
      * @param target
@@ -55,7 +55,7 @@ export function createProxyType(type: Type<any>) {
       /**
        * 实例代理
        */
-      return createProxy(instance, {
+      return createProxyWidthDefault(instance, {
         get(target: any, p: PropertyKey, receiver: any): any {
           let old = Reflect.get(target, p, receiver);
           meta.forEach(it => {
@@ -75,7 +75,7 @@ export function createProxyType(type: Type<any>) {
           });
           if (typeof old === 'function' || typeof old === 'object') {
             if (old !== null) {
-              return createProxy(old, {
+              return createProxyWidthDefault(old, {
                 apply(target: any, thisArg: any, argArray?: any) {
                   let parameters = [];
                   let parameterMetas: ParameterMetadata<any>[] = meta.filter(
@@ -113,7 +113,10 @@ export function createProxyType(type: Type<any>) {
   });
 }
 
-export function createProxy(item: object, config: ProxyHandler<any>) {
+export function createProxyWidthDefault(
+  item: object,
+  config: ProxyHandler<any>,
+) {
   return new Proxy(item, {
     getPrototypeOf(target: any): object | null {
       return Reflect.getPrototypeOf(target);
