@@ -1,5 +1,5 @@
 import { makeDecorator, TypeDecorator } from 'ims-decorator';
-import { IInjector } from 'ims-core';
+import { IInjector } from 'ims-util';
 export const AddonMetadataKey = 'AddonMetadataKey';
 
 export interface AddonOptions {

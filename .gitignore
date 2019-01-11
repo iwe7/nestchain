@@ -3,6 +3,7 @@ node_modules
 yarn.lock
 dist
 _book
+/**/_book
 ./db/*
 db
 www

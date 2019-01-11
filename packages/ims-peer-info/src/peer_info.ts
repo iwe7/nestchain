@@ -1,12 +1,11 @@
-import { Injectable, Multiaddr } from 'ims-core';
-import { PeerId } from 'packages/ims-core/src/abstracts/ipfs/peer_id';
-import { MultiaddrSet } from './multiaddr_set';
-
+import { Injectable, PeerInfoFactory, PeerId, PeerInfo } from 'ims-core';
+import peerInfo = require('peer-info');
 @Injectable()
-export class PeerInfo {
-  protocols: Set<any> = new Set();
-  _connectedMultiaddr: any;
-  constructor(public id: PeerId, public multiaddrs: MultiaddrSet) {}
-
-  connect(ma: Multiaddr) {}
+export class PeerInfoFactoryImpl extends PeerInfoFactory {
+  create(peerId: PeerId): PeerInfo {
+    return new peerInfo(peerId);
+  }
+  isPeerInfo(info: any): info is PeerInfo {
+    return typeof info === 'object' && info.id && info.multiaddrs;
+  }
 }

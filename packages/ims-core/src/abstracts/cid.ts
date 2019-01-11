@@ -1,5 +1,4 @@
 import { MultibaseType } from './multibase';
-import { Injector } from '@angular/core';
 
 export abstract class Cid {
   get [Symbol.for('type')]() {

@@ -1,6 +1,12 @@
-import { NgModule } from 'ims-core';
-import { PeerInfo } from './peer_info';
+import { NgModule, PeerInfoFactory } from 'ims-core';
+import { PeerInfoFactoryImpl } from './peer_info';
 @NgModule({
-  providers: [PeerInfo],
+  providers: [
+    {
+      provide: PeerInfoFactory,
+      useClass: PeerInfoFactoryImpl,
+      deps: [],
+    },
+  ],
 })
 export class PeerInfoModule {}

@@ -1,6 +1,12 @@
-import { NgModule } from 'ims-core';
-import { PeerId } from './peer_id';
+import { NgModule, PeerIdFactory } from 'ims-core';
+import { PeerIdFactoryImpl } from './peer_id';
 @NgModule({
-  providers: [PeerId],
+  providers: [
+    {
+      provide: PeerIdFactory,
+      useClass: PeerIdFactoryImpl,
+      deps: [],
+    },
+  ],
 })
 export class PeerIdModule {}
