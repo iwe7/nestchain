@@ -23,7 +23,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ngc": "ngc ."
   },
   "bugs": {
     "url": "https://github.com/iwe7/nestchain/issues"

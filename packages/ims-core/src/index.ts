@@ -23,3 +23,4 @@ export * from './proxy/proxy_factory';
 
 //
 export * from './abstracts/index';
+export * from './structures/index';

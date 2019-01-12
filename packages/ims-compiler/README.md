@@ -1,11 +1,6 @@
 # `ims-compiler`
 
-> TODO: description
+> 编译器
 
-## Usage
-
-```
-const imsCompiler = require('ims-compiler');
-
-// TODO: DEMONSTRATE API
-```
+编译输出前端 html,css,script
+后端 nodejs
