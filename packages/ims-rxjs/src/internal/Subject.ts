@@ -26,7 +26,6 @@ export class SubjectSubscriber<T> extends Subscriber<T> {
  * @class Subject<T>
  */
 export class Subject<T> extends Observable<T> implements SubscriptionLike {
-
   [rxSubscriberSymbol]() {
     return new SubjectSubscriber(this);
   }
@@ -47,10 +46,13 @@ export class Subject<T> extends Observable<T> implements SubscriptionLike {
 
   /**@nocollapse
    * @deprecated use new Subject() instead
-  */
-  static create: Function = <T>(destination: Observer<T>, source: Observable<T>): AnonymousSubject<T> => {
+   */
+  static create: Function = <T>(
+    destination: Observer<T>,
+    source: Observable<T>,
+  ): AnonymousSubject<T> => {
     return new AnonymousSubject<T>(destination, source);
-  }
+  };
 
   lift<R>(operator: Operator<T, R>): Observable<R> {
     const subject = new AnonymousSubject(this, this);

@@ -17,19 +17,12 @@ import { SchedulerAction } from '../types';
  * @class Action<T>
  */
 export class Action<T> extends Subscription {
-  constructor(scheduler: Scheduler, work: (this: SchedulerAction<T>, state?: T) => void) {
+  constructor(
+    scheduler: Scheduler,
+    work: (this: SchedulerAction<T>, state?: T) => void,
+  ) {
     super();
   }
-  /**
-   * Schedules this action on its parent {@link SchedulerLike} for execution. May be passed
-   * some context object, `state`. May happen at some point in the future,
-   * according to the `delay` parameter, if specified.
-   * @param {T} [state] Some contextual data that the `work` function uses when
-   * called by the Scheduler.
-   * @param {number} [delay] Time to wait before executing the work, where the
-   * time unit is implicit and defined by the Scheduler.
-   * @return {void}
-   */
   public schedule(state?: T, delay: number = 0): Subscription {
     return this;
   }

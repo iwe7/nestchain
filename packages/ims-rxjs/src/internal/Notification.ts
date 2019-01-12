@@ -49,7 +49,11 @@ export class Notification<T> {
    * @param {function(): void} [complete] An Observer `complete` callback.
    * @return {any}
    */
-  do(next: (value: T) => void, error?: (err: any) => void, complete?: () => void): any {
+  do(
+    next: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void,
+  ): any {
     const kind = this.kind;
     switch (kind) {
       case 'N':
@@ -70,8 +74,15 @@ export class Notification<T> {
    * @param {function(): void} [complete] An Observer `complete` callback.
    * @return {any}
    */
-  accept(nextOrObserver: PartialObserver<T> | ((value: T) => void), error?: (err: any) => void, complete?: () => void) {
-    if (nextOrObserver && typeof (<PartialObserver<T>>nextOrObserver).next === 'function') {
+  accept(
+    nextOrObserver: PartialObserver<T> | ((value: T) => void),
+    error?: (err: any) => void,
+    complete?: () => void,
+  ) {
+    if (
+      nextOrObserver &&
+      typeof (<PartialObserver<T>>nextOrObserver).next === 'function'
+    ) {
       return this.observe(<PartialObserver<T>>nextOrObserver);
     } else {
       return this.do(<(value: T) => void>nextOrObserver, error, complete);
@@ -96,8 +107,12 @@ export class Notification<T> {
     throw new Error('unexpected notification kind value');
   }
 
-  private static completeNotification: Notification<any> = new Notification('C');
-  private static undefinedValueNotification: Notification<any> = new Notification('N', undefined);
+  private static completeNotification: Notification<any> = new Notification(
+    'C',
+  );
+  private static undefinedValueNotification: Notification<
+    any
+  > = new Notification('N', undefined);
 
   /**
    * A shortcut to create a Notification instance of the type `next` from a

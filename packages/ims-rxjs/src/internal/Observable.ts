@@ -1,7 +1,12 @@
 import { Operator } from './Operator';
 import { Subscriber } from './Subscriber';
 import { Subscription } from './Subscription';
-import { TeardownLogic, OperatorFunction, PartialObserver, Subscribable } from './types';
+import {
+  TeardownLogic,
+  OperatorFunction,
+  PartialObserver,
+  Subscribable,
+} from './types';
 import { canReportError } from './util/canReportError';
 import { toSubscriber } from './util/toSubscriber';
 import { iif } from './observable/iif';
@@ -17,7 +22,6 @@ import { config } from './config';
  * @class Observable<T>
  */
 export class Observable<T> implements Subscribable<T> {
-
   /** Internal implementation detail, do not use directly. */
   public _isScalar: boolean = false;
 
@@ -34,7 +38,12 @@ export class Observable<T> implements Subscribable<T> {
    * can be `next`ed, or an `error` method can be called to raise an error, or
    * `complete` can be called to notify of a successful completion.
    */
-  constructor(subscribe?: (this: Observable<T>, subscriber: Subscriber<T>) => TeardownLogic) {
+  constructor(
+    subscribe?: (
+      this: Observable<T>,
+      subscriber: Subscriber<T>,
+    ) => TeardownLogic,
+  ) {
     if (subscribe) {
       this._subscribe = subscribe;
     }
@@ -52,9 +61,11 @@ export class Observable<T> implements Subscribable<T> {
    * @nocollapse
    * @deprecated use new Observable() instead
    */
-  static create: Function = <T>(subscribe?: (subscriber: Subscriber<T>) => TeardownLogic) => {
+  static create: Function = <T>(
+    subscribe?: (subscriber: Subscriber<T>) => TeardownLogic,
+  ) => {
     return new Observable<T>(subscribe);
-  }
+  };
 
   /**
    * Creates a new Observable, with this Observable as the source, and the passed
@@ -72,12 +83,28 @@ export class Observable<T> implements Subscribable<T> {
 
   subscribe(observer?: PartialObserver<T>): Subscription;
   /** @deprecated Use an observer instead of a complete callback */
-  subscribe(next: null | undefined, error: null | undefined, complete: () => void): Subscription;
+  subscribe(
+    next: null | undefined,
+    error: null | undefined,
+    complete: () => void,
+  ): Subscription;
   /** @deprecated Use an observer instead of an error callback */
-  subscribe(next: null | undefined, error: (error: any) => void, complete?: () => void): Subscription;
+  subscribe(
+    next: null | undefined,
+    error: (error: any) => void,
+    complete?: () => void,
+  ): Subscription;
   /** @deprecated Use an observer instead of a complete callback */
-  subscribe(next: (value: T) => void, error: null | undefined, complete: () => void): Subscription;
-  subscribe(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void): Subscription;
+  subscribe(
+    next: (value: T) => void,
+    error: null | undefined,
+    complete: () => void,
+  ): Subscription;
+  subscribe(
+    next?: (value: T) => void,
+    error?: (error: any) => void,
+    complete?: () => void,
+  ): Subscription;
   /**
    * Invokes an execution of an Observable and registers Observer handlers for notifications it will emit.
    *
@@ -196,10 +223,11 @@ export class Observable<T> implements Subscribable<T> {
    * @return {ISubscription} a subscription reference to the registered handlers
    * @method subscribe
    */
-  subscribe(observerOrNext?: PartialObserver<T> | ((value: T) => void),
-            error?: (error: any) => void,
-            complete?: () => void): Subscription {
-
+  subscribe(
+    observerOrNext?: PartialObserver<T> | ((value: T) => void),
+    error?: (error: any) => void,
+    complete?: () => void,
+  ): Subscription {
     const { operator } = this;
     const sink = toSubscriber(observerOrNext, error, complete);
 
@@ -207,9 +235,11 @@ export class Observable<T> implements Subscribable<T> {
       operator.call(sink, this.source);
     } else {
       sink.add(
-        this.source || (config.useDeprecatedSynchronousErrorHandling && !sink.syncErrorThrowable) ?
-        this._subscribe(sink) :
-        this._trySubscribe(sink)
+        this.source ||
+          (config.useDeprecatedSynchronousErrorHandling &&
+            !sink.syncErrorThrowable)
+          ? this._subscribe(sink)
+          : this._trySubscribe(sink),
       );
     }
 
@@ -249,23 +279,30 @@ export class Observable<T> implements Subscribable<T> {
    * @return {Promise} a promise that either resolves on observable completion or
    *  rejects with the handled error
    */
-  forEach(next: (value: T) => void, promiseCtor?: PromiseConstructorLike): Promise<void> {
+  forEach(
+    next: (value: T) => void,
+    promiseCtor?: PromiseConstructorLike,
+  ): Promise<void> {
     promiseCtor = getPromiseCtor(promiseCtor);
 
     return new promiseCtor<void>((resolve, reject) => {
       // Must be declared in a separate statement to avoid a RefernceError when
       // accessing subscription below in the closure due to Temporal Dead Zone.
       let subscription: Subscription;
-      subscription = this.subscribe((value) => {
-        try {
-          next(value);
-        } catch (err) {
-          reject(err);
-          if (subscription) {
-            subscription.unsubscribe();
+      subscription = this.subscribe(
+        value => {
+          try {
+            next(value);
+          } catch (err) {
+            reject(err);
+            if (subscription) {
+              subscription.unsubscribe();
+            }
           }
-        }
-      }, reject, resolve);
+        },
+        reject,
+        resolve,
+      );
     }) as Promise<void>;
   }
 
@@ -300,15 +337,78 @@ export class Observable<T> implements Subscribable<T> {
   /* tslint:disable:max-line-length */
   pipe(): Observable<T>;
   pipe<A>(op1: OperatorFunction<T, A>): Observable<A>;
-  pipe<A, B>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>): Observable<B>;
-  pipe<A, B, C>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>): Observable<C>;
-  pipe<A, B, C, D>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>): Observable<D>;
-  pipe<A, B, C, D, E>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>, op5: OperatorFunction<D, E>): Observable<E>;
-  pipe<A, B, C, D, E, F>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>, op5: OperatorFunction<D, E>, op6: OperatorFunction<E, F>): Observable<F>;
-  pipe<A, B, C, D, E, F, G>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>, op5: OperatorFunction<D, E>, op6: OperatorFunction<E, F>, op7: OperatorFunction<F, G>): Observable<G>;
-  pipe<A, B, C, D, E, F, G, H>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>, op5: OperatorFunction<D, E>, op6: OperatorFunction<E, F>, op7: OperatorFunction<F, G>, op8: OperatorFunction<G, H>): Observable<H>;
-  pipe<A, B, C, D, E, F, G, H, I>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>, op5: OperatorFunction<D, E>, op6: OperatorFunction<E, F>, op7: OperatorFunction<F, G>, op8: OperatorFunction<G, H>, op9: OperatorFunction<H, I>): Observable<I>;
-  pipe<A, B, C, D, E, F, G, H, I>(op1: OperatorFunction<T, A>, op2: OperatorFunction<A, B>, op3: OperatorFunction<B, C>, op4: OperatorFunction<C, D>, op5: OperatorFunction<D, E>, op6: OperatorFunction<E, F>, op7: OperatorFunction<F, G>, op8: OperatorFunction<G, H>, op9: OperatorFunction<H, I>, ...operations: OperatorFunction<any, any>[]): Observable<{}>;
+  pipe<A, B>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+  ): Observable<B>;
+  pipe<A, B, C>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+  ): Observable<C>;
+  pipe<A, B, C, D>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+  ): Observable<D>;
+  pipe<A, B, C, D, E>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+  ): Observable<E>;
+  pipe<A, B, C, D, E, F>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+  ): Observable<F>;
+  pipe<A, B, C, D, E, F, G>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+  ): Observable<G>;
+  pipe<A, B, C, D, E, F, G, H>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+    op8: OperatorFunction<G, H>,
+  ): Observable<H>;
+  pipe<A, B, C, D, E, F, G, H, I>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+    op8: OperatorFunction<G, H>,
+    op9: OperatorFunction<H, I>,
+  ): Observable<I>;
+  pipe<A, B, C, D, E, F, G, H, I>(
+    op1: OperatorFunction<T, A>,
+    op2: OperatorFunction<A, B>,
+    op3: OperatorFunction<B, C>,
+    op4: OperatorFunction<C, D>,
+    op5: OperatorFunction<D, E>,
+    op6: OperatorFunction<E, F>,
+    op7: OperatorFunction<F, G>,
+    op8: OperatorFunction<G, H>,
+    op9: OperatorFunction<H, I>,
+    ...operations: OperatorFunction<any, any>[]
+  ): Observable<{}>;
   /* tslint:enable:max-line-length */
 
   /**
@@ -341,7 +441,10 @@ export class Observable<T> implements Subscribable<T> {
   /* tslint:disable:max-line-length */
   toPromise<T>(this: Observable<T>): Promise<T>;
   toPromise<T>(this: Observable<T>, PromiseCtor: typeof Promise): Promise<T>;
-  toPromise<T>(this: Observable<T>, PromiseCtor: PromiseConstructorLike): Promise<T>;
+  toPromise<T>(
+    this: Observable<T>,
+    PromiseCtor: PromiseConstructorLike,
+  ): Promise<T>;
   /* tslint:enable:max-line-length */
 
   toPromise(promiseCtor?: PromiseConstructorLike): Promise<T> {
@@ -349,7 +452,11 @@ export class Observable<T> implements Subscribable<T> {
 
     return new promiseCtor((resolve, reject) => {
       let value: any;
-      this.subscribe((x: T) => value = x, (err: any) => reject(err), () => resolve(value));
+      this.subscribe(
+        (x: T) => (value = x),
+        (err: any) => reject(err),
+        () => resolve(value),
+      );
     }) as Promise<T>;
   }
 }

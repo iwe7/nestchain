@@ -2,7 +2,11 @@ import { Operator } from '../Operator';
 import { Subscriber } from '../Subscriber';
 import { Observable } from '../Observable';
 import { Subscription } from '../Subscription';
-import { MonoTypeOperatorFunction, SubscribableOrPromise, TeardownLogic } from '../types';
+import {
+  MonoTypeOperatorFunction,
+  SubscribableOrPromise,
+  TeardownLogic,
+} from '../types';
 
 import { tryCatch } from '../util/tryCatch';
 import { errorObject } from '../util/errorObject';
@@ -52,18 +56,23 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method audit
  * @owner Observable
  */
-export function audit<T>(durationSelector: (value: T) => SubscribableOrPromise<any>): MonoTypeOperatorFunction<T> {
+export function audit<T>(
+  durationSelector: (value: T) => SubscribableOrPromise<any>,
+): MonoTypeOperatorFunction<T> {
   return function auditOperatorFunction(source: Observable<T>) {
     return source.lift(new AuditOperator(durationSelector));
   };
 }
 
 class AuditOperator<T> implements Operator<T, T> {
-  constructor(private durationSelector: (value: T) => SubscribableOrPromise<any>) {
-  }
+  constructor(
+    private durationSelector: (value: T) => SubscribableOrPromise<any>,
+  ) {}
 
   call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new AuditSubscriber<T, T>(subscriber, this.durationSelector));
+    return source.subscribe(
+      new AuditSubscriber<T, T>(subscriber, this.durationSelector),
+    );
   }
 }
 
@@ -73,13 +82,14 @@ class AuditOperator<T> implements Operator<T, T> {
  * @extends {Ignored}
  */
 class AuditSubscriber<T, R> extends OuterSubscriber<T, R> {
-
   private value: T;
   private hasValue: boolean = false;
   private throttled: Subscription;
 
-  constructor(destination: Subscriber<T>,
-              private durationSelector: (value: T) => SubscribableOrPromise<any>) {
+  constructor(
+    destination: Subscriber<T>,
+    private durationSelector: (value: T) => SubscribableOrPromise<any>,
+  ) {
     super(destination);
   }
 
@@ -95,7 +105,7 @@ class AuditSubscriber<T, R> extends OuterSubscriber<T, R> {
         if (!innerSubscription || innerSubscription.closed) {
           this.clearThrottle();
         } else {
-          this.add(this.throttled = innerSubscription);
+          this.add((this.throttled = innerSubscription));
         }
       }
     }
@@ -115,7 +125,12 @@ class AuditSubscriber<T, R> extends OuterSubscriber<T, R> {
     }
   }
 
-  notifyNext(outerValue: T, innerValue: R, outerIndex: number, innerIndex: number): void {
+  notifyNext(
+    outerValue: T,
+    innerValue: R,
+    outerIndex: number,
+    innerIndex: number,
+  ): void {
     this.clearThrottle();
   }
 
