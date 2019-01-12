@@ -37,6 +37,8 @@ export const NgModule: NgModuleDecorator = makeDecorator(
   NgModuleMetadataKey,
   'visitNgModule',
 );
+export type ImsModule = NgModule;
+export const ImsModule: NgModuleDecorator = NgModule;
 
 export abstract class NgModuleRef<T> {
   abstract get injector(): Injector;

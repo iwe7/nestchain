@@ -24,3 +24,8 @@ export * from './proxy/proxy_factory';
 //
 export * from './abstracts/index';
 export * from './structures/index';
+export * from './rxjs/index';
+export * from './logger/index';
+export * from './json/index';
+
+export * from './tokens';

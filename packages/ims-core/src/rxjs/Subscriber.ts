@@ -1,6 +1,5 @@
 import { Observer } from './types';
 import { Subscription } from './Subscription';
-
 export abstract class Subscriber<T> extends Subscription
   implements Observer<T> {
   abstract next(value?: T): void;
@@ -8,5 +7,4 @@ export abstract class Subscriber<T> extends Subscription
   abstract complete(): void;
   abstract unsubscribe(): void;
 }
-
 export abstract class SafeSubscriber<T> extends Subscriber<T> {}

@@ -1,0 +1,44 @@
+import dnsPacket = require('dns-packet');
+import https = require('https');
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const buf = dnsPacket.encode({
+  type: 'query',
+  id: getRandomInt(1, 65534),
+  flags: dnsPacket.RECURSION_DESIRED,
+  questions: [
+    {
+      type: 'A',
+      name: 'google.com',
+    },
+  ],
+});
+
+const options = {
+  hostname: 'dns.google.com',
+  port: 443,
+  path: '/experimental',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/dns-udpwireformat',
+    'Content-Length': Buffer.byteLength(buf),
+  },
+};
+
+const request = https.request(options, response => {
+  console.log('statusCode:', response.statusCode);
+  console.log('headers:', response.headers);
+
+  response.on('data', d => {
+    console.log(dnsPacket.decode(d));
+  });
+});
+
+request.on('error', e => {
+  console.error(e);
+});
+request.write(buf);
+request.end();

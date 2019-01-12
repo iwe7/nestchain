@@ -3,7 +3,6 @@ import { OperatorFunction, PartialObserver, Subscribable } from './types';
 import { Subscriber } from './Subscriber';
 import { TeardownLogic } from './types';
 import { Operator } from './Operator';
-
 export abstract class Observable<T> implements Subscribable<T> {
   public _isScalar: boolean = false;
   source: Observable<any>;

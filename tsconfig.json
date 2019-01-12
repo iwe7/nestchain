@@ -81,7 +81,8 @@
       "ims-multihash": ["packages/ims-multihash/src/index"],
       "ims-multicodec": ["packages/ims-multicodec/src/index"],
       "ims-multibase": ["packages/ims-multibase/src/index"],
-      "ims-cid": ["packages/ims-cid/src/index"]
+      "ims-cid": ["packages/ims-cid/src/index"],
+      "ims-dns-packet": ["packages/ims-dns-packet/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],
