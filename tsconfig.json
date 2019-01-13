@@ -82,7 +82,9 @@
       "ims-multicodec": ["packages/ims-multicodec/src/index"],
       "ims-multibase": ["packages/ims-multibase/src/index"],
       "ims-cid": ["packages/ims-cid/src/index"],
-      "ims-dns-packet": ["packages/ims-dns-packet/src/index"]
+      "ims-dns-packet": ["packages/ims-dns-packet/src/index"],
+      "ims-merkle": ["packages/ims-merkle/src/index"],
+      "ims-compiler-node": ["packages/ims-compiler-node/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

@@ -17,10 +17,10 @@ export class Test {
     console.log(appRef);
   }
 }
-platformFactory([])
-  .bootstrapModule(Test)
-  .subscribe(res => {
+platformFactory([]).then(res => {
+  res.bootstrapModule(Test).then(res => {
     let inject = res.injector.get(TestInjectable);
     console.log(res);
     debugger;
   });
+});

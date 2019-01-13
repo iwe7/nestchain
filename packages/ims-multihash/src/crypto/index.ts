@@ -19,18 +19,6 @@ const fromNumberTo32BitBuf = (doWork: any, other?: any) => (input: any) => {
   }
   return Buffer.from(bytes);
 };
-const toCallback = (doWork: any) => {
-  return function(input, callback) {
-    let res;
-    try {
-      res = doWork(input);
-    } catch (err) {
-      process.nextTick(callback, err);
-      return;
-    }
-    process.nextTick(callback, null, res);
-  };
-};
 export const sha1 = (buf: string | Buffer | NodeJS.TypedArray | DataView) =>
   crypto
     .createHash('sha1')

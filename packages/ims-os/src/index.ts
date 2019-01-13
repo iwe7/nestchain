@@ -14,7 +14,7 @@ export class ImsOs {
       totalmem: os.totalmem(),
       type: os.type(),
       uptime: os.uptime(),
-      homedir: os.homedir()
+      homedir: os.homedir(),
     };
   }
 }

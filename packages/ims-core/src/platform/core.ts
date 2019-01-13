@@ -4,7 +4,6 @@ import { ApplicationRef } from '../application_ref';
 import { ApplicationInitStatus, APP_INITIALIZER } from '../application_init';
 import { Inject, Optional } from '../di/metadata';
 import { AppName } from '../tokens';
-
 export const corePlatform = createPlatformFactory(null, 'core', [
   {
     provide: PlatformRef,
@@ -24,5 +23,17 @@ export const corePlatform = createPlatformFactory(null, 'core', [
   {
     provide: AppName,
     useValue: 'ims core',
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: () => {
+      return () => {
+        return new Promise((resolve, reject) => {
+          resolve();
+        });
+      };
+    },
+    multi: true,
+    deps: [],
   },
 ]);

@@ -59,15 +59,17 @@ export type Provider =
   | ClassProvider // no
   | ConstructorProvider
   | ExistingProvider
-  | FactoryProvider
-  | any[];
-
+  | FactoryProvider;
+export interface StaticProviderFn {
+  (): Promise<StaticProvider>;
+}
 export type StaticProvider =
   | ValueProvider
   | ExistingProvider
   | StaticClassProvider
   | ConstructorProvider
   | FactoryProvider
+  | StaticProviderFn
   | any[];
 
 export function isTypeProvider(val: any): val is TypeProvider {

@@ -2,9 +2,8 @@ import { createPlatformFactory, corePlatform, BaseXFactory } from 'ims-core';
 import { BaseXModule } from './index';
 let platform = createPlatformFactory(corePlatform, 'platform-base-x', []);
 
-platform()
-  .bootstrapModule(BaseXModule)
-  .subscribe(res => {
+platform().then(res => {
+  res.bootstrapModule(BaseXModule).then(res => {
     let basexFactory = res.injector.get<BaseXFactory>(BaseXFactory);
     let basex = basexFactory.create(
       '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
@@ -15,3 +14,4 @@ platform()
     let isEqual = deresult === '1234';
     debugger;
   });
+});

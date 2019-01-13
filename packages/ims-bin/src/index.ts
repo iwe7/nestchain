@@ -55,35 +55,37 @@ import { WxappCommand } from './wxapp';
   ],
 })
 export class ImsBinModule {}
-
-const imsBinPlatform = createPlatformFactory(corePlatform, 'ims-bin', []);
-imsBinPlatform([])
-  .bootstrapModule(ImsBinModule)
-  .pipe(
-    concatMap(res => {
-      let commands = res.injector.get(ImsBinToken);
-      let flags = parser(process.argv.slice(2));
-      const { _, ...opts } = flags;
-      if (_.length > 0 && commands) {
-        let command = commands.find(command => command.match(_[0], opts));
-        if (command) {
-          let res = command.run();
-          if (res) {
-            if (isPromise(res)) {
-              return from(res);
-            }
-            if (isObservable(res)) {
-              return res;
-            }
-            return of(res);
-          } else {
-            return of(void 0);
-          }
-        } else {
-          console.log(`can not find command ${_[0]}`);
-          return of(void 0);
+async function bootstrap() {
+  const imsBinPlatform = await createPlatformFactory(
+    corePlatform,
+    'ims-bin',
+    [],
+  );
+  let res = await imsBinPlatform([]);
+  let ref = await res.bootstrapModule(ImsBinModule);
+  let commands = ref.injector.get(ImsBinToken);
+  let flags = parser(process.argv.slice(2));
+  const { _, ...opts } = flags;
+  if (_.length > 0 && commands) {
+    let command = commands.find(command => command.match(_[0], opts));
+    if (command) {
+      let res = command.run();
+      if (res) {
+        if (isPromise(res)) {
+          return from(res);
         }
+        if (isObservable(res)) {
+          return res;
+        }
+        return of(res);
+      } else {
+        return of(void 0);
       }
-    }),
-  )
-  .subscribe();
+    } else {
+      console.log(`can not find command ${_[0]}`);
+      return of(void 0);
+    }
+  }
+}
+
+bootstrap();

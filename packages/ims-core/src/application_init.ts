@@ -2,6 +2,7 @@ import { Injectable } from './di/injectable';
 import { Inject, Optional } from './di/metadata';
 import { InjectionToken } from './di/injection_token';
 import { isPromise } from 'ims-util';
+import { Injector } from '@angular/core';
 export const APP_INITIALIZER = new InjectionToken<Array<() => void>>(
   'Application Initializer',
 );
@@ -14,7 +15,9 @@ export class ApplicationInitStatus {
   public readonly done = false;
 
   constructor(
-    @Inject(APP_INITIALIZER) @Optional() private appInits: (() => any)[],
+    @Inject(APP_INITIALIZER)
+    @Optional()
+    private appInits: ((injector: Injector) => any)[],
   ) {
     this.donePromise = new Promise((res, rej) => {
       this.resolve = res;
@@ -22,8 +25,7 @@ export class ApplicationInitStatus {
     });
   }
 
-  /** @internal */
-  runInitializers() {
+  runInitializers(injector: Injector) {
     if (this.initialized) {
       return;
     }
@@ -34,9 +36,11 @@ export class ApplicationInitStatus {
     };
     if (this.appInits) {
       for (let i = 0; i < this.appInits.length; i++) {
-        const initResult = this.appInits[i]();
-        if (isPromise(initResult)) {
-          asyncInitPromises.push(initResult);
+        const initResult = this.appInits[i](injector);
+        if (initResult) {
+          if (isPromise(initResult)) {
+            asyncInitPromises.push(initResult);
+          }
         }
       }
     }

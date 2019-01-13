@@ -1,9 +1,8 @@
 import { LoggerModule } from './index';
 import { corePlatform, Logger, LoggerFactory } from 'ims-core';
 
-corePlatform()
-  .bootstrapModule(LoggerModule)
-  .subscribe(res => {
+corePlatform().then(res => {
+  res.bootstrapModule(LoggerModule).then(res => {
     let injector = res.injector;
     let logger = injector.get<Logger>(Logger);
     let factory = injector.get<LoggerFactory>(LoggerFactory);
@@ -14,3 +13,4 @@ corePlatform()
     logger.info('test');
     debugger;
   });
+});

@@ -4,6 +4,7 @@ import {
   formatError,
   staticError,
   getClosureSafeProperty,
+  isFunction,
 } from 'ims-util';
 import { Type } from '../type';
 import { InjectionToken } from './injection_token';
@@ -19,6 +20,7 @@ import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
+import { isPromise } from 'packages/ims-rxjs/src/internal/util/isPromise';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
@@ -30,6 +32,11 @@ export class NullInjector implements Injector {
     return notFoundValue;
   }
   set(providers: StaticProvider[]): any {}
+  init(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      resolve();
+    });
+  }
 }
 export enum InjectFlags {
   Default = 0b0000,
@@ -39,6 +46,7 @@ export enum InjectFlags {
   Optional = 0b1000,
 }
 export const INJECTOR = new InjectionToken<Injector>('INJECTOR');
+
 export class StaticInjector implements Injector {
   readonly parent: Injector;
   readonly source: string | null;
@@ -46,7 +54,7 @@ export class StaticInjector implements Injector {
   private _records: Map<any, Record>;
 
   constructor(
-    providers: StaticProvider[],
+    private providers: StaticProvider[],
     parent: Injector = Injector.top,
     source: string | null = null,
   ) {
@@ -71,12 +79,28 @@ export class StaticInjector implements Injector {
       value: this,
       useNew: false,
     });
-    // 注册record
-    recursivelyProcessProviders(records, providers);
+  }
+
+  async init(): Promise<void> {
+    let _providers = this.providers.map(async provider => {
+      if (isFunction(provider)) {
+        return await provider();
+      } else {
+        return provider;
+      }
+    });
+    recursivelyProcessProviders(this._records, _providers);
   }
 
   set(providers: StaticProvider[]) {
-    recursivelyProcessProviders(this._records, providers);
+    let _providers = providers.map(async provider => {
+      if (isFunction(provider)) {
+        return await provider();
+      } else {
+        return provider;
+      }
+    });
+    recursivelyProcessProviders(this._records, _providers);
   }
 
   get<T>(
@@ -142,18 +166,21 @@ export abstract class Injector {
   /**
    * @deprecated from v5 use the new signature Injector.create(options)
    */
-  static create(providers: StaticProvider[], parent?: Injector): Injector;
-  static create(options: {
+  static async create(
+    providers: StaticProvider[],
+    parent?: Injector,
+  ): Promise<Injector>;
+  static async create(options: {
     providers: StaticProvider[];
     parent?: Injector;
     name?: string;
-  }): Injector;
-  static create(
+  }): Promise<Injector>;
+  static async create(
     options:
       | StaticProvider[]
       | { providers: StaticProvider[]; parent?: Injector; name?: string },
     parent?: Injector,
-  ): Injector {
+  ): Promise<Injector> {
     let injector: Injector;
     if (Array.isArray(options)) {
       injector = new StaticInjector(options, parent);
@@ -164,9 +191,12 @@ export abstract class Injector {
         options.name || null,
       );
     }
+    await injector.init();
     setCurrentInjector(injector);
     return injector;
   }
+
+  abstract init(): Promise<void>;
 
   static ngInjectableDef = defineInjectable({
     providedIn: 'any' as any,
@@ -200,7 +230,7 @@ const MULTI_PROVIDER_FN = function(): any[] {
   return Array.prototype.slice.call(arguments);
 };
 function multiProviderMixError(token: any) {
-  return staticError('Cannot mix multi providers and regular providers', token);
+  return staticError('添加multi:true', token);
 }
 const enum OptionFlags {
   Optional = 1 << 0,
@@ -250,6 +280,10 @@ function recursivelyProcessProviders(
         throw multiProviderMixError(token);
       }
       records.set(token, resolvedProvider);
+    } else if (isPromise(provider)) {
+      provider.then(pro => {
+        recursivelyProcessProviders(records, pro);
+      });
     } else {
       throw staticError('Unexpected provider', provider);
     }
@@ -324,7 +358,8 @@ function computeDeps(provider: StaticProvider): DependencyRecord[] {
     const token = resolveForwardRef((provider as ExistingProvider).useExisting);
     deps = [{ token, options: OptionFlags.Default }];
   } else if (!providerDeps && !(USE_VALUE in provider)) {
-    throw staticError("'deps' required", provider);
+    return [];
+    // throw staticError("'deps' required", provider);
   }
   return deps;
 }

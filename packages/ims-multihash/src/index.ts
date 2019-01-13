@@ -22,4 +22,4 @@ import { Multihashing } from './multihashing';
 })
 export class MultihashModule {}
 
-export * from './multihashing'
+export * from './multihashing';

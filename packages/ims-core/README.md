@@ -2,6 +2,13 @@
 
 > 核心依赖注入
 
+##
+
+```ts
+
+let record: Map<string,any> = new Map();
+```
+
 ## 依赖
 
 - [ims-util](../ims-util)

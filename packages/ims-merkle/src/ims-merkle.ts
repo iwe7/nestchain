@@ -1,11 +1,53 @@
 /**
  * 默克尔树
  */
+
+import { Multihashing } from 'ims-multihash';
 export class ImsMerkleTree {
-  constructor(datas: Buffer[]) {
-    let nodes = datas.map(data => new ImsMerkleTreeNode(data));
+  root: Buffer;
+  rootNode: ImsMerkleTreeNode;
+  get hash() {
+    return this.root.toString('hex');
   }
-  insert() {}
+  constructor(datas: Buffer[], public multihashing: Multihashing) {
+    let nodes = datas.map(
+      (data, index) => new ImsMerkleTreeNode(data, index, this.multihashing),
+    );
+    this.handlerNodes(nodes.reverse());
+  }
+
+  getJson() {
+    return this.rootNode.toJson();
+  }
+
+  private handlerNodes(nodes: ImsMerkleTreeNode[]) {
+    let last = nodes.pop();
+    let old = last;
+    let newNodes = [];
+    while (last) {
+      old = last;
+      last = nodes.pop();
+      if (last) {
+        let node = (last.parent = old.parent = new ImsMerkleTreeNode(
+          Buffer.from(old.hash.toString() + last.hash.toString()),
+          old.key + '_' + last.key,
+          this.multihashing,
+        ));
+        node.left = old;
+        node.right = last;
+        newNodes.push(node);
+        last = nodes.pop();
+      } else {
+        newNodes.push(old);
+      }
+    }
+    if (newNodes.length > 1) {
+      this.handlerNodes(newNodes.reverse());
+    } else if (newNodes.length === 1) {
+      this.rootNode = newNodes[0];
+      this.root = this.rootNode.hash;
+    }
+  }
 }
 
 /**
@@ -15,21 +57,43 @@ export class ImsMerkleTreeNode {
   /**
    * 是否是叶子
    */
-  isLeaf: boolean;
-  constructor(public data: Buffer) {}
+  get hash(): Buffer {
+    return this.multihashing.hash(this.data);
+  }
+  parent: ImsMerkleTreeNode;
 
-  insert() {}
-  find() {}
-  contains() {}
-  remove() {}
-  findMin() {}
+  left: ImsMerkleTreeNode;
+  right: ImsMerkleTreeNode;
+
+  constructor(
+    public data: Buffer,
+    private _key: any,
+    public multihashing: Multihashing,
+  ) {}
+
+  toJson() {
+    let item: any = { hash: this.hash.toString('hex') };
+    if (this.left) {
+      item.left = this.left.toJson();
+    }
+    if (this.right) {
+      item.right = this.right.toJson();
+    }
+    return item;
+  }
+
+  get key() {
+    return `${this._key}`;
+  }
 }
 
 /**
  * 默克尔树工厂
  */
 export class ImsMerkleTreeFactory {
-  create(datas: Buffer[]): ImsMerkleTree {
-    return new ImsMerkleTree(datas);
+  constructor(public multihashing: Multihashing) {}
+  create(datas: Buffer[] | { [key: string]: Buffer }): ImsMerkleTree {
+    let items = Object.keys(datas).map(it => datas[it]);
+    return new ImsMerkleTree(items, this.multihashing);
   }
 }

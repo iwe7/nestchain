@@ -15,6 +15,8 @@ import { Injector } from './injector';
 import { createProxyType } from './proxy';
 import { Observable, of } from 'ims-rxjs';
 import { isArray } from 'ims-util';
+import { Compiler } from '../compiler';
+import { isFunction } from 'packages/ims-rxjs/src/internal/util/isFunction';
 export interface ModuleWithProviders<T = any> {
   ngModule: Type<T>;
   providers?: Provider[];
@@ -24,9 +26,21 @@ export function isModuleWithProviders<T = any>(
 ): val is ModuleWithProviders<T> {
   return val.ngModule;
 }
+export type NgModuleImportType =
+  | Type<any>
+  | ModuleWithProviders<{}>
+  | NgModuleImport
+  | any[];
+export interface NgModuleImports {
+  (): Promise<Array<NgModuleImportType>>;
+}
+export interface NgModuleImport {
+  (): Promise<NgModuleImportType>;
+}
 export interface NgModule {
   providers?: Provider[];
-  imports?: Array<Type<any> | ModuleWithProviders<{}> | any[]>;
+  imports?: Array<NgModuleImportType> | NgModuleImports;
+  controllers?: any[];
 }
 export interface NgModuleDecorator {
   (obj?: NgModule): TypeDecorator;
@@ -52,62 +66,93 @@ export interface InternalNgModuleRef<T> extends NgModuleRef<T> {
 }
 
 export abstract class NgModuleFactory<T> {
+  abstract get type(): Type<T>;
   abstract get moduleType(): Type<T>;
-  abstract create(parentInjector: Injector | null): NgModuleRef<T>;
+  abstract create(parentInjector: Injector | null): Promise<NgModuleRef<T>>;
 }
 
 export function createNgModuleFactory(
   ngModuleType: Type<any>,
   injector: Injector,
 ): NgModuleFactory<any> {
-  return new NgModuleFactory_(ngModuleType, injector);
+  let ngModuleFactory = new NgModuleFactory_(ngModuleType, injector);
+  injector.set([
+    {
+      provide: NgModuleFactory,
+      useValue: ngModuleFactory,
+    },
+  ]);
+  return ngModuleFactory;
 }
 export class NgModuleFactory_<T> extends NgModuleFactory<T> {
   get moduleType(): Type<T> {
     return this._moduleType;
   }
   private _moduleType: Type<T>;
-  constructor(private type: Type<any>, public _injector?: Injector) {
+  constructor(public type: Type<any>, public _injector?: Injector) {
     super();
     this._moduleType = createProxyType(type);
   }
-  create(parentInjector: Injector | null): NgModuleRef<T> {
+  async create(parentInjector: Injector | null): Promise<NgModuleRef<T>> {
     let instance = new this.moduleType();
-    let staticProviders: StaticProvider[] = getNgModuleStaticProvider(
+    let staticProviders: StaticProvider[] = await getNgModuleStaticProvider(
       this.type,
     );
-    let injector = Injector.create(staticProviders, parentInjector);
-    return new NgModuleRef_(injector, instance);
+    let injector = await Injector.create(staticProviders, parentInjector);
+    let ref = new NgModuleRef_(injector, instance);
+    injector.set([
+      {
+        provide: NgModuleRef,
+        useValue: ref,
+      },
+    ]);
+    return ref;
   }
 }
 
-export function getNgModuleStaticProvider(type: Type<any>) {
+export async function getNgModuleStaticProvider(
+  type: Type<any>,
+): Promise<StaticProvider[]> {
   let meta = getMetadata(type);
   let staticProviders: StaticProvider[] = [];
   let staticProviderMap: Map<StaticProvider, StaticProvider> = new Map();
-  meta.forEach(it => {
+  meta.forEach(async it => {
     if (isClassMetadata<NgModule>(it)) {
       if (it.metadataKey === NgModuleMetadataKey) {
         let { providers, imports } = it.metadataDef;
-        imports &&
-          imports.map(imt => {
-            if (isType(imt)) {
-              getNgModuleStaticProvider(imt).forEach((it: StaticProvider) => {
-                if (!isArray(it)) {
-                  staticProviderMap.set(it, it);
-                }
-              });
-            }
-            if (isModuleWithProviders(imt)) {
-              imt.providers.forEach(provide => {
-                let staticProvider = providerToStaticProvider(provide);
-                if (!isArray(staticProvider)) {
-                  staticProviderMap.set(staticProvider, staticProvider);
-                }
-              });
-            }
+        const handlerImport = async (it: NgModuleImportType) => {
+          if (isType(it)) {
+            let statics = await getNgModuleStaticProvider(it);
+            statics.forEach((it: StaticProvider) => {
+              if (!isArray(it)) {
+                staticProviderMap.set(it, it);
+              }
+            });
+          } else if (isModuleWithProviders(it)) {
+            it.providers.forEach(provide => {
+              let staticProvider = providerToStaticProvider(provide);
+              if (!isArray(staticProvider)) {
+                staticProviderMap.set(staticProvider, staticProvider);
+              }
+            });
+          } else if (isFunction(it)) {
+            let res = await it();
+            handlerImport(res);
+          }
+        };
+        const handlerImports = async (imports: Array<NgModuleImportType>) => {
+          imports.forEach(async it => {
+            await handlerImport(it);
           });
-
+        };
+        if (imports) {
+          if (isFunction(imports)) {
+            let imps = await imports();
+            await handlerImports(imps);
+          } else {
+            await handlerImports(imports);
+          }
+        }
         /**
          * providers
          */
@@ -158,10 +203,9 @@ export class NgModuleRef_<T> extends NgModuleRef<T> {
   destroy(): void {}
   onDestroy(callback: () => void): void {}
 }
-// todo
-export function compileNgModuleFactory<M>(
+export async function compileNgModuleFactory<M>(
   injector: Injector,
   moduleType: Type<M>,
-): Observable<NgModuleFactory<M>> {
-  return of(createNgModuleFactory(moduleType, injector));
+): Promise<NgModuleFactory<M>> {
+  return createNgModuleFactory(moduleType, injector);
 }

@@ -29,3 +29,5 @@ export * from './logger/index';
 export * from './json/index';
 
 export * from './tokens';
+export * from './compiler';
+export * from './http';

@@ -2,9 +2,6 @@ import { StaticProvider } from './di/provider';
 import { InjectionToken } from './di/injection_token';
 import { Injector } from './di/injector';
 import { Type } from './type';
-import { Observable, from } from 'ims-rxjs';
-import { concatMap, map } from 'ims-rxjs/operators';
-
 import { ApplicationInitStatus } from './application_init';
 import { ApplicationRef } from './application_ref';
 import {
@@ -12,7 +9,11 @@ import {
   compileNgModuleFactory,
   NgModuleFactory,
   getNgModuleStaticProvider,
+  NgModule,
+  NgModuleMetadataKey,
 } from './di/ngModule';
+import { Compiler } from './compiler';
+import { getMetadata, isClassMetadata } from 'ims-decorator';
 
 export class PlatformRef {
   private _modules: NgModuleRef<any>[] = [];
@@ -21,29 +22,47 @@ export class PlatformRef {
     return this._injector;
   }
   constructor(public _injector: Injector) {}
-  bootstrapModule<M>(moduleType: Type<M>): Observable<NgModuleRef<M>> {
-    return compileNgModuleFactory(this.injector, moduleType).pipe(
-      concatMap(factory => {
-        return this.bootstrapModuleFactory(factory);
-      }),
+  async bootstrapModule<M>(moduleType: Type<M>): Promise<NgModuleRef<M>> {
+    let ngModuleFactory = await compileNgModuleFactory(
+      this.injector,
+      moduleType,
     );
+    return await this.bootstrapModuleFactory(ngModuleFactory);
   }
-  bootstrapModuleFactory<M>(
+  async bootstrapModuleFactory<M>(
     moduleFactory: NgModuleFactory<M>,
-  ): Observable<NgModuleRef<M>> {
-    let moduleRef = moduleFactory.create(this.injector);
+  ): Promise<NgModuleRef<M>> {
+    let moduleRef = await moduleFactory.create(this.injector);
+    let type = moduleFactory.type;
+    let compiler = moduleRef.injector.get<Compiler>(Compiler, null);
+    let meta = getMetadata(type);
+    if (compiler) {
+      meta.forEach(it => {
+        if (isClassMetadata<NgModule>(it)) {
+          if (it.metadataKey === NgModuleMetadataKey) {
+            let { controllers } = it.metadataDef;
+            if (controllers) {
+              controllers.map(compi => {
+                moduleRef.injector.set(compiler.compile(compi));
+              });
+            }
+          }
+        }
+      });
+    }
     moduleRef.onDestroy(() => remove(this._modules, moduleRef));
     const initStatus = moduleRef.injector.get<ApplicationInitStatus>(
       ApplicationInitStatus,
     );
-    initStatus.runInitializers();
+    initStatus.runInitializers(moduleRef.injector);
     let { ngDoBootstrap } = moduleRef.instance as any;
     if (ngDoBootstrap) {
       const appRef = moduleRef.injector.get(ApplicationRef) as ApplicationRef;
       ngDoBootstrap(appRef);
     }
     this._modules.push(moduleRef);
-    return from(initStatus.donePromise).pipe(map(() => moduleRef));
+    await initStatus.donePromise;
+    return moduleRef;
   }
 }
 
@@ -83,27 +102,27 @@ export function getPlatform(): PlatformRef | null {
   return _platform && !_platform.destroyed ? _platform : null;
 }
 export interface PlatformFactory {
-  (extraProviders?: StaticProvider[]): PlatformRef;
+  (extraProviders?: StaticProvider[]): Promise<PlatformRef>;
 }
 export function createPlatformFactory(
   parentPlatformFactory: PlatformFactory | null,
   name: string,
   providers: StaticProvider[] = [],
   types?: Type<any>[],
-): (extraProviders?: StaticProvider[]) => PlatformRef {
+): (extraProviders?: StaticProvider[]) => Promise<PlatformRef> {
   const desc = `Platform: ${name}`;
   const marker = new InjectionToken(desc);
-  return (extraProviders: StaticProvider[] = []) => {
+  return async (extraProviders: StaticProvider[] = []) => {
     let platform = getPlatform();
     if (types) {
-      types.forEach(type => {
-        let pros = getNgModuleStaticProvider(type);
+      types.forEach(async type => {
+        let pros = await getNgModuleStaticProvider(type);
         providers.concat(pros);
       });
     }
     if (!platform || platform.injector.get(ALLOW_MULTIPLE_PLATFORMS, false)) {
       if (parentPlatformFactory) {
-        parentPlatformFactory(
+        await parentPlatformFactory(
           providers
             .concat(extraProviders)
             .concat({ provide: marker, useValue: true }),
@@ -113,7 +132,7 @@ export function createPlatformFactory(
           .concat(extraProviders)
           .concat({ provide: marker, useValue: true });
         createPlatform(
-          Injector.create({ providers: injectedProviders, name: desc }),
+          await Injector.create({ providers: injectedProviders, name: desc }),
         );
       }
     }
