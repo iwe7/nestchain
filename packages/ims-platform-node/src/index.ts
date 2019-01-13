@@ -9,6 +9,7 @@ import {
   APP_INITIALIZER,
   Logger,
 } from 'ims-core';
+import { NgModule, NgModuleRef } from 'ims-core';
 import { Multihashing, MultihashModule } from 'ims-multihash';
 import { isObservable } from 'ims-rxjs';
 import { isPromise } from 'ims-util';
@@ -152,3 +153,15 @@ export const nodePlatform = createPlatformFactory(
     },
   ],
 );
+
+export class ImsNodeModule {}
+export async function bootstrap(cfg: NgModule) {
+  NgModule(cfg)(ImsNodeModule);
+  try {
+    let platform = await nodePlatform();
+    let ref = await platform.bootstrapModule(ImsNodeModule);
+    return ref;
+  } catch (e) {
+    throw e;
+  }
+}

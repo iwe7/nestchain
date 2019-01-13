@@ -45,6 +45,7 @@
 - [lisk](https://github.com/LiskHQ/lisk.git)
 - [lerna](https://github.com/lerna/lerna.git)
 - [execa](https://github.com/sindresorhus/execa.git)
+- [angular](https://github.com/angular/angular)
 
 curl -sSL https://get.docker.com/ | sh
 
