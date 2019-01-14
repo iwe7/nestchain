@@ -1,11 +1,11 @@
-# `ims-error`
+# `ims-fsm`
 
 > TODO: description
 
 ## Usage
 
 ```
-const imsError = require('ims-error');
+const imsFsm = require('ims-fsm');
 
 // TODO: DEMONSTRATE API
 ```

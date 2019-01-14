@@ -12,3 +12,4 @@ export * from './property';
 export * from './staticError';
 export * from './type';
 export * from 'util';
+export * from './other';

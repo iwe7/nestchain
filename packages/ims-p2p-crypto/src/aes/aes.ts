@@ -4,8 +4,10 @@ const CIPHER_MODES = {
   16: 'aes-128-ctr',
   32: 'aes-256-ctr',
 };
-@Injectable()
-export class Aes {
+@Injectable({
+  providedIn: 'root',
+})
+export class ImsP2pCryptoAes {
   constructor(public ciphers: Ciphers) {}
   create(
     key: string | Buffer | NodeJS.TypedArray,

@@ -5,8 +5,10 @@ const lengths = {
   SHA512: 64,
 };
 import crypto = require('crypto');
-@Injectable()
-export class Hmac {
+@Injectable({
+  providedIn: 'root',
+})
+export class ImsP2pCryptoHmac {
   create(
     hash: string,
     secret: string | Buffer | NodeJS.TypedArray | DataView,

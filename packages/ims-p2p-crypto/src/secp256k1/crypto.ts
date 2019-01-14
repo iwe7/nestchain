@@ -2,7 +2,7 @@ import { MultihashType } from 'ims-core';
 const secp256k1 = require('secp256k1');
 import { Multihashing } from 'ims-multihash';
 
-export class Crypto {
+export class ImsP2pCrypto {
   constructor(public multihashing: Multihashing, public randomBytes: any) {}
   generateKey() {
     let privateKey;

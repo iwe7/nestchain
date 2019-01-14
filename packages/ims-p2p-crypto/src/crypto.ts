@@ -2,18 +2,23 @@ import { Injectable } from 'ims-core';
 import randomBytes = require('iso-random-stream/src/random');
 import forgePbkdf2 = require('node-forge/lib/pbkdf2');
 import forgeUtil = require('node-forge/lib/util');
-import { Keys } from './keys/keys';
-import { Hmac } from './hmac/hmac';
-import { Aes } from './aes/aes';
+import { ImsP2pCryptoKeys } from './keys/keys';
+import { ImsP2pCryptoHmac } from './hmac/hmac';
+import { ImsP2pCryptoAes } from './aes/aes';
 const hashName = {
   sha1: 'sha1',
   'sha2-256': 'sha256',
   'sha2-512': 'sha512',
 };
-@Injectable()
-export class Crypto {
-  constructor(public keys: Keys, public hmac: Hmac, public aes: Aes) {}
-
+@Injectable({
+  providedIn: 'root',
+})
+export class ImsP2pCrypto {
+  constructor(
+    public keys: ImsP2pCryptoKeys,
+    public hmac: ImsP2pCryptoHmac,
+    public aes: ImsP2pCryptoAes,
+  ) {}
   pbkdf2(
     password: string,
     salt: string,

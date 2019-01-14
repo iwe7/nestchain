@@ -2,7 +2,9 @@ import { Injectable } from 'ims-core';
 import crypto = require('crypto');
 import stream = require('stream');
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class Ciphers {
   createCipheriv(
     algorithm: crypto.CipherCCMTypes,

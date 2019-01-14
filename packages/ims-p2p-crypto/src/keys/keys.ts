@@ -1,8 +1,10 @@
 import { Injectable } from 'ims-core';
 import libp2pCrypto = require('libp2p-crypto');
 
-@Injectable()
-export class Keys {
+@Injectable({
+  providedIn: 'root',
+})
+export class ImsP2pCryptoKeys {
   constructor() {}
   generateKeyPair(type, bits): Promise<any> {
     return new Promise((resolve, reject) => {

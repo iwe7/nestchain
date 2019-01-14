@@ -1,7 +1,7 @@
 import { Injectable } from 'ims-core';
 import { Secp256k1PrivateKeyFactory } from './secp256k1PrivateKey';
 import { Secp256k1PublicKeyFactory } from './secp256k1PublicKey';
-import { Crypto } from './crypto';
+import { ImsP2pCrypto } from './crypto';
 import { Multihashing } from 'ims-multihash';
 
 export class Secp256k1 {
@@ -11,10 +11,10 @@ export class Secp256k1 {
   constructor(
     randomBytes: any,
     keysProtobuf: any,
-    public crypto: Crypto,
+    public crypto: ImsP2pCrypto,
     public multihashing: Multihashing,
   ) {
-    this.crypto = new Crypto(this.multihashing, randomBytes);
+    this.crypto = new ImsP2pCrypto(this.multihashing, randomBytes);
     this.secp256k1PublicKeyFactory = new Secp256k1PublicKeyFactory(
       this.crypto,
       this.multihashing,
@@ -27,7 +27,6 @@ export class Secp256k1 {
       keysProtobuf,
     );
   }
-
   unmarshalSecp256k1PrivateKey(bytes) {
     return this.secp256k1PrivateKeyFactory.create(bytes);
   }
@@ -40,9 +39,11 @@ export class Secp256k1 {
     return privkey;
   }
 }
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class Secp256k1Factory {
-  constructor(public crypto: Crypto, public multihashing: Multihashing) {}
+  constructor(public crypto: ImsP2pCrypto, public multihashing: Multihashing) {}
   create(keysProtobuf, randomBytes) {
     return new Secp256k1(
       randomBytes,

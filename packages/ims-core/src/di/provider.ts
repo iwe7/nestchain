@@ -1,4 +1,5 @@
 import { Type, isType } from '../type';
+import { isFunction } from 'ims-util';
 export interface ValueSansProvider {
   useValue: any;
 }
@@ -62,6 +63,9 @@ export type Provider =
   | FactoryProvider;
 export interface StaticProviderFn {
   (): Promise<StaticProvider>;
+}
+export function isStaticProviderFn(val: any): val is StaticProviderFn {
+  return isFunction(val);
 }
 export type StaticProvider =
   | ValueProvider

@@ -15,6 +15,7 @@ import {
   StaticClassProvider,
   ConstructorProvider,
   FactoryProvider,
+  isStaticProviderFn,
 } from './provider';
 import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
@@ -83,7 +84,7 @@ export class StaticInjector implements Injector {
 
   async init(): Promise<void> {
     let _providers = this.providers.map(async provider => {
-      if (isFunction(provider)) {
+      if (isStaticProviderFn(provider)) {
         return await provider();
       } else {
         return provider;
@@ -94,7 +95,7 @@ export class StaticInjector implements Injector {
 
   set(providers: StaticProvider[]) {
     let _providers = providers.map(async provider => {
-      if (isFunction(provider)) {
+      if (isStaticProviderFn(provider)) {
         return await provider();
       } else {
         return provider;

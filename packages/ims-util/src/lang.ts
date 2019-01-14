@@ -195,8 +195,6 @@ export function isFalse(v: any): v is false {
   else return false;
 }
 
-export const keys = Object.keys;
-
 export function uuid4(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = (Math.random() * 16) | 0,
