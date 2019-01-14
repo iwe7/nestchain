@@ -1,4 +1,7 @@
 import os = require('os');
+import { Injectable } from 'ims-core';
+import { NgModule } from '@angular/core';
+@Injectable()
 export class ImsOs {
   getOs() {
     return {
@@ -18,3 +21,8 @@ export class ImsOs {
     };
   }
 }
+
+@NgModule({
+  providers: [ImsOs],
+})
+export class OsModule {}

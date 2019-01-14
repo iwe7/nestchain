@@ -11,3 +11,4 @@ export * from './stringify';
 export * from './property';
 export * from './staticError';
 export * from './type';
+export * from 'util';

@@ -1,21 +1,49 @@
-import levelup from 'levelup';
-import path = require('path');
-import leveldown, { LevelDown } from 'leveldown';
-import encode = require('encoding-down');
-import { ROOT } from 'ims-const';
-import { ErrorCallback } from 'abstract-leveldown';
-export class Level extends levelup {
-  static db: LevelDown;
-  constructor(options: any = {}, callback?: ErrorCallback) {
-    super(encode(Level.db, options), options, callback);
+import level = require('level');
+import { Injectable } from 'ims-core';
+@Injectable()
+export class ImsLevel {
+  db: any;
+  constructor(public path: string) {
+    this.db = level(path);
   }
-  static destroy(location: string, cb: ErrorCallback) {
-    this.db.destory(location, cb || function() {});
+  open() {
+    return this.db.open();
   }
-  static repair(location: string, cb: ErrorCallback) {
-    this.db.repair(location, cb || function() {});
+  close() {
+    return this.db.close();
   }
-  static errors = levelup.errors;
+  put() {}
+  get() {}
+  del() {}
+  batch() {}
+  isOpen() {}
+  isClosed() {}
+  createReadStream() {}
+  createKeyStream() {}
+  createValueStream() {}
+  iterator() {}
 }
-Level.db = leveldown(path.join(ROOT, 'www/data/coredb'));
-export default Level;
+
+function inherits(ctor, superCtor) {
+  ctor.super_ = superCtor;
+  ctor.prototype = Object.create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true,
+    },
+  });
+}
+
+class A {
+  ddd: string = 'a';
+}
+class B {
+  title: string = 'b';
+}
+
+let C = inherits(A, B);
+
+let a = new A();
+debugger;

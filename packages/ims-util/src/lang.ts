@@ -1,5 +1,15 @@
 import { Type } from './type';
 import { Observable } from 'ims-rxjs';
+import {
+  isNullOrUndefined,
+  isString,
+  isArray,
+  isNumber,
+  isObject,
+  isFunction,
+  isBoolean,
+} from 'util';
+
 export type AllTypes =
   | 'array'
   | 'null'
@@ -49,7 +59,7 @@ export function getType(val: any): AllTypes {
     return 'date';
   }
 
-  const type = toString.call(val);
+  const type = objectToString(val);
   if (type === '[object RegExp]') {
     return 'regexp';
   }
@@ -79,32 +89,6 @@ export function getType(val: any): AllTypes {
     return 'symbol';
   }
   return typeof val;
-}
-
-export function isNumber(v: any): v is number {
-  if (getType(v) !== 'number') return false;
-  return v - v + 1 >= 0;
-}
-
-export function isUndefined(v: any): v is undefined {
-  return getType(v) === 'undefined';
-}
-
-export function isNull(v: any): v is null {
-  return getType(v) === 'null';
-}
-
-export function isNullOrUndefined(v: any): v is undefined | null {
-  return isUndefined(v) || isNull(v);
-}
-
-export const isArray = Array.isArray;
-export function isObject(v: any): v is object {
-  return getType(v) === 'object';
-}
-
-export function isFunction(v: any): v is Function {
-  return getType(v) === 'function';
 }
 
 export function isEmpty(v: any): boolean {
@@ -167,14 +151,6 @@ export function strictIsArray(v: any, key: any) {
 
 export function isObjectLike(v: any): v is object {
   return getType(v) === 'object';
-}
-
-export function isBoolean(v: any): v is boolean {
-  return getType(v) === 'boolean';
-}
-
-export function isString(v: any): v is string {
-  return getType(v) === 'string';
 }
 
 export function isOrigin(
@@ -245,4 +221,11 @@ export function isMap<K = any, V = any>(v: any): v is Map<K, V> {
 }
 export function isSet<V = any>(v: any): v is Set<V> {
   return getType(v) === 'set';
+}
+
+export function objectToString(o: any): string {
+  return Object.prototype.toString.call(o);
+}
+export function pad(n: number): string {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
 }
