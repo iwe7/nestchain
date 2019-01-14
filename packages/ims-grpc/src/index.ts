@@ -8,8 +8,6 @@ import {
   credentials,
   Client,
 } from 'grpc';
-
-import { nodePlatform } from 'ims-platform-node';
 import { NgModule, Injectable, Type, Injector, InjectionToken } from 'ims-core';
 export const GrpcServerConfig = new InjectionToken<{
   host: string;
