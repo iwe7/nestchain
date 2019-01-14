@@ -1,11 +1,6 @@
 import { uniq, keys, dissoc, equals } from 'ramda';
-import {
-  getType,
-  isNullOrUndefined,
-  isObject,
-  isArray,
-  isString,
-} from './lang';
+import { getType } from './lang';
+import { isNullOrUndefined, isObject, isArray, isString } from 'util';
 export function createMerge(isSame: (a, b) => boolean) {
   return function merge<T = any>(...sources: T[]) {
     if (sources.length === 1) {

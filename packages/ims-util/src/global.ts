@@ -1,4 +1,4 @@
-import { isObject, isArray } from './lang';
+import { isObject, isArray } from 'util';
 declare var WorkerGlobalScope: any /** TODO #9100 */;
 declare var global: any /** TODO #9100 */;
 const __window = typeof window !== 'undefined' && window;

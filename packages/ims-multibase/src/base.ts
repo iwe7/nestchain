@@ -1,4 +1,4 @@
-import { MultibaseType, Multibase } from 'ims-core';
+import { MultibaseType } from 'ims-core';
 export interface BaseEngine {
   decode(input: string): string;
   decodeUnsafe(input: string): string;

@@ -5,8 +5,6 @@ import {
   LogLevel,
   LoggerFactory,
   AppName,
-  Inject,
-  Optional,
   Injector,
 } from 'ims-core';
 import {
@@ -135,7 +133,6 @@ export class LoggerFactoryImpl extends LoggerFactory {
   create(name: string) {
     return new LoggerImpl(name, null);
   }
-
   createChild(parent: Logger, name: string) {
     return parent.createChild(name);
   }

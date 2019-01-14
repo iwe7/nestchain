@@ -1,12 +1,9 @@
-import { ImsAccount } from './account';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { from, Observable, of } from 'rxjs';
 import { stringify } from 'qs';
-import { pluck, tap, filter, switchMap, map } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 import express = require('express');
 import { ImsCache, ImsCacheModel } from 'ims-cache';
-import iconv = require('iconv-lite');
-import url = require('url');
 
 export enum WeixinDomain {
   api = 'api.weixin.qq.com',
@@ -32,13 +29,12 @@ export interface IGetAccessTokenResponse {
 
 export interface IGetOpenidResponse {}
 
-export class WeixinAccount extends ImsAccount {
+export class WeixinAccount {
   appId: string;
   secret: string;
   // 回调地址
   redirectUri: string = '';
   constructor(accountId: string) {
-    super(accountId);
     this.appId = 'wx6e41c8b66a4a3cf1';
     this.secret = 'ce880a22e3d411e4ee79b62ab187dcfe';
   }

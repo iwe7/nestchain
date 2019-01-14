@@ -1,6 +1,7 @@
 import { Subject, Observable } from 'ims-rxjs';
 import { filter, map } from 'ims-rxjs/operators';
-import { isObject, isString, uuid4, isNullOrUndefined } from './lang';
+import { uuid4 } from './lang';
+import { isObject, isString, isNullOrUndefined } from 'util';
 import { groupBy } from 'ramda';
 export type TableName = string;
 export type ColumnName = string;

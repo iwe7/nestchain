@@ -14,80 +14,71 @@ Protocol Buffer 是一种轻便高效的结构化数据存储格式，可以用�
 
 # 编写 proto
 
-```
+```proto
 syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.helloworld";
+option java_outer_classname = "HelloWorldProto";
+option objc_class_prefix = "HLW";
+
 package helloworld;
+
+// The greeting service definition.
 service Greeter {
+  // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {}
 }
+
+// The request message containing the user's name.
 message HelloRequest {
   string name = 1;
 }
+
+// The response message containing the greetings
 message HelloReply {
   string message = 1;
 }
-```
-
-# 安装
 
 ```
-yarn add ims-grpc
-```
 
-# 封装装饰器用于简化开发
-
-- `GrpcServer`用于服务器端配置
-- `GrpcRouter`用于微服务实现
-- `GrpcClient`用于客户端配置
-- `injector`依据配置文件生成响应功能实例
-
-
-# 服务端
+# demo
 
 ```ts
-import 'reflect-metadata';
-import { GrpcServer, GrpcRouter, injector } from 'ims-grpc';
+import path = require('path');
 
-let address = `0.0.0.0:50001`;
-// 某个微服务
-@GrpcRouter('Greeter')
+@Injectable({
+  providedIn: 'root',
+})
 export class Greeter {
-  @GrpcRouter()
-  sayHello(call, callback) {
-    callback(null, { message: 'greeter' });
+  SayHello(req: HelloRequest): HelloReply {
+    console.log(req);
+    return {
+      message: req.name,
+    };
   }
 }
-@GrpcServer({
-  fileName: __dirname + '/test.proto',
-  router: [Greeter],
-  address,
-})
-export class TestGrpc {}
-// 启动服务端
-injector(TestGrpc);
-```
 
-# 客户端
-
-```ts
-import 'reflect-metadata';
-import { GrpcClient, injector } from 'ims-grpc';
-@GrpcClient({
-  fileName: __dirname + '/test.proto',
-  address: '0.0.0.0:50001',
-})
-export class TestGrpcClient {
-  @GrpcClient({
-    path: 'helloworld.Greeter',
-  })
-  greeter: any;
+export interface HelloRequest {
+  name: string;
+}
+export interface HelloReply {
+  message: string;
 }
 
-let instance = injector(TestGrpcClient).greeter;
-
-let time = new Date().getTime();
-instance.sayHello({ name: 'hello' }, (err, res) => {
-  if (err) throw err;
-  console.log(res, new Date().getTime() - time);
+nodePlatform([]).then(res => {
+  res.bootstrapModule(ImsGrpcModule).then(async res => {
+    let grpcfac = res.injector.get(ImsGrpcServerFactory);
+    let grpcClientFac = res.injector.get(ImsGrpcClientFactory);
+    let grpc = await grpcfac.create(path.join(__dirname, 'hello.proto'), [
+      Greeter,
+    ]);
+    let client = await grpcClientFac.create(
+      path.join(__dirname, 'hello.proto'),
+    );
+    (client.Greeter as any).sayHello({ name: 'name' }, (err, res) => {
+      console.log('Greeting:', res.message);
+    });
+  });
 });
 ```

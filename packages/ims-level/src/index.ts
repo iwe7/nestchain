@@ -1,49 +1,62 @@
-import level = require('level');
-import { Injectable } from 'ims-core';
+import levelup, { LevelUp } from 'levelup';
+import leveldown, { LevelDown } from 'leveldown';
+import {
+  AbstractBatch,
+  AbstractIteratorOptions,
+  AbstractGetOptions,
+  AbstractOptions,
+} from 'abstract-leveldown';
+import { Injectable, NgModule } from 'ims-core';
+
 @Injectable()
 export class ImsLevel {
-  db: any;
-  constructor(public path: string) {
-    this.db = level(path);
+  db: LevelUp<LevelDown>;
+  constructor(public path: string, options?: any) {
+    this.db = levelup(leveldown(path), options);
   }
-  open() {
+  open(): Promise<void> {
     return this.db.open();
   }
-  close() {
+  close(): Promise<void> {
     return this.db.close();
   }
-  put() {}
-  get() {}
-  del() {}
-  batch() {}
-  isOpen() {}
-  isClosed() {}
-  createReadStream() {}
-  createKeyStream() {}
-  createValueStream() {}
-  iterator() {}
+  put(key: Buffer, value: Buffer, options?: AbstractOptions) {
+    return this.db.put(key, value, options);
+  }
+  get(key: Buffer, options?: AbstractGetOptions) {
+    return this.db.get(key, options);
+  }
+  del(key: Buffer, options?: AbstractOptions) {
+    return this.db.del(key, options);
+  }
+  batch(arr: AbstractBatch[], options?: AbstractOptions) {
+    return this.db.batch(arr, options);
+  }
+  isOpen(): boolean {
+    return this.db.isOpen();
+  }
+  isClosed(): boolean {
+    return this.db.isClosed();
+  }
+  createReadStream(options?: AbstractIteratorOptions) {
+    return this.db.createReadStream(options);
+  }
+  createKeyStream(options?: AbstractIteratorOptions) {
+    return this.db.createReadStream(options);
+  }
+  createValueStream(options?: AbstractIteratorOptions) {
+    return this.db.createReadStream(options);
+  }
 }
 
-function inherits(ctor, superCtor) {
-  ctor.super_ = superCtor;
-  ctor.prototype = Object.create(superCtor.prototype, {
-    constructor: {
-      value: ctor,
-      enumerable: false,
-      writable: true,
-      configurable: true,
-    },
-  });
+@Injectable()
+export class ImsLevelFactory {
+  create(path: string, options?: any) {
+    return new ImsLevel(path, options);
+  }
 }
 
-class A {
-  ddd: string = 'a';
-}
-class B {
-  title: string = 'b';
-}
-
-let C = inherits(A, B);
-
-let a = new A();
-debugger;
+@NgModule({
+  providers: [ImsLevelFactory],
+})
+export class ImsLevelModule {}
