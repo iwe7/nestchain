@@ -1,10 +1,10 @@
-import { Crypto } from './crypto';
+import { ImsP2pCrypto } from './crypto';
 import { Multihashing } from 'ims-multihash';
 export class Secp256k1PublicKey {
   _key: any;
   constructor(
     key,
-    public crypto: Crypto,
+    public crypto: ImsP2pCrypto,
     public multihashing: Multihashing,
     public keysProtobuf: any,
   ) {
@@ -38,7 +38,7 @@ export class Secp256k1PublicKey {
 
 export class Secp256k1PublicKeyFactory {
   constructor(
-    public crypto: Crypto,
+    public crypto: ImsP2pCrypto,
     public multihashing: Multihashing,
     public keysProtobuf: any,
   ) {}

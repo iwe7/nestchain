@@ -8,8 +8,9 @@ platform()
   .then(async res => {
     try {
       let p2p = res.injector.get<ImsP2p>(ImsP2p);
-      p2p.state.emit('start');
+      p2p.start();
+      debugger;
     } catch (e) {
-      console.error(e);
+      throw e;
     }
   });

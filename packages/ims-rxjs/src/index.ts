@@ -8,7 +8,7 @@ export { Operator } from './internal/Operator';
 export { observable } from './internal/symbol/observable';
 
 /* Subjects */
-export { Subject } from './internal/Subject';
+export { Subject, AnonymousSubject } from './internal/Subject';
 export { BehaviorSubject } from './internal/BehaviorSubject';
 export { ReplaySubject } from './internal/ReplaySubject';
 export { AsyncSubject } from './internal/AsyncSubject';
@@ -85,3 +85,4 @@ export * from './internal/types';
 
 /* Config */
 export { config } from './internal/config';
+export * from './internal/util';

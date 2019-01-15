@@ -1,6 +1,6 @@
 import { Injectable, PeerIdFactory, PeerInfoFactory } from 'ims-core';
 import { P2pNodeFactory } from './p2p_node';
-
+import {} from 'ims-p2p-switch'
 @Injectable()
 export class P2p {
   constructor(

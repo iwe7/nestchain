@@ -164,7 +164,7 @@ export class FsmEvent extends Subject<[string, any] | [string]> {
     if (!this._state) return enter();
     return leave();
   }
-  reach(curr, next, reachable) {
+  private reach(curr, next, reachable) {
     if (!next) return false;
     if (!curr) return true;
     const here = reachable[curr];

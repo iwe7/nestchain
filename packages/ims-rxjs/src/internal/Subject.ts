@@ -29,17 +29,11 @@ export class Subject<T> extends Observable<T> implements SubscriptionLike {
   [rxSubscriberSymbol]() {
     return new SubjectSubscriber(this);
   }
-
   observers: Observer<T>[] = [];
-
   closed = false;
-
   isStopped = false;
-
   hasError = false;
-
   thrownError: any = null;
-
   constructor() {
     super();
   }

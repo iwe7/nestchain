@@ -1,8 +1,7 @@
 import { NgModule } from 'ims-core';
-import { ConnectionManager } from './connection';
-import { TransportManager } from './transport';
-import { P2pSwitch } from './switch';
 @NgModule({
-  providers: [ConnectionManager, TransportManager, P2pSwitch],
+  providers: [],
 })
 export class P2pSwitchModule {}
+
+export * from './switch'

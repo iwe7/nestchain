@@ -1,4 +1,6 @@
 import { Injectable } from 'ims-core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ConnectionManager {}

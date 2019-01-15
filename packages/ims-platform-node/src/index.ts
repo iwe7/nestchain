@@ -17,7 +17,7 @@ export const nodePlatform = createPlatformFactory(
   ],
 );
 
-export class ImsNodeModule {}
+class ImsNodeModule {}
 export async function bootstrap(cfg: NgModule) {
   NgModule(cfg)(ImsNodeModule);
   try {
@@ -28,5 +28,4 @@ export async function bootstrap(cfg: NgModule) {
     throw e;
   }
 }
-
-export * from './engine/express'
+export * from './engine/express';

@@ -3,7 +3,8 @@ import { Injectable } from 'ims-core';
 import { FsmEventFactory, FsmEvent } from 'ims-fsm';
 import { ImsP2pCrypto } from 'ims-p2p-crypto';
 import { ConnectionManager } from './connection_manager';
-let fsm = require('./fsm.json');
+import { P2pSwitchFactory } from 'ims-p2p-switch';
+import { PeerBook, PeerIdFactory, PeerInfoFactory } from 'ims-peer';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,13 +13,43 @@ export class ImsP2p extends Subject<any> {
   constructor(
     public fsmFactory: FsmEventFactory,
     public connectionManager: ConnectionManager,
-    public crypto: ImsP2pCrypto
+    public crypto: ImsP2pCrypto,
+    public switchFactory: P2pSwitchFactory,
+    public peerBook: PeerBook,
+    public peerIdFactory: PeerIdFactory,
+    public peerInfoFactory: PeerInfoFactory,
   ) {
     super();
-    this.state = this.fsmFactory.create('stoped', fsm);
+    this.state = this.fsmFactory.create('stopped', {
+      stopping: {
+        done: 'stopped',
+        abort: 'stopped',
+        stop: 'stopping',
+      },
+      'stopping:leave': true,
+      'stopping:enter': true,
+      stopped: {
+        start: 'starting',
+        stop: 'stopped',
+      },
+      'stopped:leave': true,
+      'stopped:enter': true,
+      starting: {
+        done: 'started',
+        abort: 'stopped',
+        stop: 'stopping',
+      },
+      'starting:leave': true,
+      'starting:enter': true,
+      started: {
+        stop: 'stopping',
+        start: 'started',
+      },
+      'started:leave': true,
+      'started:enter': true,
+    });
     this.state.subscribe(
       ([type, evt]) => {
-        console.log({ type, evt });
         switch (type) {
           case 'stopping':
             this.next('stopping');

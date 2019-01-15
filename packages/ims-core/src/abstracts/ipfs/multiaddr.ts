@@ -4,7 +4,7 @@ export interface MultiaddrProto {
   name?: string;
 }
 export interface MultiaddrOptions {
-  family?: string;
+  family?: number;
   host?: string;
   port?: number;
   transport?: string;
