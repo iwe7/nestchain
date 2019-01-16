@@ -31,3 +31,5 @@ export * from './json/index';
 export * from './tokens';
 export * from './compiler';
 export * from './http';
+
+export * from './errors/index';

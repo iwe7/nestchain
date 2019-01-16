@@ -6,6 +6,7 @@ import {
   Injector,
   SourceRoot,
   PlatformName,
+  getNgModuleStaticProvider,
 } from 'ims-core';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
@@ -25,6 +26,8 @@ import { ProgressBar } from 'ims-single-linelog';
 import { ImsWebpackHotModuleReplacementPlugin } from './plugins/hotModuleReplacement';
 import { ImsWebpackNamedModulesPlugin } from './plugins/noEmitOnErrors';
 import { ImsWebpackCopyPlugin } from './plugins/copy';
+import { ImsWebpackHashedModuleIdsPlugin } from './plugins/hashedModuleIdsPlugin';
+import { Multihashing, MultihashModule } from 'ims-multihash';
 
 export let webpackPlatform = createPlatformFactory(
   corePlatform,
@@ -59,6 +62,13 @@ export let webpackPlatform = createPlatformFactory(
       provide: PluginsToken,
       useFactory: (injector: Injector) => new ImsWebpackCopyPlugin(injector),
       deps: [Injector],
+      multi: true,
+    },
+    {
+      provide: PluginsToken,
+      useFactory: (hash: Multihashing) =>
+        new ImsWebpackHashedModuleIdsPlugin(hash),
+      deps: [Multihashing],
       multi: true,
     },
     {
@@ -117,6 +127,7 @@ export let webpackPlatform = createPlatformFactory(
       deps: [Injector],
       multi: true,
     },
+    () => getNgModuleStaticProvider(MultihashModule),
   ],
 );
 

@@ -90,7 +90,8 @@
       "ims-merkle": ["packages/ims-merkle/src/index"],
       "ims-compiler-node": ["packages/ims-compiler-node/src/index"],
       "ims-tapable": ["packages/ims-tapable/src/index"],
-      "ims-webpack": ["packages/ims-webpack/src/index"]
+      "ims-webpack": ["packages/ims-webpack/src/index"],
+      "ims-acorn": ["packages/ims-acorn/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

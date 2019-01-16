@@ -24,12 +24,12 @@ import { ROOT } from 'ims-const';
           },
         };
         if (devOpen) {
-          Object.keys(cfg.entry).forEach(key => {
-            (cfg.entry[key] as string[]).unshift(
-              `webpack-dev-server/client?http://localhost:${devPort}/`,
-              `webpack/hot/dev-server`
-            );
-          });
+          // Object.keys(cfg.entry).forEach(key => {
+          //   (cfg.entry[key] as string[]).unshift(
+          //     `webpack-dev-server/client?http://localhost:${devPort}/`,
+          //     `webpack/hot/dev-server`
+          //   );
+          // });
         }
         return cfg;
       },

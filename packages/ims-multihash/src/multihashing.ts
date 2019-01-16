@@ -18,7 +18,9 @@ const table = {
   [`${MultihashType['murmur3-128']}`]: crypto.murmur3128,
   [`${MultihashType['dbl-sha2-256']}`]: crypto.dblSha2256,
 };
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class Multihashing {
   get functions() {
     return (() => {
