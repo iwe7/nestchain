@@ -1,5 +1,5 @@
-import { NgModule, PLATFORM_INITIALIZER, Injector } from 'ims-core';
-import { WebpackConfigurations, PluginsToken } from 'ims-platform-webpack';
+import { NgModule } from 'ims-core';
+import { WebpackConfigurations } from 'ims-platform-webpack';
 import { join } from 'path';
 import { ROOT } from 'ims-const';
 import { Configuration } from 'webpack';
