@@ -5,21 +5,30 @@ import {
   Injector,
   NgModule,
 } from 'ims-core';
-import { WebpackConfigurations, PluginsToken } from './token';
-import { ProgressPlugin } from 'webpack';
+import { WebpackConfigurations, PluginsToken, OutputToken } from './token';
 import { ImsWebpackProgressPlugin } from './plugins/progress';
-let webpackPlatform = createPlatformFactory(corePlatform, 'platform webpack', [
-  {
-    provide: PLATFORM_INITIALIZER,
-    useValue: (injector: Injector) => {
-      console.log('platform init');
-    },
-    multi: true,
-  },
+import { ImsWebpackHtmlPlugin } from './plugins/html';
+import { Output } from 'webpack';
+import { join } from 'path';
+
+import { ROOT } from 'ims-const';
+
+export let webpackPlatform = createPlatformFactory(corePlatform, 'platform webpack', [
   {
     provide: PluginsToken,
     multi: true,
     useValue: ImsWebpackProgressPlugin,
+  },
+  {
+    provide: PluginsToken,
+    multi: true,
+    useValue: ImsWebpackHtmlPlugin,
+  },
+  {
+    provide: OutputToken,
+    useValue: {
+      path: join(ROOT, 'dist'),
+    } as Output,
   },
   {
     provide: WebpackConfigurations,

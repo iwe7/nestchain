@@ -1,7 +1,8 @@
-import { NgModule } from 'ims-core';
-import { WebpackConfigurations } from 'ims-platform-webpack';
+import { NgModule, PLATFORM_INITIALIZER, Injector } from 'ims-core';
+import { WebpackConfigurations, PluginsToken } from 'ims-platform-webpack';
 import { join } from 'path';
 import { ROOT } from 'ims-const';
+import { Configuration } from 'webpack';
 
 @NgModule({
   providers: [
@@ -9,11 +10,11 @@ import { ROOT } from 'ims-const';
       provide: WebpackConfigurations,
       useValue: {
         entry: {
-          main: join(ROOT, 'src/main.ts'),
+          main: join(ROOT, 'src/demo.ts'),
         },
-      },
+      } as Configuration,
       multi: true,
-    },
+    }
   ],
   imports: [],
 })

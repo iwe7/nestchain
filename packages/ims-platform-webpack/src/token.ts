@@ -11,3 +11,5 @@ export const moduleRulesToken = new InjectionToken<webpack.RuleSetRule[]>(
 export const PluginsToken = new InjectionToken<webpack.RuleSetRule[]>(
   'PluginsToken',
 );
+
+export const OutputToken = new InjectionToken<webpack.Output>('OutputToken');

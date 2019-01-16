@@ -1,10 +1,12 @@
 import { ImsWebpackAddonModule } from './index';
-import { bootstrap, ImsWebpack } from 'ims-platform-webpack';
+import { webpackPlatform, ImsWebpack } from 'ims-platform-webpack';
 
-bootstrap({
-  imports: [ImsWebpackAddonModule],
-}).then(async res => {
-  let webpack = res.injector.get<ImsWebpack>(ImsWebpack);
-  let stats = await webpack.run();
-  debugger;
-});
+webpackPlatform([])
+  .then(res => res.bootstrapModule(ImsWebpackAddonModule))
+  .then(async res => {
+    let webpack = res.injector.get<ImsWebpack>(ImsWebpack);
+    webpack.init(res.injector);
+    webpack.run().subscribe(res => {
+      console.log(res);
+    });
+  });

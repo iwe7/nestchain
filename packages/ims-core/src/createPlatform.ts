@@ -24,7 +24,7 @@ export class PlatformRef {
   constructor(public _injector: Injector) {}
   async bootstrapModule<M>(moduleType: Type<M>): Promise<NgModuleRef<M>> {
     let ngModuleFactory = await compileNgModuleFactory(
-      this.injector,
+      this._injector,
       moduleType,
     );
     return await this.bootstrapModuleFactory(ngModuleFactory);
@@ -32,7 +32,7 @@ export class PlatformRef {
   async bootstrapModuleFactory<M>(
     moduleFactory: NgModuleFactory<M>,
   ): Promise<NgModuleRef<M>> {
-    let moduleRef = await moduleFactory.create(this.injector);
+    let moduleRef = await moduleFactory.create();
     let type = moduleFactory.type;
     let compiler = moduleRef.injector.get<Compiler>(Compiler, null);
     let meta = getMetadata(type);

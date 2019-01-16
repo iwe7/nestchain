@@ -13,10 +13,11 @@ import {
 import { Type, isType } from '../type';
 import { Injector } from './injector';
 import { createProxyType } from './proxy';
-import { Observable, of } from 'ims-rxjs';
+import { Observable, of, from, forkJoin } from 'ims-rxjs';
 import { isArray } from 'ims-util';
 import { Compiler } from '../compiler';
 import { isFunction } from 'packages/ims-rxjs/src/internal/util/isFunction';
+import { concatMap, tap, map } from 'ims-rxjs/operators';
 export interface ModuleWithProviders<T = any> {
   ngModule: Type<T>;
   providers?: Provider[];
@@ -68,7 +69,7 @@ export interface InternalNgModuleRef<T> extends NgModuleRef<T> {
 export abstract class NgModuleFactory<T> {
   abstract get type(): Type<T>;
   abstract get moduleType(): Type<T>;
-  abstract create(parentInjector: Injector | null): Promise<NgModuleRef<T>>;
+  abstract create(): Promise<NgModuleRef<T>>;
 }
 
 export function createNgModuleFactory(
@@ -93,14 +94,14 @@ export class NgModuleFactory_<T> extends NgModuleFactory<T> {
     super();
     this._moduleType = createProxyType(type);
   }
-  async create(parentInjector: Injector | null): Promise<NgModuleRef<T>> {
+  async create(): Promise<NgModuleRef<T>> {
     let instance = new this.moduleType();
     let staticProviders: StaticProvider[] = await getNgModuleStaticProvider(
       this.type,
     );
-    let injector = await Injector.create(staticProviders, parentInjector);
-    let ref = new NgModuleRef_(injector, instance);
-    injector.set([
+    await this._injector.set(staticProviders);
+    let ref = new NgModuleRef_(this._injector, instance);
+    this._injector.set([
       {
         provide: NgModuleRef,
         useValue: ref,
@@ -116,7 +117,8 @@ export async function getNgModuleStaticProvider(
   let meta = getMetadata(type);
   let staticProviders: StaticProvider[] = [];
   let staticProviderMap: Map<StaticProvider, StaticProvider> = new Map();
-  meta.forEach(async it => {
+  let obs = [];
+  meta.forEach(it => {
     if (isClassMetadata<NgModule>(it)) {
       if (it.metadataKey === NgModuleMetadataKey) {
         let { providers, imports } = it.metadataDef;
@@ -140,17 +142,27 @@ export async function getNgModuleStaticProvider(
             handlerImport(res);
           }
         };
-        const handlerImports = async (imports: Array<NgModuleImportType>) => {
-          imports.forEach(async it => {
-            await handlerImport(it);
-          });
+        const handlerImports = (
+          imports: Array<NgModuleImportType>,
+        ): Observable<any> => {
+          if (imports.length > 0) {
+            let obs = [];
+            imports.forEach(it => {
+              obs.push(from(handlerImport(it)));
+            });
+            return forkJoin(...obs);
+          } else {
+            return of(null);
+          }
         };
         if (imports) {
           if (isFunction(imports)) {
-            let imps = await imports();
-            await handlerImports(imps);
+            let imps = from(imports());
+            obs.push(imps.pipe(concatMap(res => handlerImports(res))));
           } else {
-            await handlerImports(imports);
+            if (imports.length > 0) {
+              obs.push(handlerImports(imports));
+            }
           }
         }
         /**
@@ -166,6 +178,9 @@ export async function getNgModuleStaticProvider(
       }
     }
   });
+  if (obs.length > 0) {
+    await forkJoin(...obs).toPromise();
+  }
   staticProviderMap.forEach(provide => {
     staticProviders.push(provide);
   });

@@ -22,6 +22,7 @@ import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
 import { isPromise } from 'packages/ims-rxjs/src/internal/util/isPromise';
+import { from, forkJoin } from 'ims-rxjs';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
@@ -52,7 +53,7 @@ export class StaticInjector implements Injector {
   readonly parent: Injector;
   readonly source: string | null;
 
-  private _records: Map<any, Record>;
+  public _records: Map<any, Record>;
 
   constructor(
     private providers: StaticProvider[],
@@ -83,25 +84,45 @@ export class StaticInjector implements Injector {
   }
 
   async init(): Promise<void> {
-    let _providers = this.providers.map(async provider => {
+    let providers = [];
+    let obs = [];
+    this.providers.map(provider => {
       if (isStaticProviderFn(provider)) {
-        return await provider();
+        obs.push(
+          from(
+            provider().then(res => {
+              providers.push(res);
+            }),
+          ),
+        );
       } else {
-        return provider;
+        providers.push(provider);
       }
     });
-    recursivelyProcessProviders(this._records, _providers);
+    if (obs.length > 0) {
+      await forkJoin(...obs).toPromise();
+    }
+    this.recursivelyProcessProviders(providers);
   }
 
-  set(providers: StaticProvider[]) {
-    let _providers = providers.map(async provider => {
+  recursivelyProcessProviders(providers: StaticProvider[]) {
+    return recursivelyProcessProviders(this._records, providers);
+  }
+
+  async set(providers: StaticProvider[]) {
+    let pros = [];
+    let obs = [];
+    providers.forEach(provider => {
       if (isStaticProviderFn(provider)) {
-        return await provider();
+        obs.push(from(provider().then(res => pros.push(res))));
       } else {
-        return provider;
+        pros.push(provider);
       }
     });
-    recursivelyProcessProviders(this._records, _providers);
+    if (obs.length > 0) {
+      await forkJoin(...obs).toPromise();
+    }
+    recursivelyProcessProviders(this._records, pros);
   }
 
   get<T>(
@@ -116,12 +137,13 @@ export class StaticInjector implements Injector {
     flags: InjectFlags = InjectFlags.Default,
   ): any {
     const record = this._records.get(token);
+
     if (!record) {
       // throw new Error(`can not found record`);
       // console.log(this);
     }
     try {
-      return tryResolveToken(
+      let value = tryResolveToken(
         token,
         record,
         this._records,
@@ -129,6 +151,8 @@ export class StaticInjector implements Injector {
         notFoundValue,
         flags,
       );
+
+      return value;
     } catch (e) {
       const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
       if (token[SOURCE]) {
@@ -182,18 +206,24 @@ export abstract class Injector {
       | { providers: StaticProvider[]; parent?: Injector; name?: string },
     parent?: Injector,
   ): Promise<Injector> {
-    let injector: Injector;
+    let injector: Injector = Injector.NULL;
     if (Array.isArray(options)) {
       injector = new StaticInjector(options, parent);
+      await injector.init();
+      setCurrentInjector(injector);
     } else {
-      injector = new StaticInjector(
-        options.providers,
-        options.parent,
-        options.name || null,
-      );
+      if (options) {
+        injector = new StaticInjector(
+          options.providers,
+          options.parent,
+          options.name || null,
+        );
+        await injector.init();
+        setCurrentInjector(injector);
+      } else {
+        throw new Error(`injector create options is undefined`);
+      }
     }
-    await injector.init();
-    setCurrentInjector(injector);
     return injector;
   }
 
@@ -274,6 +304,7 @@ function recursivelyProcessProviders(
         }
         // Treat the provider as the token.
         token = provider;
+        // 父亲
         multiProvider.deps.push({ token, options: OptionFlags.Default });
       }
       const record = records.get(token);
