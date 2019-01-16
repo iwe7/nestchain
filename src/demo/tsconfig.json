@@ -1,0 +1,19 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "declaration": false,
+    "target": "esnext",
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "baseUrl": ".",
+    "paths": {
+      "ims-core": ["../../packages/ims-core/src/index"],
+      "ims-rxjs": ["../../packages/ims-rxjs/src/index"],
+      "ims-operators": ["../../packages/ims-rxjs/src/operators"],
+      "ims-util": ["../../packages/ims-util/src/index"],
+      "ims-decorator": ["../../packages/ims-decorator/src/index"]
+    }
+  }
+}

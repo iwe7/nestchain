@@ -6,7 +6,8 @@ webpackPlatform([])
   .then(async res => {
     let webpack = res.injector.get<ImsWebpack>(ImsWebpack);
     webpack.init(res.injector);
-    webpack.run().subscribe(res => {
+    // webpack.server();
+    webpack.apply().subscribe(res => {
       console.log(res);
     });
   });

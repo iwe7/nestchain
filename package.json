@@ -162,6 +162,7 @@
     "sphinx.js": "^0.1.0",
     "strong-log-transformer": "^2.1.0",
     "system": "^2.0.1",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslib": "^1.9.3",
     "typeorm": "^0.2.9",
     "typescript": "3.1.6",

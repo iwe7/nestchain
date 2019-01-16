@@ -1,6 +1,6 @@
-const MOVE_LEFT = new Buffer('1b5b3130303044', 'hex').toString();
-const MOVE_UP = new Buffer('1b5b3141', 'hex').toString();
-const CLEAR_LINE = new Buffer('1b5b304b', 'hex').toString();
+const MOVE_LEFT = Buffer.from('1b5b3130303044', 'hex').toString();
+const MOVE_UP = Buffer.from('1b5b3141', 'hex').toString();
+const CLEAR_LINE = Buffer.from('1b5b304b', 'hex').toString();
 const stringWidth = require('string-width');
 import { Injectable } from 'ims-core';
 @Injectable({

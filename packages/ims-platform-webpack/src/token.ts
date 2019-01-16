@@ -8,6 +8,10 @@ export const WebpackConfigurations = new InjectionToken<
 export const moduleRulesToken = new InjectionToken<webpack.RuleSetRule[]>(
   'moduleRulesToken',
 );
+
+export const resolvePluginsToken = new InjectionToken<webpack.ResolvePlugin[]>(
+  'resolvePluginsToken',
+);
 export const PluginsToken = new InjectionToken<webpack.RuleSetRule[]>(
   'PluginsToken',
 );

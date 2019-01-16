@@ -32,7 +32,7 @@ export class VarintImpl extends Varint {
     if (Buffer.isBuffer(out)) {
       return out;
     } else {
-      return new Buffer(out);
+      return Buffer.from(out);
     }
   }
   decode(buf: number[] | Buffer, offset: number = 0): number {
