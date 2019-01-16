@@ -1,0 +1,13 @@
+import webpack = require('webpack');
+import { InjectionToken } from 'ims-core';
+
+export const WebpackConfigurations = new InjectionToken<
+  webpack.Configuration[]
+>('WebpackConfigurations');
+
+export const moduleRulesToken = new InjectionToken<webpack.RuleSetRule[]>(
+  'moduleRulesToken',
+);
+export const PluginsToken = new InjectionToken<webpack.RuleSetRule[]>(
+  'PluginsToken',
+);

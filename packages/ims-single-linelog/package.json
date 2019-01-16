@@ -1,11 +1,11 @@
 {
-  "name": "ims-webpack",
+  "name": "ims-single-linelog",
   "version": "0.0.13",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
-  "main": "lib/ims-webpack.js",
+  "main": "lib/ims-single-linelog.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"

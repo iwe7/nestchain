@@ -79,6 +79,7 @@
       "ims-platform-android": ["packages/ims-platform-android/src/index"],
       "ims-platform-ios": ["packages/ims-platform-ios/src/index"],
       "ims-platform-webpack": ["packages/ims-platform-webpack/src/index"],
+      "ims-single-linelog": ["packages/ims-single-linelog/src/index"],
       "ims-base-x": ["packages/ims-base-x/src/index"],
       "ims-varint": ["packages/ims-varint/src/index"],
       "ims-multihash": ["packages/ims-multihash/src/index"],

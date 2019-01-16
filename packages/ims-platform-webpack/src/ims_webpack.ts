@@ -1,23 +1,19 @@
-import {
-  Injectable,
-  InjectionToken,
-  Injector,
-  NgModule,
-  PLATFORM_INITIALIZER,
-} from 'ims-core';
+import { Injectable, InjectionToken, Injector, Type } from 'ims-core';
 import { Observable } from 'ims-rxjs';
 import webpack = require('webpack');
 import webpackMerge = require('webpack-merge');
 
-export const WebpackConfigurations = new InjectionToken<
-  webpack.Configuration[]
->('WebpackConfigurations');
+import { WebpackConfigurations, PluginsToken } from './token';
 
 export const WebpackPlugins = new InjectionToken('WebpackPlugins');
 
 let emptyConfig: webpack.Configuration = {
   entry: {},
 };
+
+export function isWebpackWatching(val: any): val is webpack.Watching {
+  return val && Reflect.has(val, 'close') && Reflect.has(val, 'invalidate');
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -34,9 +30,14 @@ export class ImsWebpack {
       WebpackConfigurations,
       [emptyConfig],
     );
-    this.options = webpackMerge(...configurations);
+    let plugins = this.injector
+      .get<Type<any>[]>(PluginsToken)
+      .map(it => this.injector.get(it));
+    this.options = webpackMerge(...configurations, {
+      plugins,
+    });
     let dev = webpack(this.options);
-    if (dev instanceof webpack.Compiler.Watching) {
+    if (isWebpackWatching(dev)) {
       this.watching = dev;
     } else {
       this.webpack = dev;
