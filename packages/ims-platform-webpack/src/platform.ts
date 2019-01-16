@@ -103,12 +103,6 @@ export let webpackPlatform = createPlatformFactory(
           plugins: [],
           modules: ['packages', 'node_modules'],
           extensions: ['.ts', '.tsx', '.js', '.json', '.html', '.scss', '.css'],
-          alias: {
-            'ims-core': `${ROOT}/packages/ims-core/src/index`,
-            'ims-decorators': `${ROOT}/packages/ims-decorators/`,
-            'ims-rxjs': `${ROOT}/packages/ims-rxjs/`,
-            'ims-util': `${ROOT}/packages/ims-util/`,
-          },
         },
       } as Configuration,
     },

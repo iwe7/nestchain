@@ -1,4 +1,7 @@
 import { corePlatform, NgModule } from 'ims-core';
+/**
+ * 为了hot loader
+ */
 import './index.html';
 export function add(a, b) {
   return a + b;
