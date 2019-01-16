@@ -15,9 +15,7 @@ import { Injector } from './injector';
 import { createProxyType } from './proxy';
 import { Observable, of, from, forkJoin } from 'ims-rxjs';
 import { isArray } from 'ims-util';
-import { Compiler } from '../compiler';
-import { isFunction } from 'packages/ims-rxjs/src/internal/util/isFunction';
-import { concatMap, tap, map } from 'ims-rxjs/operators';
+import { concatMap } from 'ims-rxjs/operators';
 export interface ModuleWithProviders<T = any> {
   ngModule: Type<T>;
   providers?: Provider[];
@@ -137,7 +135,7 @@ export async function getNgModuleStaticProvider(
                 staticProviderMap.set(staticProvider, staticProvider);
               }
             });
-          } else if (isFunction(it)) {
+          } else if (isNgModuleImport(it)) {
             let res = await it();
             handlerImport(res);
           }
@@ -156,13 +154,13 @@ export async function getNgModuleStaticProvider(
           }
         };
         if (imports) {
-          if (isFunction(imports)) {
-            let imps = from(imports());
-            obs.push(imps.pipe(concatMap(res => handlerImports(res))));
-          } else {
+          if (Array.isArray(imports)) {
             if (imports.length > 0) {
               obs.push(handlerImports(imports));
             }
+          } else {
+            let imps = from(imports());
+            obs.push(imps.pipe(concatMap((res: any) => handlerImports(res))));
           }
         }
         /**
@@ -223,4 +221,8 @@ export async function compileNgModuleFactory<M>(
   moduleType: Type<M>,
 ): Promise<NgModuleFactory<M>> {
   return createNgModuleFactory(moduleType, injector);
+}
+
+function isNgModuleImport(val: any): val is NgModuleImport {
+  return typeof val === 'function';
 }

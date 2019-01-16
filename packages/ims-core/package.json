@@ -5,8 +5,7 @@
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/index.ts",
   "miniprogram": "lib",
   "files": [
     "lib"
@@ -14,7 +13,7 @@
   "dependencies": {
     "ims-decorator": "^0.0.13",
     "ims-util": "^0.0.13",
-    "rxjs": "*"
+    "ims-rxjs": "*"
   },
   "repository": {
     "type": "git",

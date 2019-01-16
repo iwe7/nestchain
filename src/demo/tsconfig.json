@@ -11,7 +11,7 @@
     "paths": {
       "ims-core": ["../../packages/ims-core/src/index"],
       "ims-rxjs": ["../../packages/ims-rxjs/src/index"],
-      "ims-operators": ["../../packages/ims-rxjs/src/operators"],
+      "ims-rxjs/operators": ["../../packages/ims-rxjs/src/operators"],
       "ims-util": ["../../packages/ims-util/src/index"],
       "ims-decorator": ["../../packages/ims-decorator/src/index"]
     }

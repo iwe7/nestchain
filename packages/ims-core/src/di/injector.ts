@@ -4,7 +4,7 @@ import {
   formatError,
   staticError,
   getClosureSafeProperty,
-  isFunction,
+  isPromise
 } from 'ims-util';
 import { Type } from '../type';
 import { InjectionToken } from './injection_token';
@@ -21,7 +21,6 @@ import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
-import { isPromise } from 'packages/ims-rxjs/src/internal/util/isPromise';
 import { from, forkJoin } from 'ims-rxjs';
 
 export class NullInjector implements Injector {
