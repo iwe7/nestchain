@@ -66,11 +66,16 @@ import { Subscriber } from '../Subscriber';
  * @name throwError
  * @owner Observable
  */
-export function throwError(error: any, scheduler?: SchedulerLike): Observable<never> {
+export function throwError(
+  error: any,
+  scheduler?: SchedulerLike,
+): Observable<never> {
   if (!scheduler) {
     return new Observable(subscriber => subscriber.error(error));
   } else {
-    return new Observable(subscriber => scheduler.schedule(dispatch, 0, { error, subscriber }));
+    return new Observable(subscriber =>
+      scheduler.schedule(dispatch, 0, { error, subscriber }),
+    );
   }
 }
 

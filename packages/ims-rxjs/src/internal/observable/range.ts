@@ -33,16 +33,21 @@ import { Observable } from '../Observable';
  * @name range
  * @owner Observable
  */
-export function range(start: number = 0,
-                      count: number = 0,
-                      scheduler?: SchedulerLike): Observable<number> {
+export function range(
+  start: number = 0,
+  count: number = 0,
+  scheduler?: SchedulerLike,
+): Observable<number> {
   return new Observable<number>(subscriber => {
     let index = 0;
     let current = start;
 
     if (scheduler) {
       return scheduler.schedule(dispatch, 0, {
-        index, count, start, subscriber
+        index,
+        count,
+        start,
+        subscriber,
       });
     } else {
       do {

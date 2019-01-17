@@ -1,7 +1,7 @@
 import { Injectable, Injector, SourceRoot } from 'ims-core';
 import { ROOT } from 'ims-const';
 import { ImsMerkleTreeFactory, ImsMerkleTree, MerkleJson } from 'ims-merkle';
-
+import { ImsDirTreeFactory, ImsDirTree } from 'ims-dir-tree';
 import * as fs from 'fs';
 import * as path from 'path';
 import { from } from 'rxjs';
@@ -12,11 +12,14 @@ import { forkJoin } from 'ims-rxjs';
 })
 export class ImsFsCid {
   root: string;
+  dirTree: ImsDirTree;
   constructor(
     private injector: Injector,
     public merkleFactory: ImsMerkleTreeFactory,
+    public dirTreeFactory: ImsDirTreeFactory,
   ) {
     this.root = this.injector.get(SourceRoot, ROOT);
+    this.dirTree = this.dirTreeFactory.create(this.root);
   }
   async getDirHash(dir: string): Promise<MerkleJson> {
     try {

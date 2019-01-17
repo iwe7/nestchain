@@ -1,26 +1,134 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Injectable } from 'ims-core';
+import { Injectable, NgModule } from 'ims-core';
 import { from } from 'ims-rxjs';
 import { forkJoin } from 'rxjs';
+import {
+  ImsMerkleTreeFactory,
+  ImsMerkleTree,
+  MerkleJson,
+  ImsMerkleTreeNode,
+} from 'ims-merkle';
+import { MultihashModule } from 'ims-multihash';
+
+@NgModule({
+  imports: [MultihashModule],
+})
+export class ImsDirTreeModule {}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImsDirTreeFactory {
+  constructor(public merkleFac: ImsMerkleTreeFactory) {}
   async create(p: string) {
-    let tree = new ImsDirTree(p);
+    let tree = new ImsDirTree(p, this.merkleFac);
     await tree.init();
     return tree;
   }
 }
 
+function isImsDirTree(val: any): val is ImsDirTree {
+  return val.type === 'dir';
+}
+function isImsDirTreeFile(val: any): val is ImsDirTreeFile {
+  return val.type === 'file';
+}
 export class ImsDirTree {
+  type: string = 'dir';
   /**
    * 文件或目录
    */
   children: (ImsDirTreeFile | ImsDirTree)[] = [];
-  constructor(public base: string) {}
+  constructor(public base: string, public merkleFac: ImsMerkleTreeFactory) {}
+
+  hasChild(name: string) {
+    return !!this._getChild(name);
+  }
+
+  private _getChild(name: string) {
+    let res: ImsDirTreeFile | ImsDirTree;
+    for (let i = 0; i < this.children.length; i++) {
+      let child = this.children[i];
+      if (isImsDirTree(child)) {
+        if (name === child.base) {
+          res = child;
+        }
+      } else if (isImsDirTreeFile(child)) {
+        if (name === child.path) {
+          res = child;
+        }
+      }
+    }
+    if (res) return res;
+  }
+
+  toJson() {
+    let hash = this.getHash();
+    return hash.toJson();
+  }
+
+  getNodes(): string[] {
+    this.nodes = [];
+    let hash = this.getHash();
+    let node = hash.rootNode;
+    if (node.left) {
+      this.getLeafLeftNode(node.left);
+    }
+    if (node.right) {
+      this.getLeafRightNode(node.right);
+    }
+    return this.nodes.map(node => node.hash.toString('hex'));
+  }
+  private nodes: ImsMerkleTreeNode[] = [];
+  private getLeafLeftNode(node: ImsMerkleTreeNode) {
+    if (node.right) {
+      this.getLeafRightNode(node.right);
+    }
+    while (node.left) {
+      node = node.left;
+    }
+    this.nodes.push(node);
+  }
+
+  private getLeafRightNode(node: ImsMerkleTreeNode) {
+    if (node.left) {
+      this.getLeafLeftNode(node.left);
+    }
+    while (node.right) {
+      node = node.right;
+    }
+    this.nodes.push(node);
+  }
+
+  getChild(name: string) {
+    name = name.includes(this.base) ? name : path.join(this.base, name);
+    let res = this._getChild(name);
+    if (!res) {
+      for (let i = 0; i < this.children.length; i++) {
+        let child = this.children[i];
+        if (isImsDirTree(child)) {
+          let _dir = child.getChild(name);
+          if (_dir) {
+            res = _dir;
+          }
+        }
+      }
+    }
+    return res;
+  }
+
+  getHash(): ImsMerkleTree {
+    let buffs = this.children
+      .filter(child => !!child.getHash())
+      .map(child => {
+        return child.getHash().root;
+      });
+    if (buffs.length > 0)
+      return this.merkleFac.create(buffs, {
+        base: this.base,
+      });
+  }
 
   async init() {
     let files: string[] = fs.readdirSync(this.base);
@@ -31,9 +139,10 @@ export class ImsDirTree {
         let filePath = path.join(this.base, file);
         let stats = fs.statSync(filePath);
         if (stats.isDirectory()) {
-          res = new ImsDirTree(filePath);
+          let filePath = path.join(this.base, file);
+          res = new ImsDirTree(filePath, this.merkleFac);
         } else {
-          res = new ImsDirTreeFile(this.base, file);
+          res = new ImsDirTreeFile(this.base, file, this.merkleFac);
         }
         obs.push(from(res.init()));
         return res;
@@ -51,7 +160,7 @@ export class ImsDirTree {
     name: string,
     options?: number | string | fs.MakeDirectoryOptions | null,
   ): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       fs.mkdir(path.join(this.base, name), options, (err: any) => {
         if (err) return reject(err);
         resolve();
@@ -59,15 +168,15 @@ export class ImsDirTree {
     });
   }
 
-  async exists(name: string): Promise<Boolean> {
-    return new Promise((resolve, reject) => {
+  async exists(name: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
       return fs.exists(path.join(this.base, name), (exsit: boolean) => {
         resolve(exsit);
       });
     });
   }
 
-  async existsDir(name: string): Promise<Boolean> {
+  async existsDir(name: string): Promise<boolean> {
     let exist = await this.exists(name);
     if (exist) {
       return true;
@@ -100,6 +209,7 @@ function writeFile(path: string, buf: Buffer) {
  * 文件
  */
 export class ImsDirTreeFile {
+  type: string = 'file';
   /**
    * 目录
    */
@@ -109,15 +219,31 @@ export class ImsDirTreeFile {
    */
   children: ImsDirTreeData[] = [];
   path: string;
-  constructor(public base: string, public name: string) {}
+
+  getHash(): ImsMerkleTree {
+    let buffs = this.children.map(child => child.data);
+    if (buffs.length > 0) {
+      return this.merkleFac.create(buffs, {
+        base: this.base,
+        name: this.name,
+      });
+    }
+  }
+  constructor(
+    public base: string,
+    public name: string,
+    public merkleFac: ImsMerkleTreeFactory,
+  ) {}
+
   init(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {
+        this.children = [];
         this.path = path.join(this.base, this.name);
         let stream = fs.createReadStream(this.path);
         stream.on('open', cd => {});
         stream.on('data', chunk => {
-          this.children.push(new ImsDirTreeData(chunk));
+          this.children.push(new ImsDirTreeData(chunk, this.merkleFac));
         });
         stream.on('close', () => {
           stream.removeAllListeners();
@@ -134,5 +260,8 @@ export class ImsDirTreeFile {
  * 分块
  */
 export class ImsDirTreeData {
-  constructor(public data: Buffer) {}
+  constructor(public data: Buffer, public merkle: ImsMerkleTreeFactory) {}
+  get hash() {
+    return this.merkle.create([this.data]);
+  }
 }

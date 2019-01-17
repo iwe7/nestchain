@@ -5,7 +5,13 @@ import { Subscriber } from '../Subscriber';
 import { Subscription } from '../Subscription';
 import { Notification } from '../Notification';
 import { Observable } from '../Observable';
-import { MonoTypeOperatorFunction, PartialObserver, SchedulerAction, SchedulerLike, TeardownLogic } from '../types';
+import {
+  MonoTypeOperatorFunction,
+  PartialObserver,
+  SchedulerAction,
+  SchedulerLike,
+  TeardownLogic,
+} from '../types';
 
 /**
  * Delays the emission of items from the source Observable by a given timeout or
@@ -51,20 +57,24 @@ import { MonoTypeOperatorFunction, PartialObserver, SchedulerAction, SchedulerLi
  * @method delay
  * @owner Observable
  */
-export function delay<T>(delay: number|Date,
-                         scheduler: SchedulerLike = async): MonoTypeOperatorFunction<T> {
+export function delay<T>(
+  delay: number | Date,
+  scheduler: SchedulerLike = async,
+): MonoTypeOperatorFunction<T> {
   const absoluteDelay = isDate(delay);
-  const delayFor = absoluteDelay ? (+delay - scheduler.now()) : Math.abs(<number>delay);
-  return (source: Observable<T>) => source.lift(new DelayOperator(delayFor, scheduler));
+  const delayFor = absoluteDelay
+    ? +delay - scheduler.now()
+    : Math.abs(<number>delay);
+  return (source: Observable<T>) =>
+    source.lift(new DelayOperator(delayFor, scheduler));
 }
 
 class DelayOperator<T> implements Operator<T, T> {
-  constructor(private delay: number,
-              private scheduler: SchedulerLike) {
-  }
-
+  constructor(private delay: number, private scheduler: SchedulerLike) {}
   call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new DelaySubscriber(subscriber, this.delay, this.scheduler));
+    return source.subscribe(
+      new DelaySubscriber(subscriber, this.delay, this.scheduler),
+    );
   }
 }
 
@@ -84,16 +94,17 @@ class DelaySubscriber<T> extends Subscriber<T> {
   private active: boolean = false;
   private errored: boolean = false;
 
-  private static dispatch<T>(this: SchedulerAction<DelayState<T>>, state: DelayState<T>): void {
+  private static dispatch<T>(
+    this: SchedulerAction<DelayState<T>>,
+    state: DelayState<T>,
+  ): void {
     const source = state.source;
     const queue = source.queue;
     const scheduler = state.scheduler;
     const destination = state.destination;
-
-    while (queue.length > 0 && (queue[0].time - scheduler.now()) <= 0) {
+    while (queue.length > 0 && queue[0].time - scheduler.now() <= 0) {
       queue.shift().notification.observe(destination);
     }
-
     if (queue.length > 0) {
       const delay = Math.max(0, queue[0].time - scheduler.now());
       this.schedule(state, delay);
@@ -103,29 +114,36 @@ class DelaySubscriber<T> extends Subscriber<T> {
     }
   }
 
-  constructor(destination: Subscriber<T>,
-              private delay: number,
-              private scheduler: SchedulerLike) {
+  constructor(
+    destination: Subscriber<T>,
+    private delay: number,
+    private scheduler: SchedulerLike,
+  ) {
     super(destination);
   }
 
   private _schedule(scheduler: SchedulerLike): void {
     this.active = true;
     const destination = this.destination as Subscription;
-    destination.add(scheduler.schedule<DelayState<T>>(DelaySubscriber.dispatch, this.delay, {
-      source: this, destination: this.destination, scheduler: scheduler
-    }));
+    destination.add(
+      scheduler.schedule<DelayState<T>>(DelaySubscriber.dispatch, this.delay, {
+        source: this,
+        destination: this.destination,
+        scheduler: scheduler,
+      }),
+    );
   }
 
   private scheduleNotification(notification: Notification<T>): void {
     if (this.errored === true) {
       return;
     }
-
     const scheduler = this.scheduler;
-    const message = new DelayMessage(scheduler.now() + this.delay, notification);
+    const message = new DelayMessage(
+      scheduler.now() + this.delay,
+      notification,
+    );
     this.queue.push(message);
-
     if (this.active === false) {
       this._schedule(scheduler);
     }
@@ -149,7 +167,8 @@ class DelaySubscriber<T> extends Subscriber<T> {
 }
 
 class DelayMessage<T> {
-  constructor(public readonly time: number,
-              public readonly notification: Notification<T>) {
-  }
+  constructor(
+    public readonly time: number,
+    public readonly notification: Notification<T>,
+  ) {}
 }

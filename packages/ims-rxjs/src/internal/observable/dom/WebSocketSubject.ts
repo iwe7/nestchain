@@ -43,7 +43,9 @@ export interface WebSocketSubjectConfig<T> {
    * WebSocket impl in Node (WebSocket is a DOM API), or for mocking a WebSocket
    * for testing purposes
    */
-  WebSocketCtor?: { new(url: string, protocols?: string|string[]): WebSocket };
+  WebSocketCtor?: {
+    new (url: string, protocols?: string | string[]): WebSocket;
+  };
   /** Sets the `binaryType` property of the underlying WebSocket. */
   binaryType?: 'blob' | 'arraybuffer';
 }
@@ -60,7 +62,6 @@ const WEBSOCKETSUBJECT_INVALID_ERROR_OBJECT =
 export type WebSocketMessage = string | ArrayBuffer | Blob | ArrayBufferView;
 
 export class WebSocketSubject<T> extends AnonymousSubject<T> {
-
   private _config: WebSocketSubjectConfig<T>;
 
   /** @deprecated This is an internal implementation detail, do not use. */
@@ -68,13 +69,16 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
 
   private _socket: WebSocket;
 
-  constructor(urlConfigOrSource: string | WebSocketSubjectConfig<T> | Observable<T>, destination?: Observer<T>) {
+  constructor(
+    urlConfigOrSource: string | WebSocketSubjectConfig<T> | Observable<T>,
+    destination?: Observer<T>,
+  ) {
     super();
     if (urlConfigOrSource instanceof Observable) {
       this.destination = destination;
       this.source = urlConfigOrSource as Observable<T>;
     } else {
-      const config = this._config = { ...DEFAULT_WEBSOCKET_CONFIG };
+      const config = (this._config = { ...DEFAULT_WEBSOCKET_CONFIG });
       this._output = new Subject<T>();
       if (typeof urlConfigOrSource === 'string') {
         config.url = urlConfigOrSource;
@@ -96,7 +100,10 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
   }
 
   lift<R>(operator: Operator<T, R>): WebSocketSubject<R> {
-    const sock = new WebSocketSubject<R>(this._config as WebSocketSubjectConfig<any>, <any> this.destination);
+    const sock = new WebSocketSubject<R>(
+      this._config as WebSocketSubjectConfig<any>,
+      <any>this.destination,
+    );
     sock.operator = operator;
     sock.source = this;
     return sock;
@@ -128,7 +135,11 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
    * @param messageFilter A predicate for selecting the appropriate messages
    * from the server for the output stream.
    */
-  multiplex(subMsg: () => any, unsubMsg: () => any, messageFilter: (value: T) => boolean) {
+  multiplex(
+    subMsg: () => any,
+    unsubMsg: () => any,
+    messageFilter: (value: T) => boolean,
+  ) {
     const self = this;
     return new Observable((observer: Observer<any>) => {
       const result = tryCatch(subMsg)();
@@ -138,16 +149,18 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
         self.next(result);
       }
 
-      let subscription = self.subscribe(x => {
-        const result = tryCatch(messageFilter)(x);
-        if (result === errorObject) {
-          observer.error(errorObject.e);
-        } else if (result) {
-          observer.next(x);
-        }
-      },
+      let subscription = self.subscribe(
+        x => {
+          const result = tryCatch(messageFilter)(x);
+          if (result === errorObject) {
+            observer.error(errorObject.e);
+          } else if (result) {
+            observer.next(x);
+          }
+        },
         err => observer.error(err),
-        () => observer.complete());
+        () => observer.complete(),
+      );
 
       return () => {
         const result = tryCatch(unsubMsg)();
@@ -167,9 +180,9 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
 
     let socket: WebSocket = null;
     try {
-      socket = protocol ?
-        new WebSocketCtor(url, protocol) :
-        new WebSocketCtor(url);
+      socket = protocol
+        ? new WebSocketCtor(url, protocol)
+        : new WebSocketCtor(url);
       this._socket = socket;
       if (binaryType) {
         this._socket.binaryType = binaryType;
@@ -195,7 +208,7 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
       const queue = this.destination;
 
       this.destination = Subscriber.create<T>(
-        (x) => {
+        x => {
           if (socket.readyState === 1) {
             const { serializer } = this._config;
             const msg = tryCatch(serializer)(x);
@@ -206,7 +219,7 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
             socket.send(msg);
           }
         },
-        (e) => {
+        e => {
           const { closingObserver } = this._config;
           if (closingObserver) {
             closingObserver.next(undefined);
@@ -214,7 +227,9 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
           if (e && e.code) {
             socket.close(e.code, e.reason);
           } else {
-            observer.error(new TypeError(WEBSOCKETSUBJECT_INVALID_ERROR_OBJECT));
+            observer.error(
+              new TypeError(WEBSOCKETSUBJECT_INVALID_ERROR_OBJECT),
+            );
           }
           this._resetState();
         },
@@ -225,7 +240,7 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
           }
           socket.close();
           this._resetState();
-        }
+        },
       ) as Subscriber<any>;
 
       if (queue && queue instanceof ReplaySubject) {

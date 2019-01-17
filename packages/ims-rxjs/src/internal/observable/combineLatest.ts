@@ -1,7 +1,7 @@
 import { Observable } from '../Observable';
 import { ObservableInput, SchedulerLike } from '../types';
-import { isScheduler  } from '../util/isScheduler';
-import { isArray  } from '../util/isArray';
+import { isScheduler } from '../util/isScheduler';
+import { isArray } from '../util/isArray';
 import { Subscriber } from '../Subscriber';
 import { OuterSubscriber } from '../OuterSubscriber';
 import { Operator } from '../Operator';
@@ -13,33 +13,126 @@ const NONE = {};
 
 /* tslint:disable:max-line-length */
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, R>(v1: ObservableInput<T>, resultSelector: (v1: T) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, R>(
+  v1: ObservableInput<T>,
+  resultSelector: (v1: T) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, T2, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, resultSelector: (v1: T, v2: T2) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, T2, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  resultSelector: (v1: T, v2: T2) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, T2, T3, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, resultSelector: (v1: T, v2: T2, v3: T3) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, T2, T3, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  resultSelector: (v1: T, v2: T2, v3: T3) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, T2, T3, T4, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, T2, T3, T4, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, T2, T3, T4, T5, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, T2, T3, T4, T5, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, T2, T3, T4, T5, T6, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, T2, T3, T4, T5, T6, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  v6: ObservableInput<T6>,
+  resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 
-export function combineLatest<T, T2>(v1: ObservableInput<T>, v2: ObservableInput<T2>, scheduler?: SchedulerLike): Observable<[T, T2]>;
-export function combineLatest<T, T2, T3>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, scheduler?: SchedulerLike): Observable<[T, T2, T3]>;
-export function combineLatest<T, T2, T3, T4>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, scheduler?: SchedulerLike): Observable<[T, T2, T3, T4]>;
-export function combineLatest<T, T2, T3, T4, T5>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, scheduler?: SchedulerLike): Observable<[T, T2, T3, T4, T5]>;
-export function combineLatest<T, T2, T3, T4, T5, T6>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, scheduler?: SchedulerLike): Observable<[T, T2, T3, T4, T5, T6]>;
+export function combineLatest<T, T2>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  scheduler?: SchedulerLike,
+): Observable<[T, T2]>;
+export function combineLatest<T, T2, T3>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  scheduler?: SchedulerLike,
+): Observable<[T, T2, T3]>;
+export function combineLatest<T, T2, T3, T4>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  scheduler?: SchedulerLike,
+): Observable<[T, T2, T3, T4]>;
+export function combineLatest<T, T2, T3, T4, T5>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  scheduler?: SchedulerLike,
+): Observable<[T, T2, T3, T4, T5]>;
+export function combineLatest<T, T2, T3, T4, T5, T6>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  v6: ObservableInput<T6>,
+  scheduler?: SchedulerLike,
+): Observable<[T, T2, T3, T4, T5, T6]>;
 
-export function combineLatest<T>(array: ObservableInput<T>[], scheduler?: SchedulerLike): Observable<T[]>;
-export function combineLatest<R>(array: ObservableInput<any>[], scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T>(
+  array: ObservableInput<T>[],
+  scheduler?: SchedulerLike,
+): Observable<T[]>;
+export function combineLatest<R>(
+  array: ObservableInput<any>[],
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<T, R>(array: ObservableInput<T>[], resultSelector: (...values: Array<T>) => R, scheduler?: SchedulerLike): Observable<R>;
+export function combineLatest<T, R>(
+  array: ObservableInput<T>[],
+  resultSelector: (...values: Array<T>) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function combineLatest<R>(array: ObservableInput<any>[], resultSelector: (...values: Array<any>) => R, scheduler?: SchedulerLike): Observable<R>;
-export function combineLatest<T>(...observables: Array<ObservableInput<T> | SchedulerLike>): Observable<T[]>;
-export function combineLatest<T, R>(...observables: Array<ObservableInput<T> | ((...values: Array<T>) => R) | SchedulerLike>): Observable<R>;
-export function combineLatest<R>(...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R) | SchedulerLike>): Observable<R>;
+export function combineLatest<R>(
+  array: ObservableInput<any>[],
+  resultSelector: (...values: Array<any>) => R,
+  scheduler?: SchedulerLike,
+): Observable<R>;
+export function combineLatest<T>(
+  ...observables: Array<ObservableInput<T> | SchedulerLike>
+): Observable<T[]>;
+export function combineLatest<T, R>(
+  ...observables: Array<
+    ObservableInput<T> | ((...values: Array<T>) => R) | SchedulerLike
+  >
+): Observable<R>;
+export function combineLatest<R>(
+  ...observables: Array<
+    ObservableInput<any> | ((...values: Array<any>) => R) | SchedulerLike
+  >
+): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -156,11 +249,16 @@ export function combineLatest<R>(...observables: Array<ObservableInput<any> | ((
  * values from each input Observable, or an array of the most recent values from
  * each input Observable.
  */
-export function combineLatest<T, R>(...observables: Array<any | ObservableInput<any> |
-                                                    Array<ObservableInput<any>> |
-                                                    (((...values: Array<any>) => R)) |
-                                                    SchedulerLike>): Observable<R> {
-  let resultSelector: (...values: Array<any>) => R =  null;
+export function combineLatest<T, R>(
+  ...observables: Array<
+    | any
+    | ObservableInput<any>
+    | Array<ObservableInput<any>>
+    | (((...values: Array<any>) => R))
+    | SchedulerLike
+  >
+): Observable<R> {
+  let resultSelector: (...values: Array<any>) => R = null;
   let scheduler: SchedulerLike = null;
 
   if (isScheduler(observables[observables.length - 1])) {
@@ -177,15 +275,18 @@ export function combineLatest<T, R>(...observables: Array<any | ObservableInput<
     observables = <Array<Observable<any>>>observables[0];
   }
 
-  return fromArray(observables, scheduler).lift(new CombineLatestOperator<T, R>(resultSelector));
+  return fromArray(observables, scheduler).lift(
+    new CombineLatestOperator<T, R>(resultSelector),
+  );
 }
 
 export class CombineLatestOperator<T, R> implements Operator<T, R> {
-  constructor(private resultSelector?: (...values: Array<any>) => R) {
-  }
+  constructor(private resultSelector?: (...values: Array<any>) => R) {}
 
   call(subscriber: Subscriber<R>, source: any): any {
-    return source.subscribe(new CombineLatestSubscriber(subscriber, this.resultSelector));
+    return source.subscribe(
+      new CombineLatestSubscriber(subscriber, this.resultSelector),
+    );
   }
 }
 
@@ -200,7 +301,10 @@ export class CombineLatestSubscriber<T, R> extends OuterSubscriber<T, R> {
   private observables: any[] = [];
   private toRespond: number;
 
-  constructor(destination: Subscriber<R>, private resultSelector?: (...values: Array<any>) => R) {
+  constructor(
+    destination: Subscriber<R>,
+    private resultSelector?: (...values: Array<any>) => R,
+  ) {
     super(destination);
   }
 
@@ -230,14 +334,20 @@ export class CombineLatestSubscriber<T, R> extends OuterSubscriber<T, R> {
     }
   }
 
-  notifyNext(outerValue: T, innerValue: R,
-             outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, R>): void {
+  notifyNext(
+    outerValue: T,
+    innerValue: R,
+    outerIndex: number,
+    innerIndex: number,
+    innerSub: InnerSubscriber<T, R>,
+  ): void {
     const values = this.values;
     const oldVal = values[outerIndex];
     const toRespond = !this.toRespond
       ? 0
-      : oldVal === NONE ? --this.toRespond : this.toRespond;
+      : oldVal === NONE
+      ? --this.toRespond
+      : this.toRespond;
     values[outerIndex] = innerValue;
 
     if (toRespond === 0) {

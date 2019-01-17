@@ -23,7 +23,7 @@ export class Subscription implements SubscriptionLike {
   public static EMPTY: Subscription = (function(empty: any) {
     empty.closed = true;
     return empty;
-  }(new Subscription()));
+  })(new Subscription());
 
   /**
    * A flag to indicate whether this Subscription has already been unsubscribed.
@@ -44,7 +44,7 @@ export class Subscription implements SubscriptionLike {
    */
   constructor(unsubscribe?: () => void) {
     if (unsubscribe) {
-      (<any> this)._unsubscribe = unsubscribe;
+      (<any>this)._unsubscribe = unsubscribe;
     }
   }
 
@@ -62,7 +62,7 @@ export class Subscription implements SubscriptionLike {
       return;
     }
 
-    let { _parent, _parents, _unsubscribe, _subscriptions } = (<any> this);
+    let { _parent, _parents, _unsubscribe, _subscriptions } = <any>this;
 
     this.closed = true;
     this._parent = null;
@@ -80,22 +80,22 @@ export class Subscription implements SubscriptionLike {
       _parent.remove(this);
       // if this._parents is null or index >= len,
       // then _parent is set to null, and the loop exits
-      _parent = ++index < len && _parents[index] || null;
+      _parent = (++index < len && _parents[index]) || null;
     }
 
     if (isFunction(_unsubscribe)) {
       let trial = tryCatch(_unsubscribe).call(this);
       if (trial === errorObject) {
         hasErrors = true;
-        errors = errors || (
-          errorObject.e instanceof UnsubscriptionError ?
-            flattenUnsubscriptionErrors(errorObject.e.errors) : [errorObject.e]
-        );
+        errors =
+          errors ||
+          (errorObject.e instanceof UnsubscriptionError
+            ? flattenUnsubscriptionErrors(errorObject.e.errors)
+            : [errorObject.e]);
       }
     }
 
     if (isArray(_subscriptions)) {
-
       index = -1;
       len = _subscriptions.length;
 
@@ -143,7 +143,7 @@ export class Subscription implements SubscriptionLike {
    * list.
    */
   add(teardown: TeardownLogic): Subscription {
-    if (!teardown || (teardown === Subscription.EMPTY)) {
+    if (!teardown || teardown === Subscription.EMPTY) {
       return Subscription.EMPTY;
     }
 
@@ -151,25 +151,32 @@ export class Subscription implements SubscriptionLike {
       return this;
     }
 
-    let subscription = (<Subscription> teardown);
+    let subscription = <Subscription>teardown;
 
     switch (typeof teardown) {
       case 'function':
-        subscription = new Subscription(<(() => void) > teardown);
+        subscription = new Subscription(<(() => void)>teardown);
       case 'object':
-        if (subscription.closed || typeof subscription.unsubscribe !== 'function') {
+        if (
+          subscription.closed ||
+          typeof subscription.unsubscribe !== 'function'
+        ) {
           return subscription;
         } else if (this.closed) {
           subscription.unsubscribe();
           return subscription;
-        } else if (typeof subscription._addParent !== 'function' /* quack quack */) {
+        } else if (
+          typeof subscription._addParent !== 'function' /* quack quack */
+        ) {
           const tmp = subscription;
           subscription = new Subscription();
           subscription._subscriptions = [tmp];
         }
         break;
       default:
-        throw new Error('unrecognized teardown ' + teardown + ' added to Subscription.');
+        throw new Error(
+          'unrecognized teardown ' + teardown + ' added to Subscription.',
+        );
     }
 
     const subscriptions = this._subscriptions || (this._subscriptions = []);
@@ -215,5 +222,9 @@ export class Subscription implements SubscriptionLike {
 }
 
 function flattenUnsubscriptionErrors(errors: any[]) {
- return errors.reduce((errs, err) => errs.concat((err instanceof UnsubscriptionError) ? err.errors : err), []);
+  return errors.reduce(
+    (errs, err) =>
+      errs.concat(err instanceof UnsubscriptionError ? err.errors : err),
+    [],
+  );
 }

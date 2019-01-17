@@ -33,6 +33,6 @@ export const NEVER = new Observable<never>(noop);
 /**
  * @deprecated Deprecated in favor of using {@link NEVER} constant.
  */
-export function never () {
+export function never() {
   return NEVER;
 }

@@ -52,8 +52,10 @@ import { Subscriber } from '../Subscriber';
  * @name interval
  * @owner Observable
  */
-export function interval(period = 0,
-                         scheduler: SchedulerLike = async): Observable<number> {
+export function interval(
+  period = 0,
+  scheduler: SchedulerLike = async,
+): Observable<number> {
   if (!isNumeric(period) || period < 0) {
     period = 0;
   }
@@ -64,7 +66,7 @@ export function interval(period = 0,
 
   return new Observable<number>(subscriber => {
     subscriber.add(
-      scheduler.schedule(dispatch, period, { subscriber, counter: 0, period })
+      scheduler.schedule(dispatch, period, { subscriber, counter: 0, period }),
     );
     return subscriber;
   });

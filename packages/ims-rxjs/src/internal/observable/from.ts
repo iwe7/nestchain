@@ -10,8 +10,14 @@ import { fromObservable } from './fromObservable';
 import { subscribeTo } from '../util/subscribeTo';
 import { ObservableInput, SchedulerLike } from '../types';
 
-export function from<T>(input: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>;
-export function from<T>(input: ObservableInput<ObservableInput<T>>, scheduler?: SchedulerLike): Observable<Observable<T>>;
+export function from<T>(
+  input: ObservableInput<T>,
+  scheduler?: SchedulerLike,
+): Observable<T>;
+export function from<T>(
+  input: ObservableInput<ObservableInput<T>>,
+  scheduler?: SchedulerLike,
+): Observable<Observable<T>>;
 
 /**
  * Creates an Observable from an Array, an array-like object, a Promise, an iterable object, or an Observable-like object.
@@ -95,7 +101,10 @@ export function from<T>(input: ObservableInput<ObservableInput<T>>, scheduler?: 
  * @owner Observable
  */
 
-export function from<T>(input: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T> {
+export function from<T>(
+  input: ObservableInput<T>,
+  scheduler?: SchedulerLike,
+): Observable<T> {
   if (!scheduler) {
     if (input instanceof Observable) {
       return input;
@@ -110,10 +119,12 @@ export function from<T>(input: ObservableInput<T>, scheduler?: SchedulerLike): O
       return fromPromise(input, scheduler);
     } else if (isArrayLike(input)) {
       return fromArray(input, scheduler);
-    }  else if (isIterable(input) || typeof input === 'string') {
+    } else if (isIterable(input) || typeof input === 'string') {
       return fromIterable(input, scheduler);
     }
   }
 
-  throw new TypeError((input !== null && typeof input || input) + ' is not observable');
+  throw new TypeError(
+    ((input !== null && typeof input) || input) + ' is not observable',
+  );
 }

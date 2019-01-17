@@ -61,5 +61,7 @@ export function empty(scheduler?: SchedulerLike) {
 }
 
 export function emptyScheduled(scheduler: SchedulerLike) {
-  return new Observable<never>(subscriber => scheduler.schedule(() => subscriber.complete()));
+  return new Observable<never>(subscriber =>
+    scheduler.schedule(() => subscriber.complete()),
+  );
 }

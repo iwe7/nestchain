@@ -6,7 +6,22 @@ import {
   Multicodec,
   Multibase,
   Multihash,
+  Injectable,
 } from 'ims-core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CidFactory {
+  constructor(public injector: Injector) {}
+  create(
+    version: number | string | Buffer,
+    codec?: string,
+    multihash?: Buffer,
+  ) {
+    return new CidImpl(version, this.injector, codec, multihash);
+  }
+}
 
 function checkCIDComponents(cid: Cid, mh: Multihash) {
   if (cid == null) {

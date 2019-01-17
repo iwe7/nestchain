@@ -1,4 +1,4 @@
-import {  AjaxObservable, AjaxCreationMethod  } from './AjaxObservable';
+import { AjaxObservable, AjaxCreationMethod } from './AjaxObservable';
 /**
  * There is an ajax operator on the Rx object.
  *

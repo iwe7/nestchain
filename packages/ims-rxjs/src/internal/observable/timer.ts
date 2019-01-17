@@ -51,12 +51,14 @@ import { Subscriber } from '../Subscriber';
  * @name timer
  * @owner Observable
  */
-export function timer(dueTime: number | Date = 0,
-                      periodOrScheduler?: number | SchedulerLike,
-                      scheduler?: SchedulerLike): Observable<number> {
+export function timer(
+  dueTime: number | Date = 0,
+  periodOrScheduler?: number | SchedulerLike,
+  scheduler?: SchedulerLike,
+): Observable<number> {
   let period = -1;
   if (isNumeric(periodOrScheduler)) {
-    period = Number(periodOrScheduler) < 1 && 1 || Number(periodOrScheduler);
+    period = (Number(periodOrScheduler) < 1 && 1) || Number(periodOrScheduler);
   } else if (isScheduler(periodOrScheduler)) {
     scheduler = periodOrScheduler as any;
   }
@@ -68,10 +70,12 @@ export function timer(dueTime: number | Date = 0,
   return new Observable(subscriber => {
     const due = isNumeric(dueTime)
       ? (dueTime as number)
-      : (+dueTime - scheduler.now());
+      : +dueTime - scheduler.now();
 
     return scheduler.schedule(dispatch, due, {
-      index: 0, period, subscriber
+      index: 0,
+      period,
+      subscriber,
     });
   });
 }

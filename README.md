@@ -58,3 +58,38 @@ curl -sSL https://get.docker.com/ | sh
 出货章 发货章 使用章
 
 广告商资金注入
+
+| packages          |       |
+|-------------------|-------|
+| ims-fs            | 文件    |
+| ims-net           | 网络    |
+| ims-os            | 操作系统  |
+| ims-path          | 路径    |
+| ims-util          | 工具    |
+| ims-url           | URL   |
+| ims-error         | 错误/异常 |
+| ims-console       | 控制台   |
+| ims-cluster       | 集群    |
+| ims-child_process | 子进程   |
+| ims-crypto        | 加密解密  |
+| ims-dgram         | dgram |
+| ims-http          | http  |
+| ims-http2         | http2 |
+| ims-https         | https |
+| ims-dns           | 域名服务器 |
+| ims-events        | 事件    |
+| ims-global        | 全局    |
+| ims-process       | 进程    |
+| ims-inspector     | 调试系统  |
+| ims-module        | 模块系统  |
+| ims-vm            | 虚拟机   |
+| ims-cli           | 命令行模块 |
+| ims-core          | 核心模块  |
+| ims-scheduler     | 调度器   |
+
+
+# ims-scheduler
+每个任务在不同的机器上运行得到相同的结果
+可以并行计算
+
+1. 自由传播

@@ -5,9 +5,16 @@ import { fromEvent } from './fromEvent';
 import { map } from '../operators/map';
 
 /* tslint:disable:max-line-length */
-export function fromEventPattern<T>(addHandler: (handler: Function) => any, removeHandler?: (handler: Function, signal?: any) => void): Observable<T>;
+export function fromEventPattern<T>(
+  addHandler: (handler: Function) => any,
+  removeHandler?: (handler: Function, signal?: any) => void,
+): Observable<T>;
 /** @deprecated resultSelector no longer supported, pipe to map instead */
-export function fromEventPattern<T>(addHandler: (handler: Function) => any, removeHandler?: (handler: Function, signal?: any) => void, resultSelector?: (...args: any[]) => T): Observable<T>;
+export function fromEventPattern<T>(
+  addHandler: (handler: Function) => any,
+  removeHandler?: (handler: Function, signal?: any) => void,
+  resultSelector?: (...args: any[]) => T,
+): Observable<T>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -132,14 +139,17 @@ export function fromEventPattern<T>(addHandler: (handler: Function) => any, remo
  * @owner Observable
  */
 
-export function fromEventPattern<T>(addHandler: (handler: Function) => any,
-                                    removeHandler?: (handler: Function, signal?: any) => void,
-                                    resultSelector?: (...args: any[]) => T): Observable<T | T[]> {
-
+export function fromEventPattern<T>(
+  addHandler: (handler: Function) => any,
+  removeHandler?: (handler: Function, signal?: any) => void,
+  resultSelector?: (...args: any[]) => T,
+): Observable<T | T[]> {
   if (resultSelector) {
     // DEPRECATED PATH
     return fromEventPattern<T>(addHandler, removeHandler).pipe(
-      map(args => isArray(args) ? resultSelector(...args) : resultSelector(args))
+      map(args =>
+        isArray(args) ? resultSelector(...args) : resultSelector(args),
+      ),
     );
   }
 
@@ -158,6 +168,6 @@ export function fromEventPattern<T>(addHandler: (handler: Function) => any,
       return undefined;
     }
 
-    return () => removeHandler(handler, retValue) ;
+    return () => removeHandler(handler, retValue);
   });
 }

@@ -49,6 +49,9 @@ import { MonoTypeOperatorFunction, SchedulerLike } from '../types';
  * @method auditTime
  * @owner Observable
  */
-export function auditTime<T>(duration: number, scheduler: SchedulerLike = async): MonoTypeOperatorFunction<T> {
+export function auditTime<T>(
+  duration: number,
+  scheduler: SchedulerLike = async,
+): MonoTypeOperatorFunction<T> {
   return audit(() => timer(duration, scheduler));
 }

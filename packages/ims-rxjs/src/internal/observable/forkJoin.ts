@@ -11,23 +11,80 @@ import { map } from '../operators/map';
 /* tslint:disable:max-line-length */
 // forkJoin([a$, b$, c$]);
 export function forkJoin<T>(sources: [ObservableInput<T>]): Observable<T[]>;
-export function forkJoin<T, T2>(sources: [ObservableInput<T>, ObservableInput<T2>]): Observable<[T, T2]>;
-export function forkJoin<T, T2, T3>(sources: [ObservableInput<T>, ObservableInput<T2>, ObservableInput<T3>]): Observable<[T, T2, T3]>;
-export function forkJoin<T, T2, T3, T4>(sources: [ObservableInput<T>, ObservableInput<T2>, ObservableInput<T3>, ObservableInput<T4>]): Observable<[T, T2, T3, T4]>;
-export function forkJoin<T, T2, T3, T4, T5>(sources: [ObservableInput<T>, ObservableInput<T2>, ObservableInput<T3>, ObservableInput<T4>, ObservableInput<T5>]): Observable<[T, T2, T3, T4, T5]>;
-export function forkJoin<T, T2, T3, T4, T5, T6>(sources: [ObservableInput<T>, ObservableInput<T2>, ObservableInput<T3>, ObservableInput<T4>, ObservableInput<T5>, ObservableInput<T6>]): Observable<[T, T2, T3, T4, T5, T6]>;
-export function forkJoin<T>(sources: Array<ObservableInput<T>>): Observable<T[]>;
+export function forkJoin<T, T2>(
+  sources: [ObservableInput<T>, ObservableInput<T2>],
+): Observable<[T, T2]>;
+export function forkJoin<T, T2, T3>(
+  sources: [ObservableInput<T>, ObservableInput<T2>, ObservableInput<T3>],
+): Observable<[T, T2, T3]>;
+export function forkJoin<T, T2, T3, T4>(
+  sources: [
+    ObservableInput<T>,
+    ObservableInput<T2>,
+    ObservableInput<T3>,
+    ObservableInput<T4>
+  ],
+): Observable<[T, T2, T3, T4]>;
+export function forkJoin<T, T2, T3, T4, T5>(
+  sources: [
+    ObservableInput<T>,
+    ObservableInput<T2>,
+    ObservableInput<T3>,
+    ObservableInput<T4>,
+    ObservableInput<T5>
+  ],
+): Observable<[T, T2, T3, T4, T5]>;
+export function forkJoin<T, T2, T3, T4, T5, T6>(
+  sources: [
+    ObservableInput<T>,
+    ObservableInput<T2>,
+    ObservableInput<T3>,
+    ObservableInput<T4>,
+    ObservableInput<T5>,
+    ObservableInput<T6>
+  ],
+): Observable<[T, T2, T3, T4, T5, T6]>;
+export function forkJoin<T>(
+  sources: Array<ObservableInput<T>>,
+): Observable<T[]>;
 
 // forkJoin(a$, b$, c$)
 export function forkJoin<T>(v1: ObservableInput<T>): Observable<T[]>;
-export function forkJoin<T, T2>(v1: ObservableInput<T>, v2: ObservableInput<T2>): Observable<[T, T2]>;
-export function forkJoin<T, T2, T3>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>): Observable<[T, T2, T3]>;
-export function forkJoin<T, T2, T3, T4>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>): Observable<[T, T2, T3, T4]>;
-export function forkJoin<T, T2, T3, T4, T5>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>): Observable<[T, T2, T3, T4, T5]>;
-export function forkJoin<T, T2, T3, T4, T5, T6>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>): Observable<[T, T2, T3, T4, T5, T6]>;
+export function forkJoin<T, T2>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+): Observable<[T, T2]>;
+export function forkJoin<T, T2, T3>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+): Observable<[T, T2, T3]>;
+export function forkJoin<T, T2, T3, T4>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+): Observable<[T, T2, T3, T4]>;
+export function forkJoin<T, T2, T3, T4, T5>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+): Observable<[T, T2, T3, T4, T5]>;
+export function forkJoin<T, T2, T3, T4, T5, T6>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  v6: ObservableInput<T6>,
+): Observable<[T, T2, T3, T4, T5, T6]>;
 
 /** @deprecated resultSelector is deprecated, pipe to map instead */
-export function forkJoin(...args: Array<ObservableInput<any>|Function>): Observable<any>;
+export function forkJoin(
+  ...args: Array<ObservableInput<any> | Function>
+): Observable<any>;
 export function forkJoin<T>(...sources: ObservableInput<T>[]): Observable<T[]>;
 /* tslint:enable:max-line-length */
 
@@ -142,7 +199,6 @@ export function forkJoin<T>(...sources: ObservableInput<T>[]): Observable<T[]>;
 export function forkJoin<T>(
   ...sources: Array<ObservableInput<T> | ObservableInput<T>[] | Function>
 ): Observable<T[]> {
-
   let resultSelector: Function;
   if (typeof sources[sources.length - 1] === 'function') {
     // DEPRECATED PATH
@@ -161,13 +217,13 @@ export function forkJoin<T>(
 
   if (resultSelector) {
     // DEPRECATED PATH
-    return forkJoin(sources).pipe(
-      map(args => resultSelector(...args))
-    );
+    return forkJoin(sources).pipe(map(args => resultSelector(...args)));
   }
 
   return new Observable(subscriber => {
-    return new ForkJoinSubscriber(subscriber, sources as Array<ObservableInput<T>>);
+    return new ForkJoinSubscriber(subscriber, sources as Array<
+      ObservableInput<T>
+    >);
   });
 }
 /**
@@ -180,8 +236,10 @@ class ForkJoinSubscriber<T, R> extends OuterSubscriber<T, T> {
   private values: T[];
   private haveValues = 0;
 
-  constructor(destination: Subscriber<R>,
-              private sources: Array<ObservableInput<T>>) {
+  constructor(
+    destination: Subscriber<R>,
+    private sources: Array<ObservableInput<T>>,
+  ) {
     super(destination);
 
     const len = sources.length;
@@ -197,9 +255,13 @@ class ForkJoinSubscriber<T, R> extends OuterSubscriber<T, T> {
     }
   }
 
-  notifyNext(outerValue: any, innerValue: T,
-             outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, T>): void {
+  notifyNext(
+    outerValue: any,
+    innerValue: T,
+    outerIndex: number,
+    innerIndex: number,
+    innerSub: InnerSubscriber<T, T>,
+  ): void {
     this.values[outerIndex] = innerValue;
     if (!(innerSub as any)._hasValue) {
       (innerSub as any)._hasValue = true;

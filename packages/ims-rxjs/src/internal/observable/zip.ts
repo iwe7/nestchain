@@ -12,34 +12,104 @@ import { iterator as Symbol_iterator } from '../../internal/symbol/iterator';
 
 /* tslint:disable:max-line-length */
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, R>(v1: ObservableInput<T>, resultSelector: (v1: T) => R): Observable<R>;
+export function zip<T, R>(
+  v1: ObservableInput<T>,
+  resultSelector: (v1: T) => R,
+): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, T2, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, resultSelector: (v1: T, v2: T2) => R): Observable<R>;
+export function zip<T, T2, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  resultSelector: (v1: T, v2: T2) => R,
+): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, T2, T3, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, resultSelector: (v1: T, v2: T2, v3: T3) => R): Observable<R>;
+export function zip<T, T2, T3, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  resultSelector: (v1: T, v2: T2, v3: T3) => R,
+): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, T2, T3, T4, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R): Observable<R>;
+export function zip<T, T2, T3, T4, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  resultSelector: (v1: T, v2: T2, v3: T3, v4: T4) => R,
+): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, T2, T3, T4, T5, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R): Observable<R>;
+export function zip<T, T2, T3, T4, T5, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R,
+): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, T2, T3, T4, T5, T6, R>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R): Observable<R>;
+export function zip<T, T2, T3, T4, T5, T6, R>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  v6: ObservableInput<T6>,
+  resultSelector: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R,
+): Observable<R>;
 
-export function zip<T, T2>(v1: ObservableInput<T>, v2: ObservableInput<T2>): Observable<[T, T2]>;
-export function zip<T, T2, T3>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>): Observable<[T, T2, T3]>;
-export function zip<T, T2, T3, T4>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>): Observable<[T, T2, T3, T4]>;
-export function zip<T, T2, T3, T4, T5>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>): Observable<[T, T2, T3, T4, T5]>;
-export function zip<T, T2, T3, T4, T5, T6>(v1: ObservableInput<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>): Observable<[T, T2, T3, T4, T5, T6]>;
+export function zip<T, T2>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+): Observable<[T, T2]>;
+export function zip<T, T2, T3>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+): Observable<[T, T2, T3]>;
+export function zip<T, T2, T3, T4>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+): Observable<[T, T2, T3, T4]>;
+export function zip<T, T2, T3, T4, T5>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+): Observable<[T, T2, T3, T4, T5]>;
+export function zip<T, T2, T3, T4, T5, T6>(
+  v1: ObservableInput<T>,
+  v2: ObservableInput<T2>,
+  v3: ObservableInput<T3>,
+  v4: ObservableInput<T4>,
+  v5: ObservableInput<T5>,
+  v6: ObservableInput<T6>,
+): Observable<[T, T2, T3, T4, T5, T6]>;
 
 export function zip<T>(array: ObservableInput<T>[]): Observable<T[]>;
 export function zip<R>(array: ObservableInput<any>[]): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<T, R>(array: ObservableInput<T>[], resultSelector: (...values: Array<T>) => R): Observable<R>;
+export function zip<T, R>(
+  array: ObservableInput<T>[],
+  resultSelector: (...values: Array<T>) => R,
+): Observable<R>;
 /** @deprecated resultSelector is no longer supported, pipe to map instead */
-export function zip<R>(array: ObservableInput<any>[], resultSelector: (...values: Array<any>) => R): Observable<R>;
+export function zip<R>(
+  array: ObservableInput<any>[],
+  resultSelector: (...values: Array<any>) => R,
+): Observable<R>;
 
-export function zip<T>(...observables: Array<ObservableInput<T>>): Observable<T[]>;
-export function zip<T, R>(...observables: Array<ObservableInput<T> | ((...values: Array<T>) => R)>): Observable<R>;
-export function zip<R>(...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R>;
+export function zip<T>(
+  ...observables: Array<ObservableInput<T>>
+): Observable<T[]>;
+export function zip<T, R>(
+  ...observables: Array<ObservableInput<T> | ((...values: Array<T>) => R)>
+): Observable<R>;
+export function zip<R>(
+  ...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>
+): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -72,16 +142,21 @@ export function zip<R>(...observables: Array<ObservableInput<any> | ((...values:
  * @name zip
  * @owner Observable
  */
-export function zip<T, R>(...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R> {
-  const resultSelector = <((...ys: Array<any>) => R)> observables[observables.length - 1];
+export function zip<T, R>(
+  ...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>
+): Observable<R> {
+  const resultSelector = <((...ys: Array<any>) => R)>(
+    observables[observables.length - 1]
+  );
   if (typeof resultSelector === 'function') {
     observables.pop();
   }
-  return fromArray(observables, undefined).lift(new ZipOperator(resultSelector));
+  return fromArray(observables, undefined).lift(
+    new ZipOperator(resultSelector),
+  );
 }
 
 export class ZipOperator<T, R> implements Operator<T, R> {
-
   resultSelector: (...values: Array<any>) => R;
 
   constructor(resultSelector?: (...values: Array<any>) => R) {
@@ -104,11 +179,14 @@ export class ZipSubscriber<T, R> extends Subscriber<T> {
   private iterators: LookAheadIterator<any>[] = [];
   private active = 0;
 
-  constructor(destination: Subscriber<R>,
-              resultSelector?: (...values: Array<any>) => R,
-              values: any = Object.create(null)) {
+  constructor(
+    destination: Subscriber<R>,
+    resultSelector?: (...values: Array<any>) => R,
+    values: any = Object.create(null),
+  ) {
     super(destination);
-    this.resultSelector = (typeof resultSelector === 'function') ? resultSelector : null;
+    this.resultSelector =
+      typeof resultSelector === 'function' ? resultSelector : null;
     this.values = values;
   }
 
@@ -252,7 +330,9 @@ class StaticArrayIterator<T> implements LookAheadIterator<T> {
   next(value?: any): IteratorResult<T> {
     const i = this.index++;
     const array = this.array;
-    return i < this.length ? { value: array[i], done: false } : { value: null, done: true };
+    return i < this.length
+      ? { value: array[i], done: false }
+      : { value: null, done: true };
   }
 
   hasValue() {
@@ -269,14 +349,17 @@ class StaticArrayIterator<T> implements LookAheadIterator<T> {
  * @ignore
  * @extends {Ignored}
  */
-class ZipBufferIterator<T, R> extends OuterSubscriber<T, R> implements LookAheadIterator<T> {
+class ZipBufferIterator<T, R> extends OuterSubscriber<T, R>
+  implements LookAheadIterator<T> {
   stillUnsubscribed = true;
   buffer: T[] = [];
   isComplete = false;
 
-  constructor(destination: PartialObserver<T>,
-              private parent: ZipSubscriber<T, R>,
-              private observable: Observable<T>) {
+  constructor(
+    destination: PartialObserver<T>,
+    private parent: ZipSubscriber<T, R>,
+    private observable: Observable<T>,
+  ) {
     super(destination);
   }
 
@@ -312,9 +395,13 @@ class ZipBufferIterator<T, R> extends OuterSubscriber<T, R> implements LookAhead
     }
   }
 
-  notifyNext(outerValue: T, innerValue: any,
-             outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, R>): void {
+  notifyNext(
+    outerValue: T,
+    innerValue: any,
+    outerIndex: number,
+    innerIndex: number,
+    innerSub: InnerSubscriber<T, R>,
+  ): void {
     this.buffer.push(innerValue);
     this.parent.checkIterators();
   }

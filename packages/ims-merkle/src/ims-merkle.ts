@@ -10,15 +10,36 @@ export class ImsMerkleTree {
   get hash() {
     return this.root.toString('hex');
   }
-  constructor(datas: Buffer[], public multihashing: Multihashing) {
-    let nodes = datas.map(
-      (data, index) => new ImsMerkleTreeNode(data, index, this.multihashing),
-    );
-    this.handlerNodes(nodes.reverse());
+  constructor(
+    datas: Buffer[],
+    public multihashing: Multihashing,
+    public other: any,
+  ) {
+    if (datas.length <= 0) {
+      datas = [Buffer.from('')];
+    }
+    if (datas.length === 1) {
+      this.rootNode = new ImsMerkleTreeNode(
+        datas[0],
+        0,
+        this.multihashing,
+        this.other,
+      );
+      this.root = this.rootNode.hash;
+    } else {
+      let nodes = datas.map(
+        (data, index) =>
+          new ImsMerkleTreeNode(data, index, this.multihashing, this.other),
+      );
+      this.handlerNodes(nodes.reverse());
+    }
   }
 
   toJson(): MerkleJson {
-    return this.rootNode.toJson();
+    return {
+      ...this.other,
+      ...this.rootNode.toJson(),
+    };
   }
 
   private handlerNodes(nodes: ImsMerkleTreeNode[]) {
@@ -33,6 +54,7 @@ export class ImsMerkleTree {
           Buffer.from(old.hash.toString() + last.hash.toString()),
           old.key + '_' + last.key,
           this.multihashing,
+          this.other,
         ));
         node.left = old;
         node.right = last;
@@ -70,11 +92,12 @@ export class ImsMerkleTreeNode {
     public data: Buffer,
     private _key: any,
     public multihashing: Multihashing,
+    public other: any,
   ) {}
 
   toJson(): MerkleJson {
     let item: any = {
-      hash: this.hash.toString(),
+      hash: this.hash.toString('hex'),
     };
     if (this.left) {
       item.left = this.left.toJson();
@@ -82,7 +105,7 @@ export class ImsMerkleTreeNode {
     if (this.right) {
       item.right = this.right.toJson();
     }
-    return item;
+    return { ...item, ...this.other };
   }
 
   get key() {
@@ -104,8 +127,11 @@ export interface MerkleJson {
 })
 export class ImsMerkleTreeFactory {
   constructor(public multihashing: Multihashing) {}
-  create(datas: Buffer[] | { [key: string]: Buffer }): ImsMerkleTree {
+  create(
+    datas: Buffer[] | { [key: string]: Buffer },
+    other?: any,
+  ): ImsMerkleTree {
     let items = Object.keys(datas).map(it => datas[it]);
-    return new ImsMerkleTree(items, this.multihashing);
+    return new ImsMerkleTree(items, this.multihashing, other);
   }
 }

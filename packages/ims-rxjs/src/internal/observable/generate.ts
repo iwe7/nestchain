@@ -69,11 +69,13 @@ export interface GenerateOptions<T, S> extends GenerateBaseOptions<S> {
  * @param {SchedulerLike} [scheduler] A {@link SchedulerLike} on which to run the generator loop. If not provided, defaults to emit immediately.
  * @returns {Observable<T>} The generated sequence.
  */
-  export function generate<T, S>(initialState: S,
-                                 condition: ConditionFunc<S>,
-                                 iterate: IterateFunc<S>,
-                                 resultSelector: ResultFunc<S, T>,
-                                 scheduler?: SchedulerLike): Observable<T>;
+export function generate<T, S>(
+  initialState: S,
+  condition: ConditionFunc<S>,
+  iterate: IterateFunc<S>,
+  resultSelector: ResultFunc<S, T>,
+  scheduler?: SchedulerLike,
+): Observable<T>;
 
 /**
  * Generates an Observable by running a state-driven loop
@@ -202,10 +204,12 @@ export interface GenerateOptions<T, S> extends GenerateBaseOptions<S> {
  * @param {Scheduler} [scheduler] A {@link Scheduler} on which to run the generator loop. If not provided, defaults to emitting immediately.
  * @return {Observable<T>} The generated sequence.
  */
-export function generate<S>(initialState: S,
-                            condition: ConditionFunc<S>,
-                            iterate: IterateFunc<S>,
-                            scheduler?: SchedulerLike): Observable<S>;
+export function generate<S>(
+  initialState: S,
+  condition: ConditionFunc<S>,
+  iterate: IterateFunc<S>,
+  scheduler?: SchedulerLike,
+): Observable<S>;
 
 /**
  * Generates an observable sequence by running a state-driven loop
@@ -256,12 +260,13 @@ export function generate<S>(options: GenerateBaseOptions<S>): Observable<S>;
  */
 export function generate<T, S>(options: GenerateOptions<T, S>): Observable<T>;
 
-export function generate<T, S>(initialStateOrOptions: S | GenerateOptions<T, S>,
-                               condition?: ConditionFunc<S>,
-                               iterate?: IterateFunc<S>,
-                               resultSelectorOrObservable?: (ResultFunc<S, T>) | SchedulerLike,
-                               scheduler?: SchedulerLike): Observable<T> {
-
+export function generate<T, S>(
+  initialStateOrOptions: S | GenerateOptions<T, S>,
+  condition?: ConditionFunc<S>,
+  iterate?: IterateFunc<S>,
+  resultSelectorOrObservable?: (ResultFunc<S, T>) | SchedulerLike,
+  scheduler?: SchedulerLike,
+): Observable<T> {
   let resultSelector: ResultFunc<S, T>;
   let initialState: S;
 
@@ -270,9 +275,12 @@ export function generate<T, S>(initialStateOrOptions: S | GenerateOptions<T, S>,
     initialState = options.initialState;
     condition = options.condition;
     iterate = options.iterate;
-    resultSelector = options.resultSelector || identity as ResultFunc<S, T>;
+    resultSelector = options.resultSelector || (identity as ResultFunc<S, T>);
     scheduler = options.scheduler;
-  } else if (resultSelectorOrObservable === undefined || isScheduler(resultSelectorOrObservable)) {
+  } else if (
+    resultSelectorOrObservable === undefined ||
+    isScheduler(resultSelectorOrObservable)
+  ) {
     initialState = initialStateOrOptions as S;
     resultSelector = identity as ResultFunc<S, T>;
     scheduler = resultSelectorOrObservable as SchedulerLike;
@@ -289,7 +297,7 @@ export function generate<T, S>(initialStateOrOptions: S | GenerateOptions<T, S>,
         iterate,
         condition,
         resultSelector,
-        state
+        state,
       });
     }
 
@@ -330,7 +338,10 @@ export function generate<T, S>(initialStateOrOptions: S | GenerateOptions<T, S>,
   });
 }
 
-function dispatch<T, S>(this: SchedulerAction<SchedulerState<T, S>>, state: SchedulerState<T, S>) {
+function dispatch<T, S>(
+  this: SchedulerAction<SchedulerState<T, S>>,
+  state: SchedulerState<T, S>,
+) {
   const { subscriber, condition } = state;
   if (subscriber.closed) {
     return undefined;

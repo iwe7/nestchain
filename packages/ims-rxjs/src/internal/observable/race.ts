@@ -11,7 +11,9 @@ import { subscribeToResult } from '../util/subscribeToResult';
 
 export function race<T>(observables: Array<Observable<T>>): Observable<T>;
 export function race<T>(observables: Array<Observable<any>>): Observable<T>;
-export function race<T>(...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
+export function race<T>(
+  ...observables: Array<Observable<T> | Array<Observable<T>>>
+): Observable<T>;
 /**
  * Returns an Observable that mirrors the first source Observable to emit an item.
  *
@@ -38,7 +40,9 @@ export function race<T>(...observables: Array<Observable<T> | Array<Observable<T
  * @name race
  * @owner Observable
  */
-export function race<T>(...observables: Array<Observable<any> | Array<Observable<any>>>): Observable<T> {
+export function race<T>(
+  ...observables: Array<Observable<any> | Array<Observable<any>>>
+): Observable<T> {
   // if the only argument is an array, it was most likely called with
   // `race([obs1, obs2, ...])`
   if (observables.length === 1) {
@@ -84,7 +88,12 @@ export class RaceSubscriber<T> extends OuterSubscriber<T, T> {
     } else {
       for (let i = 0; i < len && !this.hasFirst; i++) {
         let observable = observables[i];
-        let subscription = subscribeToResult(this, observable, observable as any, i);
+        let subscription = subscribeToResult(
+          this,
+          observable,
+          observable as any,
+          i,
+        );
 
         if (this.subscriptions) {
           this.subscriptions.push(subscription);
@@ -95,9 +104,13 @@ export class RaceSubscriber<T> extends OuterSubscriber<T, T> {
     }
   }
 
-  notifyNext(outerValue: T, innerValue: T,
-             outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, T>): void {
+  notifyNext(
+    outerValue: T,
+    innerValue: T,
+    outerIndex: number,
+    innerIndex: number,
+    innerSub: InnerSubscriber<T, T>,
+  ): void {
     if (!this.hasFirst) {
       this.hasFirst = true;
 

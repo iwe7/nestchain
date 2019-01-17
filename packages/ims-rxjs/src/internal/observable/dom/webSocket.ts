@@ -150,6 +150,8 @@ import { WebSocketSubject, WebSocketSubjectConfig } from './WebSocketSubject';
  * configuration and additional Observers.
  * @return {WebSocketSubject} Subject which allows to both send and receive messages via WebSocket connection.
  */
-export function webSocket<T>(urlConfigOrSource: string | WebSocketSubjectConfig<T>): WebSocketSubject<T> {
+export function webSocket<T>(
+  urlConfigOrSource: string | WebSocketSubjectConfig<T>,
+): WebSocketSubject<T> {
   return new WebSocketSubject<T>(urlConfigOrSource);
 }
