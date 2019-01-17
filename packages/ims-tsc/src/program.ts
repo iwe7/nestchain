@@ -11,6 +11,7 @@ export abstract class ScriptReferenceHost implements ts.ScriptReferenceHost {
   abstract getSourceFileByPath(path: ts.Path): ts.SourceFile | undefined;
   abstract getCurrentDirectory(): string;
 }
+
 export abstract class Program extends ScriptReferenceHost
   implements ts.Program {
   abstract getRootFileNames(): ReadonlyArray<string>;
@@ -56,7 +57,8 @@ export abstract class Program extends ScriptReferenceHost
     | undefined;
 }
 import { RootNamesToken } from './tokens';
-export const providers: Provider[] = [
+import { CustomTransformersToken } from './transform';
+export const programProviders: Provider[] = [
   {
     provide: RootNamesToken,
     useValue: join(ROOT, 'src/index.ts'),
@@ -66,11 +68,32 @@ export const providers: Provider[] = [
     provide: Program,
     useFactory: (injector: Injector) => {
       let rootNames = injector.get<string[]>(RootNamesToken);
-      return ts.createProgram({
+      let program = ts.createProgram({
         rootNames: rootNames,
         options: injector.get<ts.CompilerOptions>(CompilerOptionsToken),
         host: injector.get<CompilerHost>(CompilerHost),
       });
+
+      let emit = program.emit;
+
+      program.emit = function(
+        targetSourceFile?: ts.SourceFile,
+        writeFile?: ts.WriteFileCallback,
+        cancellationToken?: ts.CancellationToken,
+        emitOnlyDtsFiles?: boolean,
+        customTransformers?: ts.CustomTransformers,
+      ) {
+        customTransformers =
+          customTransformers || injector.get(CustomTransformersToken);
+        return emit(
+          targetSourceFile,
+          writeFile,
+          cancellationToken,
+          emitOnlyDtsFiles,
+          customTransformers,
+        );
+      };
+      return program;
     },
     deps: [Injector],
   },

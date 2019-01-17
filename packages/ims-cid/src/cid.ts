@@ -1,11 +1,11 @@
 import {
   Cid,
-  Multihash,
   CidJson,
   Injector,
   MultibaseType,
   Multicodec,
   Multibase,
+  Multihash,
 } from 'ims-core';
 
 function checkCIDComponents(cid: Cid, mh: Multihash) {
@@ -40,7 +40,7 @@ export class CidImpl extends Cid {
   mb: Multibase;
   injector: Injector;
   constructor(
-    version: number,
+    version: number | string | Buffer,
     injector: Injector,
     codec?: string,
     multihash?: Buffer,

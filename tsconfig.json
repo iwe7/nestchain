@@ -20,6 +20,7 @@
     "composite": true,
     "baseUrl": ".",
     "rootDir": ".",
+    "sourceRoot": ".",
     "watch": true,
     "paths": {
       "ims-chain": ["packages/ims-chain/src/index"],
@@ -91,7 +92,9 @@
       "ims-compiler-node": ["packages/ims-compiler-node/src/index"],
       "ims-tapable": ["packages/ims-tapable/src/index"],
       "ims-webpack": ["packages/ims-webpack/src/index"],
-      "ims-acorn": ["packages/ims-acorn/src/index"]
+      "ims-acorn": ["packages/ims-acorn/src/index"],
+      "ims-glob": ["packages/ims-glob/src/index"],
+      "ims-dir-tree": ["packages/ims-dir-tree/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

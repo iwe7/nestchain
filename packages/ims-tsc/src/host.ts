@@ -2,6 +2,8 @@ import { Provider, Injector, ErrorSubject } from 'ims-core';
 import * as ts from 'typescript';
 import * as path from 'path';
 import { ROOT } from 'ims-const';
+import { Multihashing } from 'ims-multihash';
+import { fileExtensionIs } from 'ims-util';
 
 export abstract class ModuleResolutionHost implements ts.ModuleResolutionHost {
   abstract fileExists(fileName: string): boolean;
@@ -56,14 +58,77 @@ export abstract class CompilerHost extends ModuleResolutionHost
   abstract getEnvironmentVariable?(name: string): string | undefined;
   abstract createHash?(data: string): string;
 }
+import * as fs from 'fs';
 
 import { CompilerOptionsToken, TsConfigFileToken } from './tokens';
-export const providers: Provider[] = [
+import { VisitorToken } from './visitor';
+
+export const hostMap: Map<string, string> = new Map();
+export const hostProviders: Provider[] = [
   {
     provide: CompilerHost,
     useFactory: (injector: Injector) => {
       let options = injector.get<ts.CompilerOptions>(CompilerOptionsToken);
-      return ts.createCompilerHost(options);
+      let host = ts.createCompilerHost(options);
+      let multihasing = injector.get(Multihashing);
+      host.writeFile = (
+        fileName: string,
+        data: string,
+        writeByteOrderMark: boolean,
+        onError: ((message: string) => void) | undefined,
+        sourceFiles?: ReadonlyArray<ts.SourceFile>,
+      ) => {
+        if (fileExtensionIs(fileName, '.map')) {
+        } else if (fileExtensionIs(fileName, '.d.ts')) {
+        } else {
+          let hash = host.createHash(data);
+          let _file = path.join(ROOT, '.ipfs', `${hash}.js`);
+          hostMap.set(fileName, hash);
+          if (!fs.existsSync(_file)) {
+            fs.writeFileSync(_file, data);
+          }
+        }
+      };
+      let getSourceFile = host.getSourceFile;
+      let getSourceFileByPath = host.getSourceFileByPath;
+      host.getSourceFileByPath = function(
+        fileName: string,
+        path: ts.Path,
+        languageVersion: ts.ScriptTarget,
+        onError?: (message: string) => void,
+        shouldCreateNewSourceFile?: boolean,
+      ) {
+        let file = getSourceFileByPath(
+          fileName,
+          path,
+          languageVersion,
+          onError,
+          shouldCreateNewSourceFile,
+        );
+        let visitor = injector.get(VisitorToken);
+        return ts.visitNode(file, visitor);
+      };
+      host.getSourceFile = function(
+        fileName: string,
+        languageVersion: ts.ScriptTarget,
+        onError?: (message: string) => void,
+        shouldCreateNewSourceFile?: boolean,
+      ) {
+        let file = getSourceFile(
+          fileName,
+          languageVersion,
+          onError,
+          shouldCreateNewSourceFile,
+        );
+        let visitor = injector.get(VisitorToken);
+        return ts.visitNode(file, visitor);
+      };
+      host.createHash = function(data: string): string {
+        return multihasing.hash(Buffer.from(data)).toString('hex');
+      };
+      host.useCaseSensitiveFileNames = () => false;
+      host.getCanonicalFileName = dir => dir;
+      return host;
     },
     deps: [Injector],
   },

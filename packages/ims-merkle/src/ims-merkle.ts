@@ -3,6 +3,7 @@
  */
 
 import { Multihashing } from 'ims-multihash';
+import { Injectable } from 'ims-core';
 export class ImsMerkleTree {
   root: Buffer;
   rootNode: ImsMerkleTreeNode;
@@ -16,7 +17,7 @@ export class ImsMerkleTree {
     this.handlerNodes(nodes.reverse());
   }
 
-  getJson() {
+  toJson(): MerkleJson {
     return this.rootNode.toJson();
   }
 
@@ -71,8 +72,10 @@ export class ImsMerkleTreeNode {
     public multihashing: Multihashing,
   ) {}
 
-  toJson() {
-    let item: any = { hash: this.hash.toString('hex') };
+  toJson(): MerkleJson {
+    let item: any = {
+      hash: this.hash.toString(),
+    };
     if (this.left) {
       item.left = this.left.toJson();
     }
@@ -87,9 +90,18 @@ export class ImsMerkleTreeNode {
   }
 }
 
+export interface MerkleJson {
+  hash: string;
+  left?: MerkleJson;
+  right?: MerkleJson;
+}
+
 /**
  * 默克尔树工厂
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class ImsMerkleTreeFactory {
   constructor(public multihashing: Multihashing) {}
   create(datas: Buffer[] | { [key: string]: Buffer }): ImsMerkleTree {
