@@ -48,7 +48,7 @@ export interface ClassMetadata<D = any> {
   metadataType: MetadataType;
   metadataDef: D;
   parameters?: any[];
-  metadataFactory: (...args: any[]) => any;
+  metadataFactory: <T>(...args: any[]) => Promise<T>;
   primaryKey?: string;
   target?: Type<any>;
   visit: any;
