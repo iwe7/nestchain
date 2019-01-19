@@ -1,6 +1,9 @@
+import { symbolInit } from './init';
+
 export const Type = Function;
 
 export interface Type<T extends Object> extends Function {
+  [symbolInit]?: () => Promise<T>;
   new (...args: any[]): T;
 }
 export type ObjectType<T> = { new (): T } | Function;

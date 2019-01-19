@@ -19,9 +19,11 @@ export class ReplaySubject<T> extends Subject<T> {
   private _windowTime: number;
   private _infiniteTimeWindow: boolean = false;
 
-  constructor(bufferSize: number = Number.POSITIVE_INFINITY,
-              windowTime: number = Number.POSITIVE_INFINITY,
-              private scheduler?: SchedulerLike) {
+  constructor(
+    bufferSize: number = Number.POSITIVE_INFINITY,
+    windowTime: number = Number.POSITIVE_INFINITY,
+    private scheduler?: SchedulerLike,
+  ) {
     super();
     this._bufferSize = bufferSize < 1 ? 1 : bufferSize;
     this._windowTime = windowTime < 1 ? 1 : windowTime;
@@ -57,7 +59,9 @@ export class ReplaySubject<T> extends Subject<T> {
   _subscribe(subscriber: Subscriber<T>): Subscription {
     // When `_infiniteTimeWindow === true` then the buffer is already trimmed
     const _infiniteTimeWindow = this._infiniteTimeWindow;
-    const _events = _infiniteTimeWindow ? this._events : this._trimBufferThenGetEvents();
+    const _events = _infiniteTimeWindow
+      ? this._events
+      : this._trimBufferThenGetEvents();
     const scheduler = this.scheduler;
     const len = _events.length;
     let subscription: Subscription;
@@ -72,7 +76,9 @@ export class ReplaySubject<T> extends Subject<T> {
     }
 
     if (scheduler) {
-      subscriber.add(subscriber = new ObserveOnSubscriber<T>(subscriber, scheduler));
+      subscriber.add(
+        (subscriber = new ObserveOnSubscriber<T>(subscriber, scheduler)),
+      );
     }
 
     if (_infiniteTimeWindow) {
@@ -111,7 +117,7 @@ export class ReplaySubject<T> extends Subject<T> {
     // Start at the front of the list. Break early once
     // we encounter an event that falls within the window.
     while (spliceCount < eventsCount) {
-      if ((now - _events[spliceCount].time) < _windowTime) {
+      if (now - _events[spliceCount].time < _windowTime) {
         break;
       }
       spliceCount++;
@@ -127,10 +133,8 @@ export class ReplaySubject<T> extends Subject<T> {
 
     return _events;
   }
-
 }
 
 class ReplayEvent<T> {
-  constructor(public time: number, public value: T) {
-  }
+  constructor(public time: number, public value: T) {}
 }

@@ -13,6 +13,10 @@ import {
   DevPort,
   DevWatch,
 } from '../tokens';
+import { NgModule } from '../di/ngModule';
+
+@NgModule()
+export class CoreModule {}
 export const corePlatform = createPlatformFactory(null, 'core', [
   {
     provide: PlatformRef,

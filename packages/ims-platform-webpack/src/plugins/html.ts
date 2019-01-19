@@ -8,8 +8,10 @@ import { join } from 'path';
 })
 export class ImsWebpackHtmlPlugin {
   plugin: HTMLPlugin;
-  constructor(injector: Injector) {
-    let sourceRoot = injector.get(SourceRoot, './');
+  constructor(private injector: Injector) {}
+
+  async apply(compiler: Compiler) {
+    let sourceRoot = await this.injector.get(SourceRoot, './');
     this.plugin = new HTMLPlugin({
       cache: false,
       title: 'app title',
@@ -18,9 +20,6 @@ export class ImsWebpackHtmlPlugin {
       meta: {},
       template: join(sourceRoot, 'index.html'),
     });
-  }
-
-  apply(compiler: Compiler) {
     return this.plugin.apply(compiler);
   }
 }

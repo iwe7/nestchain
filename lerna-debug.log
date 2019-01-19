@@ -1,7 +1,7 @@
 0 silly argv { _: [ 'create' ],
 0 silly argv   lernaVersion: '3.7.1',
 0 silly argv   '$0': 'lerna',
-0 silly argv   name: 'ims-single-linelog' }
+0 silly argv   name: 'ims-vconsole' }
 1 notice cli v3.7.1
 2 verbose rootPath /Volumes/meepo/nestchain
 3 error Error: canceled

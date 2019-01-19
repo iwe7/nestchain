@@ -9,7 +9,6 @@ export class ImsWebpackDefinePlugin {
   constructor() {
     this.plugin = new DefinePlugin({});
   }
-
   apply(compiler: Compiler) {
     return this.plugin.apply(compiler);
   }

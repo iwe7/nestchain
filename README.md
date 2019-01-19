@@ -86,10 +86,17 @@ curl -sSL https://get.docker.com/ | sh
 | ims-cli           | 命令行模块 |
 | ims-core          | 核心模块  |
 | ims-scheduler     | 调度器   |
+| ims-addr          | 调度器   |
 
+# ims-addr
+
+# ims-cli
 
 # ims-scheduler
 每个任务在不同的机器上运行得到相同的结果
 可以并行计算
 
 1. 自由传播
+
+域名->ip->资源
+hash->ips->资源s

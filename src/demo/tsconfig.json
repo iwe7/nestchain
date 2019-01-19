@@ -13,7 +13,10 @@
       "ims-rxjs": ["../../packages/ims-rxjs/src/index"],
       "ims-rxjs/operators": ["../../packages/ims-rxjs/src/operators"],
       "ims-util": ["../../packages/ims-util/src/index"],
-      "ims-decorator": ["../../packages/ims-decorator/src/index"]
+      "ims-decorator": ["../../packages/ims-decorator/src/index"],
+      "ims-dom": ["../../packages/ims-dom/src/index"],
+      "ims-stream": ["../../packages/ims-stream/src/index"],
+      "ims-console": ["../../packages/ims-console/src/index"]
     }
   }
 }

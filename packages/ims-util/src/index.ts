@@ -15,3 +15,5 @@ export * from 'util';
 export * from './other';
 export * from './looper';
 export * from './core';
+export * from './init';
+export * from './createObservableData';

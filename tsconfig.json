@@ -40,6 +40,9 @@
       "ims-decorator": ["packages/ims-decorator/src/index"],
       "ims-redis": ["packages/ims-redis/src/index"],
       "ims-security": ["packages/ims-security/src/index"],
+      "ims-stream": ["packages/ims-stream/src/index"],
+      "ims-dom": ["packages/ims-dom/src/index"],
+      "ims-console": ["packages/ims-console/src/index"],
       "ims-transaction": ["packages/ims-transaction/src/index"],
       "ims-consensus": ["packages/ims-consensus/src/index"],
       "ims-grpc": ["packages/ims-grpc/src/index"],
@@ -94,7 +97,9 @@
       "ims-webpack": ["packages/ims-webpack/src/index"],
       "ims-acorn": ["packages/ims-acorn/src/index"],
       "ims-glob": ["packages/ims-glob/src/index"],
-      "ims-dir-tree": ["packages/ims-dir-tree/src/index"]
+      "ims-dir-tree": ["packages/ims-dir-tree/src/index"],
+      "ims-promise": ["packages/ims-promise/src/index"],
+      "ims-ipfs": ["packages/ims-ipfs/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],
@@ -114,6 +119,8 @@
     "src",
     "demo",
     "packages/ims-ployfill/src/index.ts",
-    "packages/ims-types/src/wxapp.d.ts"
+    "packages/ims-types/src/wxapp.d.ts",
+    "node_modules/tns-platform-declarations/android.d.ts",
+    "node_modules/tns-platform-declarations/ios.d.ts"
   ]
 }

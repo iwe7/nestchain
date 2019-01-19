@@ -14,6 +14,7 @@ import {
 } from './di/ngModule';
 import { Compiler } from './compiler';
 import { getMetadata, isClassMetadata } from 'ims-decorator';
+import { PlatformName } from './tokens';
 
 export class PlatformRef {
   private _modules: NgModuleRef<any>[] = [];
@@ -34,7 +35,7 @@ export class PlatformRef {
   ): Promise<NgModuleRef<M>> {
     let moduleRef = await moduleFactory.create();
     let type = moduleFactory.type;
-    let compiler = moduleRef.injector.get<Compiler>(Compiler, null);
+    let compiler = await moduleRef.injector.get<Compiler>(Compiler, null);
     let meta = getMetadata(type);
     if (compiler) {
       meta.forEach(it => {
@@ -51,7 +52,7 @@ export class PlatformRef {
       });
     }
     moduleRef.onDestroy(() => remove(this._modules, moduleRef));
-    const initStatus = moduleRef.injector.get<ApplicationInitStatus>(
+    const initStatus = await moduleRef.injector.get<ApplicationInitStatus>(
       ApplicationInitStatus,
     );
     initStatus.runInitializers(moduleRef.injector);
@@ -82,7 +83,7 @@ export const PLATFORM_INITIALIZER = new InjectionToken<Array<() => void>>(
 );
 export const PLATFORM_ID = new InjectionToken<Object>('Platform Id');
 
-export function createPlatform(injector: Injector): PlatformRef {
+export async function createPlatform(injector: Injector): Promise<PlatformRef> {
   if (
     _platform &&
     !_platform.destroyed &&
@@ -92,8 +93,8 @@ export function createPlatform(injector: Injector): PlatformRef {
       'There can be only one platform. Destroy the previous one to create a new one.',
     );
   }
-  _platform = injector.get(PlatformRef);
-  const inits = injector.get(PLATFORM_INITIALIZER, null);
+  _platform = await injector.get<PlatformRef>(PlatformRef);
+  const inits = await injector.get(PLATFORM_INITIALIZER, null);
   if (inits) inits.forEach((init: any) => init(injector));
   return _platform;
 }
@@ -112,6 +113,10 @@ export function createPlatformFactory(
 ): (extraProviders?: StaticProvider[]) => Promise<PlatformRef> {
   const desc = `Platform: ${name}`;
   const marker = new InjectionToken(desc);
+  providers.push({
+    provide: PlatformName,
+    useValue: name,
+  });
   return async (extraProviders: StaticProvider[] = []) => {
     let platform = getPlatform();
     if (types) {
@@ -131,7 +136,7 @@ export function createPlatformFactory(
         const injectedProviders: StaticProvider[] = providers
           .concat(extraProviders)
           .concat({ provide: marker, useValue: true });
-        createPlatform(
+        await createPlatform(
           await Injector.create({ providers: injectedProviders, name: desc }),
         );
       }

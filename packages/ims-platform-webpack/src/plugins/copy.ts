@@ -15,15 +15,14 @@ import { join } from 'path';
 })
 export class ImsWebpackCopyPlugin {
   plugin: any;
-  constructor(private injector: Injector) {
-    let root = injector.get(SourceRoot, ROOT);
-    let appRoot = this.injector.get(AppRoot, ROOT);
-    let platform = this.injector.get(PlatformName, 'web');
+  constructor(private injector: Injector) {}
+
+  async apply(compiler: Compiler) {
+    let root = await this.injector.get(SourceRoot, ROOT);
+    let appRoot = await this.injector.get(AppRoot, ROOT);
+    let platform = await this.injector.get(PlatformName, 'web');
     let app = join(appRoot, 'template', platform);
     this.plugin = new CopyWebpackPlugin([root + `/**/*`, root + `/*`]);
-  }
-
-  apply(compiler: Compiler) {
     return this.plugin.apply(compiler);
   }
 }

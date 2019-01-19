@@ -1,4 +1,10 @@
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+export enum LogLevel {
+  error,
+  warn,
+  fatal,
+  info,
+  debug,
+}
 import { JsonObject } from '../json/index';
 /**
  * ims-logger

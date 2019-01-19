@@ -24,22 +24,22 @@ export class ImsWebpackHashedModuleIdsPlugin {
       normalModuleFactory.hooks.factory.tap(
         'HashedModuleIdsPlugin',
         (...args) => {
-          console.log('factory', args);
+          // console.log('factory', args);
         },
       );
       normalModuleFactory.hooks.resolver.tap(
         'HashedModuleIdsPlugin',
         (...args) => {
-          console.log('resolver', args);
+          // console.log('resolver', args);
         },
       );
       normalModuleFactory.hooks.createModule.tap(
         'HashedModuleIdsPlugin',
         ({ parser }) => {
-          console.log('createModule', parser);
+          // console.log('createModule', parser);
         },
       );
-      console.log('compile', opt);
+      // console.log('compile', opt);
     });
   }
 }

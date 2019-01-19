@@ -11,9 +11,10 @@ import {
   getDesignParamTypes,
 } from 'ims-decorator';
 import { inject } from './inject';
+import { symbolInit } from 'ims-util';
+import { from, forkJoin } from 'ims-rxjs';
 
-
-export function createProxyType(type: Type<any>) {
+export function createProxyType<T>(type: Type<T>): Type<T> {
   let meta = getMetadata(type);
   let parameters = getDesignParamTypes(type) || [];
   meta
@@ -30,7 +31,7 @@ export function createProxyType(type: Type<any>) {
      * @param argArray
      * @param newTarget
      */
-    construct(target: any, argArray: any, newTarget?: any) {
+    construct(target: Type<T>, argArray: any, newTarget?: any) {
       let parameterMetas: ConstructorMetadata<any>[] = meta.filter(
         paramMeta => {
           if (isConstructorMetadata(paramMeta)) {
@@ -40,6 +41,7 @@ export function createProxyType(type: Type<any>) {
           return false;
         },
       ) as any;
+      let obs = [];
       parameters.forEach((paramType, index) => {
         let val = paramType;
         if (!argArray[index]) {
@@ -49,66 +51,83 @@ export function createProxyType(type: Type<any>) {
               if (it.metadataFactory) val = it.metadataFactory(val);
             });
           // inject
-          argArray[index] = inject(val);
+          obs.push(from(inject(val).then(res => (argArray[index] = res))));
         }
       });
-      let instance = Reflect.construct(target, argArray, newTarget);
-      /**
-       * 实例代理
-       */
-      return createProxyWidthDefault(instance, {
-        get(target: any, p: PropertyKey, receiver: any): any {
-          let old = Reflect.get(target, p, receiver);
-          meta.forEach(it => {
-            if (isMethodMetadata(it)) {
-              if (it.propertyKey === p) {
-                if (it.metadataFactory) {
-                  old = it.metadataFactory(meta);
+      target[symbolInit] = async () => {
+        await forkJoin(...obs).toPromise();
+        return Reflect.construct(target, argArray, newTarget);
+      };
+      return target[symbolInit]().then((instance: any) => {
+        /**
+         * 实例代理
+         */
+        return createProxyWidthDefault(instance, {
+          get(target: any, p: PropertyKey, receiver: any): any {
+            let old = Reflect.get(target, p, receiver);
+            meta.forEach(it => {
+              if (isMethodMetadata(it)) {
+                if (it.propertyKey === p) {
+                  if (it.metadataFactory) {
+                    old = it.metadataFactory(meta);
+                  }
+                }
+              } else if (isPropertyMetadata(it)) {
+                if (it.propertyKey === p) {
+                  if (it.metadataFactory) {
+                    old = it.metadataFactory(meta);
+                  }
                 }
               }
-            } else if (isPropertyMetadata(it)) {
-              if (it.propertyKey === p) {
-                if (it.metadataFactory) {
-                  old = it.metadataFactory(meta);
-                }
-              }
-            }
-          });
-          if (typeof old === 'function' || typeof old === 'object') {
-            if (old !== null) {
-              return createProxyWidthDefault(old, {
-                apply(target: any, thisArg: any, argArray?: any) {
-                  let parameters = [];
-                  let parameterMetas: ParameterMetadata<any>[] = meta.filter(
-                    paramMeta => {
-                      if (isParameterMetadata(paramMeta)) {
-                        if (paramMeta.propertyKey === p) {
-                          parameters = paramMeta.parameters;
-                          return true;
+            });
+            if (typeof old === 'function' || typeof old === 'object') {
+              if (old !== null) {
+                return createProxyWidthDefault(old, {
+                  apply(target: any, thisArg: any, argArray?: any) {
+                    let parameters = [];
+                    let parameterMetas: ParameterMetadata<any>[] = meta.filter(
+                      paramMeta => {
+                        if (isParameterMetadata(paramMeta)) {
+                          if (paramMeta.propertyKey === p) {
+                            parameters = paramMeta.parameters;
+                            return true;
+                          }
                         }
+                        return false;
+                      },
+                    ) as any;
+                    let obs = [];
+                    parameters.forEach((paramType, index) => {
+                      let val = paramType;
+                      if (!argArray[index]) {
+                        parameterMetas
+                          .filter(it => it.parameterIndex === index)
+                          .forEach(it => {
+                            if (it.metadataFactory)
+                              val = it.metadataFactory(val);
+                          });
+                        // inject
+                        obs.push(
+                          from(
+                            inject(paramType).then(
+                              res => (argArray[index] = res),
+                            ),
+                          ),
+                        );
                       }
-                      return false;
-                    },
-                  ) as any;
-                  parameters.forEach((paramType, index) => {
-                    let val = paramType;
-                    if (!argArray[index]) {
-                      parameterMetas
-                        .filter(it => it.parameterIndex === index)
-                        .forEach(it => {
-                          if (it.metadataFactory) val = it.metadataFactory(val);
-                        });
-                      // inject
-                      argArray[index] = inject(paramType);
-                    }
-                  });
-                  return Reflect.apply(target, thisArg, argArray);
-                },
-              });
+                    });
+                    target[symbolInit] = async () => {
+                      await forkJoin(...obs).toPromise();
+                      return Reflect.apply(target, thisArg, argArray);
+                    };
+                    return target[symbolInit]();
+                  },
+                });
+              }
             }
-          }
-          return old;
-        },
+            return old;
+          },
+        });
       });
     },
   });

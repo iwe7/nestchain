@@ -4,7 +4,8 @@ import {
   formatError,
   staticError,
   getClosureSafeProperty,
-  isPromise
+  isPromise,
+  isObservable,
 } from 'ims-util';
 import { Type } from '../type';
 import { InjectionToken } from './injection_token';
@@ -21,7 +22,7 @@ import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
-import { from, forkJoin } from 'ims-rxjs';
+import { from, forkJoin, of, ReplaySubject } from 'ims-rxjs';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
@@ -108,7 +109,7 @@ export class StaticInjector implements Injector {
     return recursivelyProcessProviders(this._records, providers);
   }
 
-  async set(providers: StaticProvider[]) {
+  async set(providers: StaticProvider[]): Promise<void> {
     let pros = [];
     let obs = [];
     providers.forEach(provider => {
@@ -128,21 +129,16 @@ export class StaticInjector implements Injector {
     token: Type<T> | InjectionToken<T>,
     notFoundValue?: T,
     flags?: InjectFlags,
-  ): T;
-  get(token: any, notFoundValue?: any): any;
-  get(
+  ): Promise<T> | T;
+  get(token: any, notFoundValue?: any): Promise<any> | any;
+  async get(
     token: any,
     notFoundValue?: any,
     flags: InjectFlags = InjectFlags.Default,
-  ): any {
+  ): Promise<any> {
     const record = this._records.get(token);
-
-    if (!record) {
-      // throw new Error(`can not found record`);
-      // console.log(this);
-    }
     try {
-      let value = tryResolveToken(
+      let value = await tryResolveToken(
         token,
         record,
         this._records,
@@ -150,8 +146,13 @@ export class StaticInjector implements Injector {
         notFoundValue,
         flags,
       );
-
-      return value;
+      if (value && isPromise(value)) {
+        return value;
+      } else if (value && isObservable(value)) {
+        return value.toPromise();
+      } else {
+        return of(value).toPromise();
+      }
     } catch (e) {
       const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
       if (token[SOURCE]) {
@@ -175,17 +176,17 @@ export abstract class Injector {
   static THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
   static NULL: Injector = new NullInjector();
   static top: Injector = new StaticInjector([], Injector.NULL, 'top');
-  abstract set(providers: StaticProvider[]): any;
+  abstract set(providers: StaticProvider[]): Promise<void>;
   abstract get<T>(
     token: Type<T> | InjectionToken<T>,
     notFoundValue?: T,
     flags?: InjectFlags,
-  ): T;
+  ): Promise<T>;
   /**
    * @deprecated from v4.0.0 use Type<T> or InjectionToken<T>
    * @suppress {duplicate}
    */
-  abstract get<T>(token: any, notFoundValue?: any): T;
+  abstract get<T>(token: any, notFoundValue?: any): Promise<T>;
 
   /**
    * @deprecated from v5 use the new signature Injector.create(options)
@@ -311,7 +312,8 @@ function recursivelyProcessProviders(
         throw multiProviderMixError(token);
       }
       records.set(token, resolvedProvider);
-    } else if (isPromise(provider)) {
+      injectorEvent.next(token);
+    } else if (provider && isPromise(provider)) {
       provider.then(pro => {
         recursivelyProcessProviders(records, pro);
       });
@@ -320,6 +322,9 @@ function recursivelyProcessProviders(
     }
   }
 }
+
+export const injectorEvent = new ReplaySubject();
+
 export const USE_VALUE = getClosureSafeProperty<ValueProvider>({
   provide: String,
   useValue: getClosureSafeProperty,
@@ -396,7 +401,7 @@ function computeDeps(provider: StaticProvider): DependencyRecord[] {
 }
 const CIRCULAR = IDENT;
 
-function tryResolveToken(
+async function tryResolveToken(
   token: any,
   record: Record | undefined,
   records: Map<any, Record>,
@@ -405,7 +410,14 @@ function tryResolveToken(
   flags: InjectFlags,
 ) {
   try {
-    return resolveToken(token, record, records, parent, notFoundValue, flags);
+    return await resolveToken(
+      token,
+      record,
+      records,
+      parent,
+      notFoundValue,
+      flags,
+    );
   } catch (e) {
     if (!(e instanceof Error)) {
       e = new Error(e);
@@ -420,15 +432,16 @@ function tryResolveToken(
 }
 const NO_NEW_LINE = 'ɵ';
 
-function resolveToken(
+async function resolveToken(
   token: any,
   record: Record | undefined,
   records: Map<any, Record>,
   parent: Injector,
   notFoundValue: any,
   flags: InjectFlags,
-): any {
+): Promise<any> {
   let value;
+
   if (record && !(flags & InjectFlags.SkipSelf)) {
     // If we don't have a record, this implies that we don't own the provider hence don't know how
     // to resolve it.
@@ -452,7 +465,7 @@ function resolveToken(
               ? records.get(depRecord.token)
               : undefined;
           deps.push(
-            tryResolveToken(
+            await tryResolveToken(
               depRecord.token,
               childRecord,
               records,
@@ -472,7 +485,7 @@ function resolveToken(
         : fn.apply(obj, deps);
     }
   } else if (!(flags & InjectFlags.Self)) {
-    value = parent.get(token, notFoundValue, InjectFlags.Default);
+    value = await parent.get(token, notFoundValue, InjectFlags.Default);
   }
   return value;
 }

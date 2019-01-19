@@ -8,10 +8,10 @@ import { Multihashing } from './multihashing';
   providers: [
     {
       provide: Multihash,
-      useFactory: (injector: Injector) => {
+      useFactory: async (injector: Injector) => {
         return new MultihashImpl(
-          injector.get(BaseXFactory),
-          injector.get(Varint),
+          await injector.get<BaseXFactory>(BaseXFactory),
+          await injector.get<Varint>(Varint),
         );
       },
       deps: [Injector],

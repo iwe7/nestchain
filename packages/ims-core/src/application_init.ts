@@ -2,7 +2,7 @@ import { Injectable } from './di/injectable';
 import { Inject, Optional } from './di/metadata';
 import { InjectionToken } from './di/injection_token';
 import { isPromise } from 'ims-util';
-import { Injector } from '@angular/core';
+import { Injector } from './di/injector';
 export const APP_INITIALIZER = new InjectionToken<Array<() => void>>(
   'Application Initializer',
 );

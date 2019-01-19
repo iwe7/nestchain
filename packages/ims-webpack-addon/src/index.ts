@@ -14,22 +14,22 @@ import { ROOT } from 'ims-const';
   providers: [
     {
       provide: WebpackConfigurations,
-      useFactory: (injector: Injector) => {
-        let root = injector.get(SourceRoot, join(ROOT, 'src/demo'));
-        let devOpen = injector.get(DevOpen, false);
-        let devPort = injector.get(DevPort, 4200);
+      useFactory: async (injector: Injector) => {
+        let root = await injector.get(SourceRoot, join(ROOT, 'src/demo'));
+        let devOpen = await injector.get(DevOpen, false);
+        let devPort = await injector.get(DevPort, 4200);
         let cfg = {
           entry: {
             main: [join(root, 'demo.ts')],
           },
         };
         if (devOpen) {
-          // Object.keys(cfg.entry).forEach(key => {
-          //   (cfg.entry[key] as string[]).unshift(
-          //     `webpack-dev-server/client?http://localhost:${devPort}/`,
-          //     `webpack/hot/dev-server`
-          //   );
-          // });
+          Object.keys(cfg.entry).forEach(key => {
+            (cfg.entry[key] as string[]).unshift(
+              `webpack-dev-server/client?http://localhost:${devPort}/`,
+              `webpack/hot/dev-server`,
+            );
+          });
         }
         return cfg;
       },

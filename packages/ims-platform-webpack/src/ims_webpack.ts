@@ -9,7 +9,7 @@ import {
   PlatformName,
   DevWatch,
 } from 'ims-core';
-import { Observable, Subject, of } from 'ims-rxjs';
+import { Observable, Subject, from } from 'ims-rxjs';
 import webpack = require('webpack');
 import webpackMerge = require('webpack-merge');
 import webpackDevServer = require('webpack-dev-server');
@@ -49,19 +49,18 @@ export class ImsWebpack {
   private injector: Injector;
   constructor() {}
 
-  init(injector: Injector) {
+  async init(injector: Injector) {
     this.injector = injector;
-    let configurations = injector.get<webpack.Configuration[]>(
+    let configurations = await injector.get<webpack.Configuration[]>(
       WebpackConfigurations,
       [emptyConfig],
     );
-    let plugins = injector.get<Type<any>[]>(PluginsToken, []);
-    let output = injector.get(OutputToken, {});
-    let resolvePlugins = injector.get(resolvePluginsToken);
-
-    this.devOpen = injector.get(DevOpen, false);
-    this.devWatch = injector.get(DevWatch, false);
-    this.port = injector.get(DevPort, 4200);
+    let plugins = await injector.get<Type<any>[]>(PluginsToken, []);
+    let output = await injector.get(OutputToken, {});
+    let resolvePlugins = await injector.get(resolvePluginsToken);
+    this.devOpen = await injector.get(DevOpen, false);
+    this.devWatch = await injector.get(DevWatch, false);
+    this.port = await injector.get(DevPort, 4200);
     this.options = webpackMerge(...configurations, {
       entry: {},
       plugins,
@@ -82,8 +81,7 @@ export class ImsWebpack {
 
   apply(): Observable<any> {
     if (this.devOpen) {
-      this.server();
-      return of(null);
+      return from(this.server());
     } else {
       if (this.devWatch) {
         return this.watch({});
@@ -93,12 +91,12 @@ export class ImsWebpack {
     }
   }
 
-  private server() {
+  private async server() {
     /**
      * 根目录
      */
-    let appRoot = this.injector.get(AppRoot, ROOT);
-    let platform = this.injector.get(PlatformName, 'web');
+    let appRoot = await this.injector.get(AppRoot, ROOT);
+    let platform = await this.injector.get(PlatformName, 'web');
     this.root = join(appRoot, 'template', platform);
     let dev = new webpackDevServer(this.webpack, {
       hot: true,

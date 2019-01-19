@@ -73,9 +73,9 @@ export let webpackPlatform = createPlatformFactory(
     },
     {
       provide: OutputToken,
-      useFactory: (injector: Injector) => {
-        let appRoot = injector.get(AppRoot, ROOT);
-        let platform = injector.get(PlatformName, 'web');
+      useFactory: async (injector: Injector) => {
+        let appRoot = await injector.get(AppRoot, ROOT);
+        let platform = await injector.get(PlatformName, 'web');
         return {
           path: join(appRoot, 'template', platform),
           filename: `[name].js`,
@@ -118,8 +118,8 @@ export let webpackPlatform = createPlatformFactory(
     },
     {
       provide: resolvePluginsToken,
-      useFactory: (injector: Injector) => {
-        let sourceRoot = injector.get(SourceRoot, ROOT);
+      useFactory: async (injector: Injector) => {
+        let sourceRoot = await injector.get(SourceRoot, ROOT);
         return new TsconfigPathsPlugin({
           configFile: join(sourceRoot, 'tsconfig.json'),
         });
