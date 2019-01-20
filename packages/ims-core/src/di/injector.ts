@@ -5,6 +5,7 @@ import {
   staticError,
   getClosureSafeProperty,
   isPromise,
+  toPromise,
   isObservable,
 } from 'ims-util';
 import { Type } from '../type';
@@ -16,13 +17,12 @@ import {
   StaticClassProvider,
   ConstructorProvider,
   FactoryProvider,
-  isStaticProviderFn,
 } from './provider';
 import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
-import { from, forkJoin, of, ReplaySubject } from 'ims-rxjs';
+import { ReplaySubject } from 'ims-rxjs';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
@@ -48,7 +48,61 @@ export enum InjectFlags {
   Optional = 0b1000,
 }
 export const INJECTOR = new InjectionToken<Injector>('INJECTOR');
+export abstract class Injector {
+  static THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
+  static NULL: Injector = new NullInjector();
+  static top: Injector;
+  constructor() {}
+  abstract set(providers: StaticProvider[]): void;
+  abstract get<T>(
+    token: Type<T> | InjectionToken<T>,
+    notFoundValue?: T,
+    flags?: InjectFlags,
+  ): T | Promise<T>;
+  /**
+   * @deprecated from v4.0.0 use Type<T> or InjectionToken<T>
+   * @suppress {duplicate}
+   */
+  abstract get<T>(token: any, notFoundValue?: any): T | Promise<T>;
+  /**
+   * @deprecated from v5 use the new signature Injector.create(options)
+   */
+  static create(providers: StaticProvider[], parent?: Injector): Injector;
+  static create(options: {
+    providers: StaticProvider[];
+    parent?: Injector;
+    name?: string;
+  }): Injector;
+  static create(
+    options:
+      | StaticProvider[]
+      | { providers: StaticProvider[]; parent?: Injector; name?: string },
+    parent?: Injector,
+  ): Injector {
+    let injector: Injector = Injector.NULL;
+    if (Array.isArray(options)) {
+      injector = new StaticInjector(options, parent);
+      setCurrentInjector(injector);
+    } else {
+      if (options) {
+        injector = new StaticInjector(
+          options.providers,
+          options.parent,
+          options.name || null,
+        );
+        setCurrentInjector(injector);
+      } else {
+        throw new Error(`injector create options is undefined`);
+      }
+    }
+    return injector;
+  }
 
+  static ngInjectableDef = defineInjectable({
+    providedIn: 'any' as any,
+    factory: () => inject(INJECTOR),
+  });
+}
 export class StaticInjector implements Injector {
   readonly parent: Injector;
   readonly source: string | null;
@@ -81,64 +135,27 @@ export class StaticInjector implements Injector {
       value: this,
       useNew: false,
     });
-  }
-
-  async init(): Promise<void> {
-    let providers = [];
-    let obs = [];
-    this.providers.map(provider => {
-      if (isStaticProviderFn(provider)) {
-        obs.push(
-          from(
-            provider().then(res => {
-              providers.push(res);
-            }),
-          ),
-        );
-      } else {
-        providers.push(provider);
-      }
-    });
-    if (obs.length > 0) {
-      await forkJoin(...obs).toPromise();
+    setCurrentInjector(this);
+    if (this.providers.length > 0) {
+      this.recursivelyProcessProviders(this.providers);
     }
-    this.recursivelyProcessProviders(providers);
   }
 
   recursivelyProcessProviders(providers: StaticProvider[]) {
     return recursivelyProcessProviders(this._records, providers);
   }
 
-  async set(providers: StaticProvider[]): Promise<void> {
-    let pros = [];
-    let obs = [];
-    providers.forEach(provider => {
-      if (isStaticProviderFn(provider)) {
-        obs.push(from(provider().then(res => pros.push(res))));
-      } else {
-        pros.push(provider);
-      }
-    });
-    if (obs.length > 0) {
-      await forkJoin(...obs).toPromise();
-    }
-    recursivelyProcessProviders(this._records, pros);
+  set(providers: StaticProvider[]): void {
+    recursivelyProcessProviders(this._records, providers);
   }
-
-  get<T>(
-    token: Type<T> | InjectionToken<T>,
-    notFoundValue?: T,
-    flags?: InjectFlags,
-  ): Promise<T> | T;
-  get(token: any, notFoundValue?: any): Promise<any> | any;
-  async get(
+  get(
     token: any,
     notFoundValue?: any,
     flags: InjectFlags = InjectFlags.Default,
-  ): Promise<any> {
+  ): any {
     const record = this._records.get(token);
     try {
-      let value = await tryResolveToken(
+      return tryResolveToken(
         token,
         record,
         this._records,
@@ -146,13 +163,6 @@ export class StaticInjector implements Injector {
         notFoundValue,
         flags,
       );
-      if (value && isPromise(value)) {
-        return value;
-      } else if (value && isObservable(value)) {
-        return value.toPromise();
-      } else {
-        return of(value).toPromise();
-      }
     } catch (e) {
       const tokenPath: any[] = e[NG_TEMP_TOKEN_PATH];
       if (token[SOURCE]) {
@@ -172,68 +182,8 @@ export class StaticInjector implements Injector {
     return `StaticInjector[${tokens.join(', ')}]`;
   }
 }
-export abstract class Injector {
-  static THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
-  static NULL: Injector = new NullInjector();
-  static top: Injector = new StaticInjector([], Injector.NULL, 'top');
-  abstract set(providers: StaticProvider[]): Promise<void>;
-  abstract get<T>(
-    token: Type<T> | InjectionToken<T>,
-    notFoundValue?: T,
-    flags?: InjectFlags,
-  ): Promise<T>;
-  /**
-   * @deprecated from v4.0.0 use Type<T> or InjectionToken<T>
-   * @suppress {duplicate}
-   */
-  abstract get<T>(token: any, notFoundValue?: any): Promise<T>;
 
-  /**
-   * @deprecated from v5 use the new signature Injector.create(options)
-   */
-  static async create(
-    providers: StaticProvider[],
-    parent?: Injector,
-  ): Promise<Injector>;
-  static async create(options: {
-    providers: StaticProvider[];
-    parent?: Injector;
-    name?: string;
-  }): Promise<Injector>;
-  static async create(
-    options:
-      | StaticProvider[]
-      | { providers: StaticProvider[]; parent?: Injector; name?: string },
-    parent?: Injector,
-  ): Promise<Injector> {
-    let injector: Injector = Injector.NULL;
-    if (Array.isArray(options)) {
-      injector = new StaticInjector(options, parent);
-      await injector.init();
-      setCurrentInjector(injector);
-    } else {
-      if (options) {
-        injector = new StaticInjector(
-          options.providers,
-          options.parent,
-          options.name || null,
-        );
-        await injector.init();
-        setCurrentInjector(injector);
-      } else {
-        throw new Error(`injector create options is undefined`);
-      }
-    }
-    return injector;
-  }
-
-  abstract init(): Promise<void>;
-
-  static ngInjectableDef = defineInjectable({
-    providedIn: 'any' as any,
-    factory: () => inject(INJECTOR),
-  });
-}
+Injector.top = new StaticInjector([], Injector.NULL, 'top');
 
 const NULL_INJECTOR = Injector.NULL;
 interface Record {
@@ -303,7 +253,7 @@ function recursivelyProcessProviders(
           );
         }
         // Treat the provider as the token.
-        token = provider;
+        token = provider as any;
         // 父亲
         multiProvider.deps.push({ token, options: OptionFlags.Default });
       }

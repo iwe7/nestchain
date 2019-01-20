@@ -4,53 +4,28 @@ import { Injector } from './di/injector';
 import { Type } from './type';
 import { ApplicationInitStatus } from './application_init';
 import { ApplicationRef } from './application_ref';
-import {
-  NgModuleRef,
-  compileNgModuleFactory,
-  NgModuleFactory,
-  getNgModuleStaticProvider,
-  NgModule,
-  NgModuleMetadataKey,
-} from './di/ngModule';
-import { Compiler } from './compiler';
-import { getMetadata, isClassMetadata } from 'ims-decorator';
 import { PlatformName } from './tokens';
+import {
+  createImsFactory,
+  ImsRef,
+  ImsFactory,
+  symbolGetProviders,
+} from './di/ims';
 
 export class PlatformRef {
-  private _modules: NgModuleRef<any>[] = [];
+  private _modules: ImsRef<any>[] = [];
   readonly destroyed: boolean;
   get injector(): Injector {
     return this._injector;
   }
   constructor(public _injector: Injector) {}
-  async bootstrapModule<M>(moduleType: Type<M>): Promise<NgModuleRef<M>> {
-    let ngModuleFactory = await compileNgModuleFactory(
-      this._injector,
-      moduleType,
-    );
-    return await this.bootstrapModuleFactory(ngModuleFactory);
+  async bootstrapModule<M>(moduleType: Type<M>): Promise<ImsRef<M>> {
+    return await this.bootstrapModuleFactory<M>(createImsFactory(moduleType));
   }
   async bootstrapModuleFactory<M>(
-    moduleFactory: NgModuleFactory<M>,
-  ): Promise<NgModuleRef<M>> {
-    let moduleRef = await moduleFactory.create();
-    let type = moduleFactory.type;
-    let compiler = await moduleRef.injector.get<Compiler>(Compiler, null);
-    let meta = getMetadata(type);
-    if (compiler) {
-      meta.forEach(it => {
-        if (isClassMetadata<NgModule>(it)) {
-          if (it.metadataKey === NgModuleMetadataKey) {
-            let { controllers } = it.metadataDef;
-            if (controllers) {
-              controllers.map(compi => {
-                moduleRef.injector.set(compiler.compile(compi));
-              });
-            }
-          }
-        }
-      });
-    }
+    moduleFactory: ImsFactory<M>,
+  ): Promise<ImsRef<M>> {
+    let moduleRef: ImsRef<M> = await moduleFactory.create();
     moduleRef.onDestroy(() => remove(this._modules, moduleRef));
     const initStatus = await moduleRef.injector.get<ApplicationInitStatus>(
       ApplicationInitStatus,
@@ -121,8 +96,10 @@ export function createPlatformFactory(
     let platform = getPlatform();
     if (types) {
       types.forEach(async type => {
-        let pros = await getNgModuleStaticProvider(type);
-        providers.concat(pros);
+        if (Reflect.has(type, symbolGetProviders)) {
+          let pros = await type[symbolGetProviders]();
+          providers.concat(pros);
+        }
       });
     }
     if (!platform || platform.injector.get(ALLOW_MULTIPLE_PLATFORMS, false)) {

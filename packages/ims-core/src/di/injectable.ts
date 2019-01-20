@@ -1,9 +1,4 @@
-import {
-  makeDecorator,
-  TypeDecorator,
-  MetadataDef,
-  isClassMetadata,
-} from 'ims-decorator';
+import { makeDecorator, MetadataFactory, ClassMetadata } from '../decorator';
 import { Type } from '../type';
 import {
   ValueSansProvider,
@@ -13,67 +8,60 @@ import {
   FactorySansProvider,
   ClassSansProvider,
 } from './provider';
+
+import { InjectionToken } from './injection_token';
+import { LifeSubject } from 'ims-util';
 import { Injector } from './injector';
-import { createProxyType } from './proxy';
-export type InjectableProvider =
+
+type InjectableProvider =
   | ValueSansProvider
   | ExistingSansProvider
   | StaticClassSansProvider
   | ConstructorSansProvider
   | FactorySansProvider
   | ClassSansProvider;
-export interface InjectableDecorator {
-  (): TypeDecorator;
-  (
-    options?: { providedIn: Type<any> | 'root' | null } & InjectableProvider,
-  ): TypeDecorator;
-  new (): Injectable;
-  new (
-    options?: { providedIn: Type<any> | 'root' | null } & InjectableProvider,
-  ): Injectable;
+
+export class InjectableFactory extends MetadataFactory {
+  type(life: LifeSubject, def: ClassMetadata<InjectableOptions>): any {
+    let type = def.target;
+    if (def && def.metadataDef && def.metadataDef.providedIn === 'root') {
+      let opts = def.metadataDef;
+      let provider;
+      if (
+        (opts as ValueSansProvider).useValue ||
+        (opts as ClassSansProvider).useClass ||
+        (opts as FactorySansProvider).useFactory ||
+        (opts as ExistingSansProvider).useExisting ||
+        (opts as StaticClassSansProvider).useClass
+      ) {
+        provider = {
+          provide: type,
+          deps: [],
+          ...opts,
+        };
+      } else {
+        provider = {
+          provide: type,
+          useClass: type,
+          deps: (opts as ConstructorSansProvider).deps || [],
+        };
+      }
+      Injector.top.set([provider]);
+    }
+    return type;
+  }
 }
 
-export interface Injectable {
-  providedIn?: Type<any> | 'root' | null;
-}
-export const Injectable: InjectableDecorator = makeDecorator(
-  'Injectable',
-  'visitInjectable',
-  dir => dir,
-  (
-    type: Type<any>,
-    meta: MetadataDef<
-      { providedIn: Type<any> | 'root' | null } & InjectableProvider
-    >,
-  ) => {
-    let options = meta.metadataDef;
-    if (isClassMetadata(meta)) {
-      if (options.providedIn === 'root') {
-        let { providedIn, ...opts } = options;
-        if (
-          (opts as ValueSansProvider).useValue ||
-          (opts as ClassSansProvider).useClass ||
-          (opts as FactorySansProvider).useFactory ||
-          (opts as ExistingSansProvider).useExisting ||
-          (opts as StaticClassSansProvider).useClass
-        ) {
-          Injector.top.set([
-            {
-              provide: type,
-              deps: [],
-              ...opts,
-            },
-          ]);
-        } else {
-          Injector.top.set([
-            {
-              provide: type,
-              useClass: createProxyType(type),
-              deps: (opts as ConstructorSansProvider).deps || [],
-            },
-          ]);
-        }
-      }
-    }
-  },
+export type InjectableOptions = {
+  providedIn: Type<any> | 'root' | null;
+} & InjectableProvider;
+
+export const InjectableFactoryToken = new InjectionToken<MetadataFactory>(
+  'InjectableFactoryToken',
+);
+
+export const Injectable = makeDecorator<InjectableOptions>(
+  InjectableFactoryToken,
+  dir => dir.metadataDef,
+  new InjectableFactory(),
 );

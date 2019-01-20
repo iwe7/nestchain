@@ -22,6 +22,5 @@ export abstract class Logger extends Observable<any> {
 
 export abstract class LoggerFactory {
   abstract create(name: string): Logger;
-
   abstract createChild(parent: Logger, name: string): Logger;
 }

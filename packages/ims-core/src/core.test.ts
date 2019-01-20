@@ -18,9 +18,8 @@ export class Test {
   }
 }
 platformFactory([]).then(res => {
-  res.bootstrapModule(Test).then(res => {
-    let inject = res.injector.get(TestInjectable);
-    console.log(res);
+  res.bootstrapModule(Test).then(async res => {
+    let inject = await res.injector.get(TestInjectable);
     debugger;
   });
 });

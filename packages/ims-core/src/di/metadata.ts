@@ -1,56 +1,41 @@
-import { makeDecorator } from 'ims-decorator';
-
-export interface InjectDecorator {
-  (token: any): any;
-  new (token: any): Inject;
-}
+import {
+  makeDecorator,
+  MetadataFactory,
+  ClassMetadata,
+} from '../decorator/index';
+import { InjectionToken } from './injection_token';
+import { LifeSubject } from 'ims-util';
+import { Injector } from './injector';
 
 export interface Inject {
   token: any;
 }
-
-export const Inject: InjectDecorator = makeDecorator(
-  'Inject',
-  'visitInject',
-  (token: any) => ({ token }),
+export const InjectToken = new InjectionToken<MetadataFactory>('InjectToken');
+export const Inject = makeDecorator<any>(
+  InjectToken,
+  def => {
+    return {
+      token: def.metadataDef,
+    };
+  },
+  {
+    type(life: LifeSubject, def: ClassMetadata<Inject>) {
+      let token = def.metadataDef.token;
+      let getProviders = async (injector: Injector) => {
+        injector.get(token);
+      };
+    },
+  },
 );
 
-export interface OptionalDecorator {
-  (): any;
-  new (): Optional;
-}
+export const OptionalToken = new InjectionToken('OptionalToken');
+export const Optional = makeDecorator(OptionalToken);
 
-export interface Optional {}
+export const SelfToken = new InjectionToken('SelfToken');
+export const Self = makeDecorator(SelfToken);
 
-export const Optional: OptionalDecorator = makeDecorator(
-  'Optional',
-  'visitOptional',
-);
+export const SkipSelfToken = new InjectionToken('SkipSelf');
+export const SkipSelf = makeDecorator(SelfToken);
 
-export interface SelfDecorator {
-  (): any;
-  new (): Self;
-}
-
-export interface Self {}
-export const Self: SelfDecorator = makeDecorator('Self', 'visitSelf');
-
-export interface SkipSelfDecorator {
-  (): any;
-  new (): SkipSelf;
-}
-
-export interface SkipSelf {}
-
-export const SkipSelf: SkipSelfDecorator = makeDecorator(
-  'SkipSelf',
-  'visitSkipSelf',
-);
-
-export interface HostDecorator {
-  (): any;
-  new (): Host;
-}
-
-export interface Host {}
-export const Host: HostDecorator = makeDecorator('Host', 'visitHost');
+export const HostToken = new InjectionToken('HostToken');
+export const Host = makeDecorator(SelfToken);

@@ -10,5 +10,5 @@ declare global {
 }
 
 /** Symbol.observable or a string "@@observable". Used for interop */
-export const observable =
+export const observable: symbol | string =
   (typeof Symbol === 'function' && Symbol.observable) || '@@observable';

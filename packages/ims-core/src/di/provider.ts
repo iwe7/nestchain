@@ -1,112 +1,98 @@
 import { Type, isType } from '../type';
-import { InjectionToken } from './injection_token';
-export type Key = string | Symbol;
-export type ProviderKey<T> = InjectionToken<T> | Type<T> | Key;
-export type AnyPromiseFunction<T> = (...args: any[]) => Promise<T>;
-export type AnyPromiseFunctionOrAny<T> = AnyPromiseFunction<T> | T;
-export type AnyPromiseFunctionOrTypeAny<T> =
-  | AnyPromiseFunction<Type<T>>
-  | Type<T>;
-
-/**
- * value
- */
-export interface ValueSansProvider<T> {
-  useValue: AnyPromiseFunctionOrAny<T>;
+import { isFunction } from 'ims-util';
+export interface ValueSansProvider {
+  useValue: any;
 }
-export interface ValueProvider<T> extends ValueSansProvider<T> {
-  provide: ProviderKey<T>;
+export interface ValueProvider extends ValueSansProvider {
+  provide: any;
   multi?: boolean;
 }
-
-/**
- * static class
- */
-export interface StaticClassSansProvider<T> {
-  useClass: AnyPromiseFunctionOrTypeAny<T>;
+export interface StaticClassSansProvider {
+  useClass: Type<any>;
   deps: any[];
 }
-
-export interface StaticClassProvider<T> extends StaticClassSansProvider<T> {
-  provide: ProviderKey<T>;
+export interface StaticClassProvider extends StaticClassSansProvider {
+  provide: any;
   multi?: boolean;
 }
 
-/**
- * constructor
- */
 export interface ConstructorSansProvider {
   deps?: any[];
 }
 
-export interface ConstructorProvider<T> extends ConstructorSansProvider {
-  provide: AnyPromiseFunctionOrTypeAny<T>;
+export interface ConstructorProvider extends ConstructorSansProvider {
+  provide: Type<any>;
   multi?: boolean;
 }
 
-export interface ExistingSansProvider<T> {
-  useExisting: AnyPromiseFunctionOrAny<T>;
+export interface ExistingSansProvider {
+  useExisting: any;
 }
 
-export interface ExistingProvider<T> extends ExistingSansProvider<T> {
-  provide: ProviderKey<T>;
+export interface ExistingProvider extends ExistingSansProvider {
+  provide: any;
   multi?: boolean;
 }
-export interface FactorySansProvider<T> {
-  useFactory: AnyPromiseFunction<T>;
+
+export interface FactorySansProvider {
+  useFactory: Function;
   deps?: any[];
 }
 
-export interface FactoryProvider<T> extends FactorySansProvider<T> {
-  provide: ProviderKey<T>;
+export interface FactoryProvider extends FactorySansProvider {
+  provide: any;
   multi?: boolean;
 }
 
-export interface TypeProvider<T> extends Type<T> {}
-export interface ClassSansProvider<T> {
-  useClass: AnyPromiseFunctionOrTypeAny<T>;
+export interface TypeProvider extends Type<any> {}
+export interface ClassSansProvider {
+  useClass: Type<any>;
 }
 
-export interface ClassProvider<T> extends ClassSansProvider<T> {
-  provide: ProviderKey<T>;
+export interface ClassProvider extends ClassSansProvider {
+  provide: any;
   multi?: boolean;
 }
 
-export type Provider<T = any> =
-  | TypeProvider<T> // no
-  | ValueProvider<T>
-  | ClassProvider<T> // no
-  | ConstructorProvider<T>
-  | ExistingProvider<T>
-  | FactoryProvider<T>;
-
-export type StaticProvider<T = any> =
-  | ValueProvider<T>
-  | ExistingProvider<T>
-  | StaticClassProvider<T>
-  | ConstructorProvider<T>
-  | FactoryProvider<T>
+export type Provider =
+  | TypeProvider // no
+  | ValueProvider
+  | ClassProvider // no
+  | ConstructorProvider
+  | ExistingProvider
+  | FactoryProvider;
+export interface StaticProviderFn {
+  (): Promise<StaticProvider>;
+}
+export function isStaticProviderFn(val: any): val is StaticProviderFn {
+  return isFunction(val);
+}
+export type StaticProvider =
+  | ValueProvider
+  | ExistingProvider
+  | StaticClassProvider
+  | ConstructorProvider
+  | FactoryProvider
+  | StaticProviderFn
   | any[];
 
-export function isTypeProvider<T>(val: any): val is TypeProvider<T> {
+export function isTypeProvider(val: any): val is TypeProvider {
   return isType(val);
 }
 
-export function isValueProvider<T>(val: any): val is ValueProvider<T> {
+export function isValueProvider(val: any): val is ValueProvider {
   return Reflect.has(val, 'useValue') && Reflect.has(val, 'provide');
 }
 
-export function isClassProvider<T>(val: any): val is ClassProvider<T> {
+export function isClassProvider(val: any): val is ClassProvider {
   return Reflect.has(val, 'useClass') && Reflect.has(val, 'provide');
 }
-export function isConstructorProvider<T>(
-  val: any,
-): val is ConstructorProvider<T> {
+export function isConstructorProvider(val: any): val is ConstructorProvider {
   return Reflect.has(val, 'provide');
 }
-export function isExistingProvider<T>(val: any): val is ExistingProvider<T> {
+export function isExistingProvider(val: any): val is ExistingProvider {
   return Reflect.has(val, 'provide') && Reflect.has(val, 'useExisting');
 }
-export function isFactoryProvider<T>(val: any): val is FactoryProvider<T> {
+export function isFactoryProvider(val: any): val is FactoryProvider {
   return Reflect.has(val, 'provide') && Reflect.has(val, 'useFactory');
 }

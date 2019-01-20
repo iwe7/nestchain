@@ -11,18 +11,13 @@ export * from './di/metadata';
 export * from './di/injection_token';
 export * from './di/injector';
 export * from './di/provider';
-export * from './di/proxy';
 
 // 组件
-export * from './di/app';
-export * from './di/component';
-export * from './di/page';
 
 export * from './platform/core';
 export * from './proxy/proxy_factory';
 
 //
-export * from './abstracts/index';
 export * from './structures/index';
 export * from './rxjs/index';
 export * from './logger/index';
@@ -33,3 +28,4 @@ export * from './compiler';
 export * from './http';
 
 export * from './errors/index';
+export * from './decorator/index';

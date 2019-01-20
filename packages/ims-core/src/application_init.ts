@@ -6,7 +6,9 @@ import { Injector } from './di/injector';
 export const APP_INITIALIZER = new InjectionToken<Array<() => void>>(
   'Application Initializer',
 );
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApplicationInitStatus {
   private resolve!: Function;
   private reject!: Function;
@@ -24,7 +26,6 @@ export class ApplicationInitStatus {
       this.reject = rej;
     });
   }
-
   runInitializers(injector: Injector) {
     if (this.initialized) {
       return;

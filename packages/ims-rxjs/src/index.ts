@@ -86,3 +86,8 @@ export * from './internal/types';
 /* Config */
 export { config } from './internal/config';
 export * from './internal/util';
+
+export {
+  rxSubscriber as rxSubscriberSymbol,
+} from './internal/symbol/rxSubscriber';
+export { observable as Symbol_observable } from './internal/symbol/observable';

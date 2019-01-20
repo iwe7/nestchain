@@ -67,7 +67,6 @@ export async function injectRootLimpMode<T>(
         return value;
       }
     };
-
     return injectableDef.value === undefined
       ? (injectableDef.value = await get())
       : injectableDef.value;

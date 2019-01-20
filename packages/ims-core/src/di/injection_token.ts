@@ -4,9 +4,7 @@ import { defineInjectable } from './defs';
 export class InjectionToken<T> {
   /** @internal */
   readonly ngMetadataName = 'InjectionToken';
-
   readonly ngInjectableDef: never | undefined;
-
   constructor(
     protected _desc: string,
     options?: {

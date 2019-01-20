@@ -16,7 +16,7 @@ export interface InjectableDef<T> {
   value: T | undefined;
 }
 
-export interface InjectorDef<T> {
+export interface InjectorDef<T = any> {
   factory: () => T;
   providers: (
     | Type<any>
@@ -27,7 +27,6 @@ export interface InjectorDef<T> {
     | StaticClassProvider
     | ClassProvider
     | any[])[];
-
   imports: (InjectorType<any> | InjectorTypeWithProviders<any>)[];
 }
 
@@ -37,7 +36,7 @@ export interface InjectableType<T> extends Type<T> {
 export interface InjectorType<T> extends Type<T> {
   ngInjectorDef: never;
 }
-export interface InjectorTypeWithProviders<T> {
+export interface InjectorTypeWithProviders<T = any> {
   ngModule: InjectorType<T>;
   providers?: (
     | Type<any>
