@@ -6,6 +6,5 @@ export abstract class Varint {
     offset?: number,
   ): Buffer;
   abstract decode(buf: number[] | Buffer, offset?: number): number;
-
   abstract encodingLength(num: number): number;
 }
