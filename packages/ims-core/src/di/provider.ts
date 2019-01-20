@@ -76,6 +76,10 @@ export type StaticProvider =
   | StaticProviderFn
   | any[];
 
+export type StaticProvidersFunction = () => Promise<StaticProvider[]>;
+
+export type StaticProviders = StaticProvidersFunction | StaticProvider[];
+
 export function isTypeProvider(val: any): val is TypeProvider {
   return isType(val);
 }

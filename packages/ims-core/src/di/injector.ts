@@ -7,6 +7,7 @@ import {
   isPromise,
   toPromise,
   isObservable,
+  isFunction,
 } from 'ims-util';
 import { Type } from '../type';
 import { InjectionToken } from './injection_token';
@@ -17,6 +18,7 @@ import {
   StaticClassProvider,
   ConstructorProvider,
   FactoryProvider,
+  StaticProviders,
 } from './provider';
 import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
@@ -26,11 +28,6 @@ import { ReplaySubject } from 'ims-rxjs';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
-    if (notFoundValue === _THROW_IF_NOT_FOUND) {
-      throw new Error(
-        `NullInjectorError: No provider for ${stringify(token)}!`,
-      );
-    }
     return notFoundValue;
   }
   set(providers: StaticProvider[]): any {}

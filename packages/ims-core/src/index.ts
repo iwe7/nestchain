@@ -2,6 +2,7 @@ export * from './type';
 export * from './createPlatform';
 export * from './application_init';
 export * from './application_ref';
+export * from './abstracts/index';
 
 // 依赖注入
 export * from './di/ngModule';

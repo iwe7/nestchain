@@ -1,4 +1,4 @@
-import { StaticProvider } from './di/provider';
+import { StaticProvider, StaticProviders } from './di/provider';
 import { InjectionToken } from './di/injection_token';
 import { Injector } from './di/injector';
 import { Type } from './type';
@@ -25,7 +25,7 @@ export class PlatformRef {
   async bootstrapModuleFactory<M>(
     moduleFactory: ImsFactory<M>,
   ): Promise<ImsRef<M>> {
-    let moduleRef: ImsRef<M> = await moduleFactory.create();
+    let moduleRef: ImsRef<M> = await moduleFactory.create(this._injector);
     moduleRef.onDestroy(() => remove(this._modules, moduleRef));
     const initStatus = await moduleRef.injector.get<ApplicationInitStatus>(
       ApplicationInitStatus,
@@ -58,7 +58,9 @@ export const PLATFORM_INITIALIZER = new InjectionToken<Array<() => void>>(
 );
 export const PLATFORM_ID = new InjectionToken<Object>('Platform Id');
 
-export async function createPlatform(injector: Injector): Promise<PlatformRef> {
+export async function createPlatform(
+  providers: StaticProviders,
+): Promise<PlatformRef> {
   if (
     _platform &&
     !_platform.destroyed &&
@@ -68,54 +70,76 @@ export async function createPlatform(injector: Injector): Promise<PlatformRef> {
       'There can be only one platform. Destroy the previous one to create a new one.',
     );
   }
+  if (typeof providers === 'function') {
+    providers = await providers();
+  }
+  let injector = await Injector.create(providers);
   _platform = await injector.get<PlatformRef>(PlatformRef);
   const inits = await injector.get(PLATFORM_INITIALIZER, null);
   if (inits) inits.forEach((init: any) => init(injector));
+  // platform init后执行
   return _platform;
 }
 
 export function getPlatform(): PlatformRef | null {
   return _platform && !_platform.destroyed ? _platform : null;
 }
+
 export interface PlatformFactory {
-  (extraProviders?: StaticProvider[]): Promise<PlatformRef>;
+  (extraProviders?: StaticProviders): Promise<PlatformRef>;
 }
 export function createPlatformFactory(
   parentPlatformFactory: PlatformFactory | null,
   name: string,
-  providers: StaticProvider[] = [],
+  providers: StaticProviders = [],
   types?: Type<any>[],
-): (extraProviders?: StaticProvider[]) => Promise<PlatformRef> {
-  const desc = `Platform: ${name}`;
-  const marker = new InjectionToken(desc);
-  providers.push({
-    provide: PlatformName,
-    useValue: name,
-  });
-  return async (extraProviders: StaticProvider[] = []) => {
-    let platform = getPlatform();
-    if (types) {
-      types.forEach(async type => {
-        if (Reflect.has(type, symbolGetProviders)) {
-          let pros = await type[symbolGetProviders]();
-          providers.concat(pros);
-        }
-      });
+): (extraProviders?: StaticProviders) => Promise<PlatformRef> {
+  return async (extraProviders: StaticProviders = []) => {
+    const desc = `Platform: ${name}`;
+    const marker = new InjectionToken(desc);
+    let injectedProviders: StaticProvider[] = [];
+    if (typeof providers === 'function') {
+      injectedProviders = await providers();
+    } else {
+      injectedProviders = providers;
     }
+    injectedProviders.push({
+      provide: PlatformName,
+      useValue: name,
+    });
+    if (typeof extraProviders === 'function') {
+      extraProviders = await extraProviders();
+      injectedProviders.concat(...extraProviders);
+    } else {
+      injectedProviders.concat(...extraProviders);
+    }
+    let platform = getPlatform();
+    const getAllProviders = async () => {
+      if (types) {
+        let obs = [];
+        types.forEach(type => {
+          if (Reflect.has(type, symbolGetProviders)) {
+            obs.push(
+              type[symbolGetProviders]().then(pros => {
+                injectedProviders.concat(pros);
+              }),
+            );
+          }
+        });
+        await Promise.all(obs);
+      }
+      injectedProviders.concat({
+        provide: marker,
+        useValue: true,
+      });
+      return injectedProviders;
+    };
+
     if (!platform || platform.injector.get(ALLOW_MULTIPLE_PLATFORMS, false)) {
       if (parentPlatformFactory) {
-        await parentPlatformFactory(
-          providers
-            .concat(extraProviders)
-            .concat({ provide: marker, useValue: true }),
-        );
+        await parentPlatformFactory(getAllProviders);
       } else {
-        const injectedProviders: StaticProvider[] = providers
-          .concat(extraProviders)
-          .concat({ provide: marker, useValue: true });
-        await createPlatform(
-          await Injector.create({ providers: injectedProviders, name: desc }),
-        );
+        await createPlatform(getAllProviders);
       }
     }
     return assertPlatform(marker);
