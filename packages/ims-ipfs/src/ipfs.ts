@@ -1,14 +1,26 @@
-import { Injector, Injectable } from 'ims-core';
+import {
+  Injector,
+  Injectable,
+  InjectionToken,
+  getCurrentInjector,
+} from 'ims-core';
 import IPFS = require('ipfs');
 import * as tokens from './token';
-
+const defaultsDeep = require('@nodeutils/defaults-deep');
+export const IpfsConfig = new InjectionToken('IpfsConfig');
+let defaultIpfsConfig = {
+  repo: '.ipfs'
+};
 @Injectable({
   providedIn: 'root',
-  useFactory: () => {
-    return new Promise<void>((resolve, reject) => {
-      let node = new IPFS();
+  useFactory: async () => {
+    return new Promise(async (resolve, reject) => {
+      let config = await getCurrentInjector().get(IpfsConfig, {});
+      let ipfsConfig = defaultsDeep(config, defaultIpfsConfig);
+      console.log(ipfsConfig);
+      let node = new IPFS(ipfsConfig);
       node.on('ready', (err: Error) => {
-        if (err) reject(err);
+        if (err) throw err;
         Injector.top.set([
           {
             provide: tokens.Ipfs,
@@ -87,7 +99,7 @@ import * as tokens from './token';
             useValue: node.repo,
           },
         ]);
-        resolve();
+        return resolve(node);
       });
     });
   },

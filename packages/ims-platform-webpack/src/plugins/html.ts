@@ -2,23 +2,27 @@ import HTMLPlugin = require('html-webpack-plugin');
 import { Compiler } from 'webpack';
 import { Injectable, Injector, SourceRoot } from 'ims-core';
 import { join } from 'path';
+import { ROOT } from 'ims-const';
 
 @Injectable({
   providedIn: 'root',
+  useFactory: (injector: Injector) => {
+    return new ImsWebpackHtmlPlugin();
+  },
+  deps: [Injector],
 })
 export class ImsWebpackHtmlPlugin {
   plugin: HTMLPlugin;
-  constructor(private injector: Injector) {}
+  constructor() {}
 
   async apply(compiler: Compiler) {
-    let sourceRoot = await this.injector.get(SourceRoot, './');
     this.plugin = new HTMLPlugin({
       cache: false,
       title: 'app title',
       filename: 'index.html',
       hash: false,
       meta: {},
-      template: join(sourceRoot, 'index.html'),
+      template: join(ROOT, 'src/demo/index.html'),
     });
     return this.plugin.apply(compiler);
   }

@@ -99,7 +99,8 @@
       "ims-glob": ["packages/ims-glob/src/index"],
       "ims-dir-tree": ["packages/ims-dir-tree/src/index"],
       "ims-promise": ["packages/ims-promise/src/index"],
-      "ims-ipfs": ["packages/ims-ipfs/src/index"]
+      "ims-ipfs": ["packages/ims-ipfs/src/index"],
+      "ims-platform-h5": ["packages/ims-platform-h5/src/index"],
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

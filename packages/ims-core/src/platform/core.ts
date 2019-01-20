@@ -2,7 +2,6 @@ import { createPlatformFactory, PlatformRef } from '../createPlatform';
 import { Injector } from '../di/injector';
 import { ApplicationRef } from '../application_ref';
 import { ApplicationInitStatus, APP_INITIALIZER } from '../application_init';
-import { Inject, Optional } from '../di/metadata';
 import {
   AppName,
   AppRoot,
@@ -30,8 +29,11 @@ export const corePlatform = createPlatformFactory(null, 'core', [
   },
   {
     provide: ApplicationInitStatus,
-    useClass: ApplicationInitStatus,
-    deps: [[new Inject(APP_INITIALIZER), new Optional()]],
+    useFactory: async (injector: Injector) => {
+      let appInits = await injector.get(APP_INITIALIZER, []);
+      return new ApplicationInitStatus(appInits);
+    },
+    deps: [Injector],
   },
   {
     provide: AppName,

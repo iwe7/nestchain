@@ -16,7 +16,9 @@
       "ims-decorator": ["../../packages/ims-decorator/src/index"],
       "ims-dom": ["../../packages/ims-dom/src/index"],
       "ims-stream": ["../../packages/ims-stream/src/index"],
-      "ims-console": ["../../packages/ims-console/src/index"]
+      "ims-console": ["../../packages/ims-console/src/index"],
+      "ims-platform-h5": ["../../packages/ims-platform-h5/src/index"],
+      "ims-ipfs": ["../../packages/ims-ipfs/src/index"]
     }
   }
 }

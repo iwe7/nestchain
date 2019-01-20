@@ -1,12 +1,10 @@
 import {
-  createPlatformFactory,
-  corePlatform,
   NgModule,
   AppRoot,
   Injector,
   SourceRoot,
   PlatformName,
-  getNgModuleStaticProvider,
+  AppName,
 } from 'ims-core';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
@@ -26,13 +24,9 @@ import { ProgressBar } from 'ims-single-linelog';
 import { ImsWebpackHotModuleReplacementPlugin } from './plugins/hotModuleReplacement';
 import { ImsWebpackNamedModulesPlugin } from './plugins/noEmitOnErrors';
 import { ImsWebpackCopyPlugin } from './plugins/copy';
-import { ImsWebpackHashedModuleIdsPlugin } from './plugins/hashedModuleIdsPlugin';
-import { Multihashing, MultihashModule } from 'ims-multihash';
 
-export let webpackPlatform = createPlatformFactory(
-  corePlatform,
-  'platform webpack',
-  [
+@NgModule({
+  providers: [
     {
       provide: PluginsToken,
       multi: true,
@@ -41,7 +35,7 @@ export let webpackPlatform = createPlatformFactory(
     },
     {
       provide: PluginsToken,
-      useFactory: (injector: Injector) => new ImsWebpackHtmlPlugin(injector),
+      useFactory: (injector: Injector) => new ImsWebpackHtmlPlugin(),
       deps: [Injector],
       multi: true,
     },
@@ -65,19 +59,12 @@ export let webpackPlatform = createPlatformFactory(
       multi: true,
     },
     {
-      provide: PluginsToken,
-      useFactory: (hash: Multihashing) =>
-        new ImsWebpackHashedModuleIdsPlugin(hash),
-      deps: [Multihashing],
-      multi: true,
-    },
-    {
       provide: OutputToken,
       useFactory: async (injector: Injector) => {
-        let appRoot = await injector.get(AppRoot, ROOT);
+        let appname = await injector.get(AppName, ROOT);
         let platform = await injector.get(PlatformName, 'web');
         return {
-          path: join(appRoot, 'template', platform),
+          path: join(ROOT, 'www/', appname, 'template', platform),
           filename: `[name].js`,
         } as Output;
       },
@@ -93,7 +80,7 @@ export let webpackPlatform = createPlatformFactory(
     },
     {
       provide: SourceRoot,
-      useValue: ROOT,
+      useValue: join(ROOT, 'src/demo'),
     },
     {
       provide: WebpackConfigurations,
@@ -113,6 +100,9 @@ export let webpackPlatform = createPlatformFactory(
           plugins: [],
           modules: ['packages', 'node_modules'],
           extensions: ['.ts', '.tsx', '.js', '.json', '.html', '.scss', '.css'],
+          alias: {
+            '@nodeutils/defaults-deep': 'ims-defaults-deep',
+          },
         },
       } as Configuration,
     },
@@ -127,18 +117,6 @@ export let webpackPlatform = createPlatformFactory(
       deps: [Injector],
       multi: true,
     },
-    () => getNgModuleStaticProvider(MultihashModule),
   ],
-);
-
-class ImsWebapckModule {}
-export async function bootstrap(cfg: NgModule) {
-  NgModule(cfg)(ImsWebapckModule);
-  try {
-    let platform = await webpackPlatform();
-    let ref = await platform.bootstrapModule(ImsWebapckModule);
-    return ref;
-  } catch (e) {
-    throw e;
-  }
-}
+})
+export class ImsWebpackModule {}

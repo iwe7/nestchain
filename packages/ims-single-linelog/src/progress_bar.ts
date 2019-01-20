@@ -1,9 +1,14 @@
 import { ImsSingleLineLog } from './single_log';
-import { Injectable } from 'ims-core';
+import { Injectable, Injector } from 'ims-core';
 import chalk from 'chalk';
 
 @Injectable({
   providedIn: 'root',
+  useFactory: async (injector: Injector) => {
+    let log = await injector.get<ImsSingleLineLog>(ImsSingleLineLog);
+    return new ProgressBar(log);
+  },
+  deps: [Injector],
 })
 export class ProgressBar {
   length: number = 25;

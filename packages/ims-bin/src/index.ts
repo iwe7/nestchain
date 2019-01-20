@@ -5,7 +5,6 @@ import { BuildCommand } from './build';
 import { ImsBinToken } from './base';
 
 import parser = require('yargs-parser');
-import { concatMap } from 'ims-rxjs/operators';
 import { from, of, isObservable } from 'ims-rxjs';
 import { isPromise } from 'ims-util';
 import { PackagesCommand } from './packages';
@@ -55,6 +54,7 @@ import { WxappCommand } from './wxapp';
   ],
 })
 export class ImsBinModule {}
+
 async function bootstrap() {
   const imsBinPlatform = await createPlatformFactory(
     corePlatform,

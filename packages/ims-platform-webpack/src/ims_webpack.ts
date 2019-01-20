@@ -21,6 +21,7 @@ import {
 } from './token';
 import { ROOT } from 'ims-const';
 import { join } from 'path';
+import { toArray } from 'ims-util';
 
 export const WebpackPlugins = new InjectionToken('WebpackPlugins');
 
@@ -48,7 +49,6 @@ export class ImsWebpack {
   logs: Subject<any> = new Subject();
   private injector: Injector;
   constructor() {}
-
   async init(injector: Injector) {
     this.injector = injector;
     let configurations = await injector.get<webpack.Configuration[]>(
@@ -57,10 +57,10 @@ export class ImsWebpack {
     );
     let plugins = await injector.get<Type<any>[]>(PluginsToken, []);
     let output = await injector.get(OutputToken, {});
-    let resolvePlugins = await injector.get(resolvePluginsToken);
+    let resolvePlugins = (await injector.get(resolvePluginsToken)) || [];
     this.devOpen = await injector.get(DevOpen, false);
     this.devWatch = await injector.get(DevWatch, false);
-    this.port = await injector.get(DevPort, 4200);
+    this.port = await injector.get(DevPort, 8088);
     this.options = webpackMerge(...configurations, {
       entry: {},
       plugins,
@@ -68,7 +68,7 @@ export class ImsWebpack {
       mode: this.devOpen ? 'development' : 'production',
       watch: this.devWatch ? true : false,
       resolve: {
-        plugins: resolvePlugins,
+        plugins: toArray(resolvePlugins),
       },
     });
     let dev = webpack(this.options);

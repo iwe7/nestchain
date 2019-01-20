@@ -19,6 +19,7 @@ export * from './other';
 export * from './looper';
 export * from './core';
 export * from './init';
+export * from './promise';
 export * from './createObservableData';
 
 export function toObservable(val: any): Observable<any> {

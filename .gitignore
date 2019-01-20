@@ -13,3 +13,5 @@ libs/js-libp2p
 yarn-error.log
 .fir
 .ipfs
+.ipfs1
+.ipfs2

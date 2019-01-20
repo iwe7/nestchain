@@ -1,4 +1,4 @@
-import { webpackPlatform, ImsWebpack } from 'ims-platform-webpack';
+import { ImsWebpackModule, ImsWebpack } from 'ims-platform-webpack';
 import {
   NgModule,
   AppRoot,
@@ -6,6 +6,7 @@ import {
   SourceRoot,
   DevOpen,
   DevPort,
+  corePlatform,
 } from 'ims-core';
 import { WebpackConfigurations } from 'ims-platform-webpack';
 import { join } from 'path';
@@ -44,11 +45,10 @@ import { join } from 'path';
       useValue: __dirname,
     },
   ],
-  imports: [],
+  imports: [ImsWebpackModule],
 })
 export class ImsWebpackAddonModule {}
-
-webpackPlatform([])
+corePlatform([])
   .then(res => res.bootstrapModule(ImsWebpackAddonModule))
   .then(async res => {
     let webpack = await res.injector.get<ImsWebpack>(ImsWebpack);

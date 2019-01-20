@@ -5,9 +5,6 @@ import {
   staticError,
   getClosureSafeProperty,
   isPromise,
-  toPromise,
-  isObservable,
-  isFunction,
 } from 'ims-util';
 import { Type } from '../type';
 import { InjectionToken } from './injection_token';
@@ -55,12 +52,12 @@ export abstract class Injector {
     token: Type<T> | InjectionToken<T>,
     notFoundValue?: T,
     flags?: InjectFlags,
-  ): T | Promise<T>;
+  ): T;
   /**
    * @deprecated from v4.0.0 use Type<T> or InjectionToken<T>
    * @suppress {duplicate}
    */
-  abstract get<T>(token: any, notFoundValue?: any): T | Promise<T>;
+  abstract get<T>(token: any, notFoundValue?: any): T;
   /**
    * @deprecated from v5 use the new signature Injector.create(options)
    */

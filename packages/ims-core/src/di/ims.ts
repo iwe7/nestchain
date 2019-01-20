@@ -26,9 +26,9 @@ export class ImsFactory<T> {
   async create(parentInjector?: Injector): Promise<ImsRef<T>> {
     let instance = new this.type();
     let staticProviders = await this[symbolGetProviders](parentInjector);
-    let injector = Injector.create(staticProviders, parentInjector);
-    let ref = new ImsRef(injector, instance);
-    injector.set([
+    parentInjector.set(staticProviders);
+    let ref = new ImsRef(parentInjector, instance);
+    parentInjector.set([
       {
         provide: ImsRef,
         useValue: ref,

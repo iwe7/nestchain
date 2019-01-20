@@ -1,10 +1,15 @@
 import { ProgressPlugin } from 'webpack';
 import { ProgressBar } from 'ims-single-linelog';
 import { Compiler } from 'webpack';
-import { Injectable } from 'ims-core';
+import { Injectable, Injector } from 'ims-core';
 
 @Injectable({
   providedIn: 'root',
+  useFactory: async (injector: Injector) => {
+    let bar = await injector.get<ProgressBar>(ProgressBar)
+    return new ImsWebpackProgressPlugin(bar)
+  },
+  deps: [Injector],
 })
 export class ImsWebpackProgressPlugin {
   private plugin: ProgressPlugin;

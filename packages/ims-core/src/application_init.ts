@@ -17,8 +17,6 @@ export class ApplicationInitStatus {
   public readonly done = false;
 
   constructor(
-    @Inject(APP_INITIALIZER)
-    @Optional()
     private appInits: ((injector: Injector) => any)[],
   ) {
     this.donePromise = new Promise((res, rej) => {
