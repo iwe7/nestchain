@@ -1,7 +1,4 @@
 export * from './type';
-export * from './createPlatform';
-export * from './application_init';
-export * from './application_ref';
 export * from './abstracts/index';
 
 // 依赖注入
@@ -12,10 +9,10 @@ export * from './di/metadata';
 export * from './di/injection_token';
 export * from './di/injector';
 export * from './di/provider';
+export * from './di/ims';
 
 // 组件
 
-export * from './platform/core';
 export * from './proxy/proxy_factory';
 
 //
@@ -30,4 +27,4 @@ export * from './http';
 
 export * from './errors/index';
 export * from './decorator/index';
-export * from './bootstrapModule';
+export * from './bootstrap';

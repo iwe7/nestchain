@@ -4,9 +4,8 @@ import providers from './providers';
   providers,
 })
 export class ImsIpfsNodeModule {}
-
 async function bootstrap() {
-  let injector = await bootstrapModule(ImsIpfsNodeModule);
+  let ref = await bootstrapModule(ImsIpfsNodeModule);
   debugger;
 }
 
