@@ -11,5 +11,6 @@ async function bootstrap() {
   let injector = await bootstrapModule(TestModule);
   let fetch = await injector.get(tokens.Fetch);
   let body = await fetch('https://github.com/').then(res => res.text());
+  debugger;
 }
 bootstrap();

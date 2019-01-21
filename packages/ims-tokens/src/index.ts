@@ -4,4 +4,7 @@ export * from './wordwrap';
 export * from './util';
 export * from './optimist';
 export * from './fetch';
+export * from './fsm-event';
 export * from './NodeJS';
+export * from './fs';
+export * from './eventEmitter';

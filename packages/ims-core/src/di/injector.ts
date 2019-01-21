@@ -41,10 +41,8 @@ import {
   Subject,
   combineLatest,
   BehaviorSubject,
-  from,
-  forkJoin,
 } from 'ims-rxjs';
-import { filter, merge, map, switchMap, concatMap } from 'ims-rxjs/operators';
+import { filter, merge, map } from 'ims-rxjs/operators';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {

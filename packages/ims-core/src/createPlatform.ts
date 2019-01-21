@@ -4,7 +4,7 @@ import { Injector } from './di/injector';
 import { Type } from './type';
 import { ApplicationInitStatus } from './application_init';
 import { ApplicationRef } from './application_ref';
-import { PlatformName } from './tokens';
+import { PlatformName, AppStatus } from './tokens';
 import {
   createImsFactory,
   ImsRef,
@@ -30,14 +30,20 @@ export class PlatformRef {
     const initStatus = await moduleRef.injector.get<ApplicationInitStatus>(
       ApplicationInitStatus,
     );
-    initStatus.runInitializers(moduleRef.injector);
+    await initStatus.runInitializers(moduleRef.injector);
     let { ngDoBootstrap } = moduleRef.instance as any;
     if (ngDoBootstrap) {
-      const appRef = moduleRef.injector.get(ApplicationRef) as ApplicationRef;
-      ngDoBootstrap(appRef);
+      const appRef = (await moduleRef.injector.get(
+        ApplicationRef,
+      )) as ApplicationRef;
+      await ngDoBootstrap(appRef);
     }
     this._modules.push(moduleRef);
     await initStatus.donePromise;
+    moduleRef.injector.set({
+      provide: AppStatus,
+      useValue: 'inited',
+    });
     return moduleRef;
   }
 }
