@@ -1,5 +1,5 @@
 import { InjectionToken } from 'ims-core';
-interface EventEmitter extends NodeJS.EventEmitter {
+export interface EventEmitter extends NodeJS.EventEmitter {
   addListener(event: string | symbol, listener: (...args: any[]) => void): this;
   on(event: string | symbol, listener: (...args: any[]) => void): this;
   once(event: string | symbol, listener: (...args: any[]) => void): this;

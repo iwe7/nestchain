@@ -194,26 +194,6 @@ export class StaticInjector implements Injector {
     );
   }
 
-  private async getDeps(deps: DependencyRecord[]) {
-    let obs = [];
-    let ress = [];
-    deps.forEach(it => {
-      obs.push(this.get(it.token).then(res => ress.push(res)));
-    });
-    await Promise.all(obs);
-    return ress;
-  }
-  private async resolveRecord(record: Record) {
-    if (record.value && record.useCache) return record.value;
-    let deps = record.deps;
-    if (record.useNew) {
-      record.value = new (record.fn as any)(...(await this.getDeps(deps)));
-    } else {
-      record.value = record.fn(...(await this.getDeps(deps)));
-    }
-    return record.value;
-  }
-
   private emit(token: any, provider: StaticProvider) {
     this.loaded.next({ token, provider });
   }
@@ -374,10 +354,12 @@ function resolveProvider(provider: SupportedProvider): Record {
   let fn: Function = IDENT;
   let value: any = EMPTY;
   let useNew: boolean = false;
+  let useCache: boolean = true;
   let provide = resolveForwardRef(provider.provide);
   if (USE_VALUE in provider) {
     value = (provider as ValueProvider).useValue;
   } else if ((provider as FactoryProvider).useFactory) {
+    useCache = (provider as FactoryProvider).cache;
     fn = (provider as FactoryProvider).useFactory;
   } else if ((provider as ExistingProvider).useExisting) {
     // Just use IDENT
@@ -393,7 +375,7 @@ function resolveProvider(provider: SupportedProvider): Record {
       provider,
     );
   }
-  return { deps, fn, useNew, value };
+  return { deps, fn, useNew, useCache, value };
 }
 
 function computeDeps(provider: StaticProvider): DependencyRecord[] {
@@ -482,7 +464,7 @@ async function resolveToken(
     value = record.value;
     if (value == CIRCULAR) {
       throw Error(NO_NEW_LINE + 'Circular dependency');
-    } else if (value === EMPTY) {
+    } else if (value === EMPTY || !record.useCache) {
       record.value = CIRCULAR;
       let obj = undefined;
       let useNew = record.useNew;

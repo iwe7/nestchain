@@ -1,3 +1,3 @@
 import { Provider } from 'ims-core';
-import providers from './src/ipfs';
+import providers from './src/index';
 export default [...providers] as Provider[];

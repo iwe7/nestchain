@@ -1,6 +1,6 @@
 import * as tokens from 'ims-ipfs';
 import { Provider } from 'ims-core';
-import ipfs from './ipfs';
+import ipfs from './ipfs/index';
 
 export default [
   {
