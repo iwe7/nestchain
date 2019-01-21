@@ -1,7 +1,8 @@
 import { corePlatform } from './platform/core';
 import { Type } from './type';
-import { ImsRef } from './di/ims';
-export async function bootstrapModule<T>(m: Type<T>): Promise<ImsRef<T>> {
+import { Injector } from './di/injector';
+export async function bootstrapModule<T>(m: Type<T>): Promise<Injector> {
   let platform = await corePlatform();
-  return await platform.bootstrapModule(m);
+  let ref = await platform.bootstrapModule(m);
+  return ref.injector;
 }

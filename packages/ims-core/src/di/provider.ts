@@ -37,6 +37,7 @@ export interface ExistingProvider extends ExistingSansProvider {
 export interface FactorySansProvider {
   useFactory: Function;
   deps?: any[];
+  cache?: boolean;
 }
 
 export interface FactoryProvider extends FactorySansProvider {

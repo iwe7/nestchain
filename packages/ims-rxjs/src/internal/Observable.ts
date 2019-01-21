@@ -267,6 +267,10 @@ export class Observable<T> implements Subscribable<T> {
       if (canReportError(sink)) {
         sink.error(err);
       } else {
+        /**
+         * "You provided 'when(token) {        let hasLoaded = [];        this._records.forEach((it, key) => {            if (key === token) {                hasLoaded.push(it);            }        });        if (this.parent) {            return ims_rxjs_1.combineLatest(this.parent.when, this.loaded.pipe(operators_1.filter(it => it === token), operators_1.map((it) => {                return hasLoaded.concat.bind(hasLoaded)(it);            }))).pipe(operators_1.map(([parent, that]) => {                return parent.concat(...that);            }));        }        else {            return this.loaded.pipe(operators_1.filter(it => it === token), operators_1.map((it) => {                return hasLoaded.concat(it);            }));        }    }' where a stream was expected. You can provide an Observable, Promise, Array, or Iterable."
+         */
+        debugger;
         console.warn(err);
       }
     }

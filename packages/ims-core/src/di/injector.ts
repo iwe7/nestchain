@@ -30,13 +30,21 @@ import {
   StaticClassProvider,
   ConstructorProvider,
   FactoryProvider,
-  StaticProviders,
 } from './provider';
 import { defineInjectable } from './defs';
 import { inject, setCurrentInjector } from './inject';
 import { resolveForwardRef } from './forward_ref';
 import { Optional, SkipSelf, Self, Inject } from './metadata';
-import { ReplaySubject } from 'ims-rxjs';
+import {
+  Observable,
+  of,
+  Subject,
+  combineLatest,
+  BehaviorSubject,
+  from,
+  forkJoin,
+} from 'ims-rxjs';
+import { filter, merge, map, switchMap, concatMap } from 'ims-rxjs/operators';
 
 export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
@@ -47,6 +55,9 @@ export class NullInjector implements Injector {
     return new Promise((resolve, reject) => {
       resolve();
     });
+  }
+  when(tokens: any): Observable<Record[]> {
+    return of([]);
   }
 }
 export enum InjectFlags {
@@ -62,6 +73,7 @@ export abstract class Injector {
   static NULL: Injector = new NullInjector();
   static top: Injector;
   constructor() {}
+  abstract when(tokens: any): Observable<Record[]>;
   abstract set(providers: StaticProvider | StaticProvider[]): void;
   abstract get<T>(
     token: Type<T> | InjectionToken<T>,
@@ -115,9 +127,7 @@ export abstract class Injector {
 export class StaticInjector implements Injector {
   readonly parent: Injector;
   readonly source: string | null;
-
   public _records: Map<any, Record>;
-
   constructor(
     private providers: StaticProvider[],
     parent: Injector = Injector.top,
@@ -146,16 +156,80 @@ export class StaticInjector implements Injector {
     });
     setCurrentInjector(this);
     if (this.providers.length > 0) {
-      this.recursivelyProcessProviders(this.providers);
+      this.processProviders(this.providers);
     }
   }
 
-  recursivelyProcessProviders(providers: StaticProvider[]) {
-    return recursivelyProcessProviders(this._records, providers);
+  private loaded: Subject<{
+    token: any;
+    provider: StaticProvider;
+  }> = new Subject();
+  private getCurrent(token: any): Record[] {
+    let hasLoaded = [];
+    if (this.parent) {
+      if ((this.parent as any).getCurrent) {
+        hasLoaded.concat(...(this.parent as any).getCurrent(token));
+      }
+    }
+    this._records.forEach((it, key) => {
+      if (key === token) {
+        hasLoaded.push(it);
+      }
+    });
+    return hasLoaded;
+  }
+  private getLoaded(token: any) {
+    let loaded = this.loaded.pipe(filter(it => it.token === token));
+    if (this.parent && (this.parent as any).getLoaded) {
+      return combineLatest((this.parent as any).getLoaded(token), loaded);
+    } else {
+      return loaded;
+    }
+  }
+  when(token: any): Observable<Record[]> {
+    let subject = new BehaviorSubject([]);
+    return subject.pipe(
+      merge(this.getLoaded(token)),
+      map(() => {
+        return this.getCurrent(token);
+      }),
+    );
   }
 
+  private async getDeps(deps: DependencyRecord[]) {
+    let obs = [];
+    let ress = [];
+    deps.forEach(it => {
+      obs.push(this.get(it.token).then(res => ress.push(res)));
+    });
+    await Promise.all(obs);
+    return ress;
+  }
+  private async resolveRecord(record: Record) {
+    if (record.value && record.useCache) return record.value;
+    let deps = record.deps;
+    if (record.useNew) {
+      record.value = new (record.fn as any)(...(await this.getDeps(deps)));
+    } else {
+      record.value = record.fn(...(await this.getDeps(deps)));
+    }
+    return record.value;
+  }
+
+  private emit(token: any, provider: StaticProvider) {
+    this.loaded.next({ token, provider });
+  }
+  private processProviders(providers: StaticProvider[] | StaticProvider) {
+    return recursivelyProcessProviders(
+      this._records,
+      providers,
+      (token, provider) => {
+        this.emit(token, provider);
+      },
+    );
+  }
   set(providers: StaticProvider | StaticProvider[]): void {
-    recursivelyProcessProviders(this._records, providers);
+    this.processProviders(providers);
   }
   async get(
     token: any,
@@ -198,6 +272,7 @@ const NULL_INJECTOR = Injector.NULL;
 interface Record {
   fn: Function;
   useNew: boolean;
+  useCache?: boolean;
   deps: DependencyRecord[];
   value: any;
 }
@@ -231,12 +306,13 @@ const enum OptionFlags {
 function recursivelyProcessProviders(
   records: Map<any, Record>,
   provider: StaticProvider,
+  callback?: Function,
 ) {
   if (provider) {
     provider = resolveForwardRef(provider);
     if (provider instanceof Array) {
       for (let i = 0; i < provider.length; i++) {
-        recursivelyProcessProviders(records, provider[i]);
+        recursivelyProcessProviders(records, provider[i], callback);
       }
     } else if (typeof provider === 'function') {
       throw staticError('Function/Class not supported', provider);
@@ -271,18 +347,19 @@ function recursivelyProcessProviders(
         throw multiProviderMixError(token);
       }
       records.set(token, resolvedProvider);
-      injectorEvent.next(token);
+      callback && callback(token, resolvedProvider);
     } else if (provider && isPromise(provider)) {
       provider.then(pro => {
-        recursivelyProcessProviders(records, pro);
+        recursivelyProcessProviders(records, pro, callback);
       });
     } else {
       throw staticError('Unexpected provider', provider);
     }
   }
 }
-
-export const injectorEvent = new ReplaySubject();
+export interface InjectorListener {
+  (provider: any): any;
+}
 
 export const USE_VALUE = getClosureSafeProperty<ValueProvider>({
   provide: String,
