@@ -30,3 +30,4 @@ export * from './http';
 
 export * from './errors/index';
 export * from './decorator/index';
+export * from './bootstrapModule';

@@ -11,7 +11,7 @@ export class ImsPromise<T> {
       this.reject = reject;
     });
   }
-  next(value: T | PromiseLike<T>) {
+  next(value?: T | PromiseLike<T>) {
     this.resolve(value);
   }
   error(reason?: any) {

@@ -1,4 +1,19 @@
-const _THROW_IF_NOT_FOUND = new Object();
+const _THROW_IF_NOT_FOUND = new Proxy(
+  {},
+  {
+    get(target: any, p: PropertyKey, receiver: any) {
+      if (p === Symbol.for('isNullInjector')) {
+        return true;
+      }
+      return _THROW_IF_NOT_FOUND;
+    },
+  },
+);
+
+export function isNullInjector(val: any): boolean {
+  return val && !!val[Symbol.for('isNullInjector')];
+}
+
 import {
   stringify,
   formatError,
@@ -27,7 +42,7 @@ export class NullInjector implements Injector {
   get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
     return notFoundValue;
   }
-  set(providers: StaticProvider[]): any {}
+  set(providers: StaticProvider | StaticProvider[]): any {}
   init(): Promise<void> {
     return new Promise((resolve, reject) => {
       resolve();
@@ -47,7 +62,7 @@ export abstract class Injector {
   static NULL: Injector = new NullInjector();
   static top: Injector;
   constructor() {}
-  abstract set(providers: StaticProvider[]): void;
+  abstract set(providers: StaticProvider | StaticProvider[]): void;
   abstract get<T>(
     token: Type<T> | InjectionToken<T>,
     notFoundValue?: T,
@@ -139,17 +154,17 @@ export class StaticInjector implements Injector {
     return recursivelyProcessProviders(this._records, providers);
   }
 
-  set(providers: StaticProvider[]): void {
+  set(providers: StaticProvider | StaticProvider[]): void {
     recursivelyProcessProviders(this._records, providers);
   }
-  get(
+  async get(
     token: any,
     notFoundValue?: any,
     flags: InjectFlags = InjectFlags.Default,
-  ): any {
+  ) {
     const record = this._records.get(token);
     try {
-      return tryResolveToken(
+      return await tryResolveToken(
         token,
         record,
         this._records,

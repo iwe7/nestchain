@@ -15,3 +15,6 @@ yarn-error.log
 .ipfs
 .ipfs1
 .ipfs2
+packages/aaa
+**/*.js
+**/*.DS_Store

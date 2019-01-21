@@ -10,7 +10,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": false,
-    "target": "es5",
+    "target": "esnext",
     "sourceMap": false,
     "outDir": "./dist",
     "jsx": "react",
@@ -101,6 +101,7 @@
       "ims-promise": ["packages/ims-promise/src/index"],
       "ims-ipfs": ["packages/ims-ipfs/src/index"],
       "ims-platform-h5": ["packages/ims-platform-h5/src/index"],
+      "ims-tokens": ["packages/ims-tokens/src/index"]
     },
     "lib": ["dom", "es2017", "es2016.array.include", "esnext"],
     "types": ["node", "reflect-metadata", "ip", "zone.js"],

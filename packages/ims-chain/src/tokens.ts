@@ -75,4 +75,6 @@ export const IpfsName = new InjectionToken('IpfsName');
 export const IpfsPing = new InjectionToken('IpfsPing');
 export const IpfsPin = new InjectionToken('IpfsPin');
 export const IpfsPingPullStream = new InjectionToken('IpfsPingPullStream');
-export const IpfsPingReadableStream = new InjectionToken('IpfsPingReadableStream');
+export const IpfsPingReadableStream = new InjectionToken(
+  'IpfsPingReadableStream',
+);
