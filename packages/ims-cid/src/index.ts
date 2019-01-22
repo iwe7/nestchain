@@ -1,6 +1,6 @@
 import { NgModule } from 'ims-core';
 import * as tokens from './tokens/index';
-
+export * from './tokens';
 @NgModule({
   providers: [
     {

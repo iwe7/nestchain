@@ -1,8 +1,20 @@
-import { Injectable } from 'ims-core';
-const ipldGit = require('ipld-git');
+import { InjectionToken } from 'ims-core';
+export interface IpldGit {
+  util: any;
+  resolver: IpldGitResolver;
+}
+export const IpldGit = new InjectionToken('IpldGit');
 
-@Injectable({
-  providedIn: 'root',
-  useValue: ipldGit
-})
-export class ImsIpldGit {}
+export interface IpldGitResolver {
+  multicodec: 'git-raw';
+  defaultHashAlg: 'sha1';
+  resolve: any;
+  tree: any;
+  isLink: any;
+}
+
+export interface IpldGitUtil {
+  serialize: any;
+  deserialize: any;
+  cid: any;
+}
