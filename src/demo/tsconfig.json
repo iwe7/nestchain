@@ -14,11 +14,8 @@
       "ims-rxjs/operators": ["../../packages/ims-rxjs/src/operators"],
       "ims-util": ["../../packages/ims-util/src/index"],
       "ims-decorator": ["../../packages/ims-decorator/src/index"],
-      "ims-dom": ["../../packages/ims-dom/src/index"],
-      "ims-stream": ["../../packages/ims-stream/src/index"],
-      "ims-console": ["../../packages/ims-console/src/index"],
-      "ims-platform-h5": ["../../packages/ims-platform-h5/src/index"],
-      "ims-ipfs": ["../../packages/ims-ipfs/src/index"]
+      "ims-libp2p": ["../../packages/ims-libp2p/src/index"],
+      "ims-libp2p-browser": ["../../packages/ims-libp2p-browser/src/index"]
     }
   }
 }

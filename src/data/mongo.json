@@ -1,8 +1,0 @@
-{
-  "type": "mongodb",
-  "host": "localhost",
-  "database": "test",
-  "port": 27017,
-  "logging": ["query", "error"],
-  "useNewUrlParser": true
-}

@@ -5,8 +5,9 @@ import {
   SourceRoot,
   DevOpen,
   DevPort,
+  AppInitialization,
 } from 'ims-core';
-import { WebpackConfigurations } from 'ims-platform-webpack';
+import { WebpackConfigurations, ImsWebpack } from 'ims-platform-webpack';
 import { join } from 'path';
 import { ROOT } from 'ims-const';
 import { ImsWebpackModule } from 'ims-platform-webpack';
@@ -22,7 +23,7 @@ import { Configuration } from 'webpack';
       provide: WebpackConfigurations,
       useFactory: async (injector: Injector) => {
         let root = await injector.get(SourceRoot, join(ROOT, 'src/demo'));
-        let devOpen = await injector.get(DevOpen, false);
+        let devOpen = await injector.get(DevOpen, true);
         let devPort = await injector.get(DevPort, 8088);
         let cfg = {
           entry: {
@@ -56,6 +57,19 @@ import { Configuration } from 'webpack';
     {
       provide: SourceRoot,
       useValue: join(ROOT, 'src/demo'),
+    },
+    {
+      provide: AppInitialization,
+      useValue: async (injector: Injector) => {
+        let webpack = await injector.get<ImsWebpack>(ImsWebpack);
+        await webpack.init(injector);
+        // webpack.server();
+        webpack.apply().subscribe(res => {
+          // console.log(res);
+        });
+        return webpack;
+      },
+      multi: true,
     },
   ],
   imports: [ImsWebpackModule],

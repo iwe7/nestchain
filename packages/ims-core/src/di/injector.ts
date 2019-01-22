@@ -1,19 +1,3 @@
-const _THROW_IF_NOT_FOUND = new Proxy(
-  {},
-  {
-    get(target: any, p: PropertyKey, receiver: any) {
-      if (p === Symbol.for('isNullInjector')) {
-        return true;
-      }
-      return _THROW_IF_NOT_FOUND;
-    },
-  },
-);
-
-export function isNullInjector(val: any): boolean {
-  return val && !!val[Symbol.for('isNullInjector')];
-}
-
 import {
   stringify,
   formatError,
@@ -41,11 +25,17 @@ import {
   Subject,
   combineLatest,
   BehaviorSubject,
+  from,
+  forkJoin,
 } from 'ims-rxjs';
 import { filter, merge, map } from 'ims-rxjs/operators';
 
 export class NullInjector implements Injector {
-  get(token: any, notFoundValue: any = _THROW_IF_NOT_FOUND): any {
+  get(token: any, notFoundValue: any = Injector.createNull()): any {
+    if (token instanceof InjectionToken) {
+      console.log(`not found token ${stringify(token)}`);
+      if (token.notFound) return token.notFound;
+    }
     return notFoundValue;
   }
   set(providers: StaticProvider | StaticProvider[]): any {}
@@ -67,9 +57,25 @@ export enum InjectFlags {
 }
 export const INJECTOR = new InjectionToken<Injector>('INJECTOR');
 export abstract class Injector {
-  static THROW_IF_NOT_FOUND = _THROW_IF_NOT_FOUND;
+  static THROW_IF_NOT_FOUND = Injector.createNull();
   static NULL: Injector = new NullInjector();
   static top: Injector;
+  static isNull(val: any): boolean {
+    return (
+      val === null ||
+      val === undefined ||
+      JSON.stringify(val) === JSON.stringify({}) ||
+      JSON.stringify(val) === JSON.stringify([]) ||
+      !!val[Symbol.for('isNullInjector')]
+    );
+  }
+  static createNull<T>(): T {
+    return new Proxy(function() {}, {
+      get(target: any, p: PropertyKey, receiver: any): any {
+        if (p === Symbol.for('isNullInjector')) return true;
+      },
+    });
+  }
   constructor() {}
   abstract when(tokens: any): Observable<Record[]>;
   abstract set(providers: StaticProvider | StaticProvider[]): void;
@@ -96,20 +102,18 @@ export abstract class Injector {
     options:
       | StaticProvider[]
       | { providers: StaticProvider[]; parent?: Injector; name?: string },
-    parent?: Injector,
+    parent: Injector = Injector.top,
   ): Injector {
     let injector: Injector = Injector.NULL;
     if (Array.isArray(options)) {
       injector = new StaticInjector(options, parent);
-      setCurrentInjector(injector);
     } else {
       if (options) {
         injector = new StaticInjector(
           options.providers,
-          options.parent,
+          options.parent || Injector.top,
           options.name || null,
         );
-        setCurrentInjector(injector);
       } else {
         throw new Error(`injector create options is undefined`);
       }
@@ -142,6 +146,7 @@ export class StaticInjector implements Injector {
       deps: [],
       value: this,
       useNew: false,
+      useCache: true,
     });
     records.set(INJECTOR, <Record>{
       token: INJECTOR,
@@ -151,6 +156,7 @@ export class StaticInjector implements Injector {
       deps: [],
       value: this,
       useNew: false,
+      useCache: true,
     });
     setCurrentInjector(this);
     if (this.providers.length > 0) {
@@ -209,14 +215,14 @@ export class StaticInjector implements Injector {
   set(providers: StaticProvider | StaticProvider[]): void {
     this.processProviders(providers);
   }
-  async get(
+  get(
     token: any,
     notFoundValue?: any,
     flags: InjectFlags = InjectFlags.Default,
   ) {
     const record = this._records.get(token);
     try {
-      return await tryResolveToken(
+      return tryResolveToken(
         token,
         record,
         this._records,
@@ -318,7 +324,10 @@ function recursivelyProcessProviders(
         // Treat the provider as the token.
         token = provider as any;
         // 父亲
-        multiProvider.deps.push({ token, options: OptionFlags.Default });
+        multiProvider.deps.push({
+          token,
+          options: OptionFlags.Default,
+        });
       }
       const record = records.get(token);
       if (record && record.fn == MULTI_PROVIDER_FN) {
@@ -417,7 +426,7 @@ function computeDeps(provider: StaticProvider): DependencyRecord[] {
 }
 const CIRCULAR = IDENT;
 
-async function tryResolveToken(
+function tryResolveToken(
   token: any,
   record: Record | undefined,
   records: Map<any, Record>,
@@ -426,14 +435,7 @@ async function tryResolveToken(
   flags: InjectFlags,
 ) {
   try {
-    return await resolveToken(
-      token,
-      record,
-      records,
-      parent,
-      notFoundValue,
-      flags,
-    );
+    return resolveToken(token, record, records, parent, notFoundValue, flags);
   } catch (e) {
     if (!(e instanceof Error)) {
       e = new Error(e);
@@ -457,7 +459,6 @@ async function resolveToken(
   flags: InjectFlags,
 ): Promise<any> {
   let value;
-
   if (record && !(flags & InjectFlags.SkipSelf)) {
     // If we don't have a record, this implies that we don't own the provider hence don't know how
     // to resolve it.
@@ -471,6 +472,7 @@ async function resolveToken(
       let fn = record.fn;
       let depRecords = record.deps;
       let deps = EMPTY;
+      let lifs = [];
       if (depRecords.length) {
         deps = [];
         for (let i = 0; i < depRecords.length; i++) {
@@ -480,28 +482,33 @@ async function resolveToken(
             options & OptionFlags.CheckSelf
               ? records.get(depRecord.token)
               : undefined;
-          deps.push(
-            await tryResolveToken(
-              depRecord.token,
-              childRecord,
-              records,
-              !childRecord && !(options & OptionFlags.CheckParent)
-                ? NULL_INJECTOR
-                : parent,
-              options & OptionFlags.Optional
-                ? null
-                : Injector.THROW_IF_NOT_FOUND,
-              InjectFlags.Default,
+          lifs.push(
+            from(
+              tryResolveToken(
+                depRecord.token,
+                childRecord,
+                records,
+                !childRecord && !(options & OptionFlags.CheckParent)
+                  ? NULL_INJECTOR
+                  : parent,
+                options & OptionFlags.Optional
+                  ? null
+                  : Injector.THROW_IF_NOT_FOUND,
+                InjectFlags.Default,
+              ).then(res => deps.push(res)),
             ),
           );
         }
+      }
+      if (lifs.length > 0) {
+        await forkJoin(...lifs).toPromise();
       }
       record.value = value = useNew
         ? new (fn as any)(...deps)
         : fn.apply(obj, deps);
     }
   } else if (!(flags & InjectFlags.Self)) {
-    value = await parent.get(token, notFoundValue, InjectFlags.Default);
+    value = parent.get(token, notFoundValue, InjectFlags.Default);
   }
   return value;
 }

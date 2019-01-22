@@ -9,3 +9,7 @@ export * from './libp2p-spdy';
 export * from './libp2p-tcp';
 export * from './libp2p-websockets';
 export * from './libp2p';
+export * from './libp2p-bootstrap';
+export * from './peer-info';
+export * from './libp2p-webrtc-star';
+export * from './libp2p-websocket-star';

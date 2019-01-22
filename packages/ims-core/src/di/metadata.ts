@@ -28,14 +28,16 @@ export const Inject = makeDecorator<any>(
   },
 );
 
-export const OptionalToken = new InjectionToken('OptionalToken');
+export const OptionalToken = new InjectionToken<MetadataFactory>(
+  'OptionalToken',
+);
 export const Optional = makeDecorator(OptionalToken);
 
-export const SelfToken = new InjectionToken('SelfToken');
+export const SelfToken = new InjectionToken<MetadataFactory>('SelfToken');
 export const Self = makeDecorator(SelfToken);
 
-export const SkipSelfToken = new InjectionToken('SkipSelf');
+export const SkipSelfToken = new InjectionToken<MetadataFactory>('SkipSelf');
 export const SkipSelf = makeDecorator(SelfToken);
 
-export const HostToken = new InjectionToken('HostToken');
+export const HostToken = new InjectionToken<MetadataFactory>('HostToken');
 export const Host = makeDecorator(SelfToken);

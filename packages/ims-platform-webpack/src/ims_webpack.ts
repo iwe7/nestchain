@@ -58,8 +58,8 @@ export class ImsWebpack {
     let plugins = await injector.get<Type<any>[]>(PluginsToken, []);
     let output = await injector.get(OutputToken, {});
     let resolvePlugins = (await injector.get(resolvePluginsToken)) || [];
-    this.devOpen = await injector.get(DevOpen, false);
-    this.devWatch = await injector.get(DevWatch, false);
+    this.devOpen = await injector.get(DevOpen, true);
+    this.devWatch = await injector.get(DevWatch, true);
     this.port = await injector.get(DevPort, 8088);
     this.options = webpackMerge(...configurations, {
       entry: {},
@@ -102,8 +102,8 @@ export class ImsWebpack {
       hot: true,
       inline: true,
     });
-    dev.listen(this.port, () => {
-      console.log(`http://localhost:${this.port}`);
+    dev.listen(this.port, '0.0.0.0',() => {
+      console.log(`http://0.0.0.0:${this.port}`);
     });
   }
 
