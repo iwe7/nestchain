@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-import 'reflect-metadata';
-import { NgModule, createPlatformFactory, corePlatform } from 'ims-core';
+import { NgModule, bootstrapModule } from 'ims-core';
 import { BuildCommand } from './build';
 import { ImsBinToken } from './base';
 
@@ -56,13 +55,7 @@ import { WxappCommand } from './wxapp';
 export class ImsBinModule {}
 
 async function bootstrap() {
-  const imsBinPlatform = await createPlatformFactory(
-    corePlatform,
-    'ims-bin',
-    [],
-  );
-  let res = await imsBinPlatform([]);
-  let ref = await res.bootstrapModule(ImsBinModule);
+  let ref = await bootstrapModule(ImsBinModule);
   let commands = ref.injector.get(ImsBinToken);
   let flags = parser(process.argv.slice(2));
   const { _, ...opts } = flags;

@@ -11,9 +11,7 @@
     "lib"
   ],
   "dependencies": {
-    "ims-decorator": "^0.0.13",
-    "ims-rxjs": "^0.0.14",
-    "ims-util": "^0.0.14"
+    "ims-rxjs": "^0.0.14"
   },
   "repository": {
     "type": "git",
