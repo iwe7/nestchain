@@ -1,5 +1,5 @@
 import { Type, isType } from '../type';
-import { isFunction } from 'ims-util';
+import { isFunction } from '../util';
 export interface ValueSansProvider {
   useValue: any;
 }

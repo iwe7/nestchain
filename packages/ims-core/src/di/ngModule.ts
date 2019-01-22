@@ -12,7 +12,9 @@ import {
 } from './provider';
 import { Type, isType } from '../type';
 import { of, from, forkJoin } from 'ims-rxjs';
-import { isArray, LifeSubject } from 'ims-util';
+import { isArray } from '../util';
+import { LifeSubject } from '../decorator';
+
 import { concatMap } from 'ims-rxjs/operators';
 import { InjectionToken } from './injection_token';
 import { ImsFactory, symbolGetProviders, symbolGetFactory } from './ims';

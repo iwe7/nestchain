@@ -1,4 +1,4 @@
-import { Type } from 'ims-util';
+import { Type } from '../type';
 import { Injector } from './injector';
 import { StaticProvider } from './provider';
 import { InjectionToken } from './injection_token';

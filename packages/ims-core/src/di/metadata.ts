@@ -4,7 +4,7 @@ import {
   ClassMetadata,
 } from '../decorator/index';
 import { InjectionToken } from './injection_token';
-import { LifeSubject } from 'ims-util';
+import { LifeSubject } from '../decorator';
 import { Injector } from './injector';
 
 export interface Inject {

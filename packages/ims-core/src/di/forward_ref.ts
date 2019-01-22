@@ -1,5 +1,5 @@
 import { Type } from '../type';
-import { stringify, getClosureSafeProperty } from 'ims-util';
+import { stringify, getClosureSafeProperty } from '../util';
 
 export interface ForwardRefFn {
   (): any;

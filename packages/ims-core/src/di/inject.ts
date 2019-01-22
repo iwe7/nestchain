@@ -2,7 +2,7 @@ import { Type } from '../type';
 import { InjectionToken } from './injection_token';
 import { InjectFlags, Injector } from './injector';
 import { InjectableDef, getInjectableDef } from './defs';
-import { stringify, isPromise } from 'ims-util';
+import { stringify, isPromise } from '../util/index';
 let _injectImplementation:
   | (<T>(token: Type<T> | InjectionToken<T>, flags: InjectFlags) => T | null)
   | undefined;

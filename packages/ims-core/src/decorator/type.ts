@@ -1,4 +1,5 @@
-import { Type, toFrom } from 'ims-util';
+import { toFrom } from './util';
+import { Type } from '../type';
 
 export enum MetadataType {
   class,

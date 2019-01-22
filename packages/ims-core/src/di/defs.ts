@@ -1,6 +1,11 @@
-import { NG_INJECTABLE_DEF, NG_INJECTOR_DEF } from '../render3/fields';
 import { Type } from '../type';
-
+import { getClosureSafeProperty } from '../util/index';
+export const NG_INJECTOR_DEF = getClosureSafeProperty({
+  ngInjectorDef: getClosureSafeProperty,
+});
+export const NG_INJECTABLE_DEF = getClosureSafeProperty({
+  ngInjectableDef: getClosureSafeProperty,
+});
 import {
   ClassProvider,
   ConstructorProvider,

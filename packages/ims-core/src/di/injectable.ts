@@ -10,7 +10,7 @@ import {
 } from './provider';
 
 import { InjectionToken } from './injection_token';
-import { LifeSubject } from 'ims-util';
+import { LifeSubject } from '../decorator';
 import { Injector } from './injector';
 
 type InjectableProvider =

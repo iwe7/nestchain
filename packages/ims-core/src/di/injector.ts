@@ -4,7 +4,7 @@ import {
   staticError,
   getClosureSafeProperty,
   isPromise,
-} from 'ims-util';
+} from '../util/index';
 import { Type } from '../type';
 import { InjectionToken } from './injection_token';
 import {
