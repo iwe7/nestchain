@@ -2,9 +2,11 @@ import { InjectionToken } from 'ims-core';
 export interface Multibase {
   codes: MultibaseCodes[];
   names: MultibaseNames[];
+  encode(type: MultibaseNames, buf: Buffer): Buffer;
+  decode(buf: Buffer | string): Buffer;
+  isEncoded(bufOrString: string | Buffer): MultibaseNames | false;
 }
 export const Multibase = new InjectionToken<Multibase>('Multibase');
-import {} from 'typescript';
 
 export interface MultibaseNameCodes {
   base1: '0';

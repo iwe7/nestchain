@@ -109,7 +109,6 @@ export class MultihashImpl extends Multihash {
     this.decode(multihash);
     return multihash.slice(0, 2);
   }
-
   validate(multihash: Buffer) {
     return this.decode(multihash);
   }

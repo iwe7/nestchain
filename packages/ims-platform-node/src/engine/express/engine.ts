@@ -1,4 +1,4 @@
-import { Injector, Logger, InjectionToken } from 'ims-core';
+import { Injector, InjectionToken } from 'ims-core';
 import express = require('express');
 export const RouterToken = new InjectionToken<any[]>('router token');
 import cookieParser = require('cookie-parser');
@@ -13,8 +13,6 @@ export const Method = new InjectionToken<any[]>('request method');
 export const Body = new InjectionToken<any[]>('request body');
 
 export const expressEngine = (injector: Injector) => {
-  let logger = injector.get<Logger>(Logger);
-  logger.subscribe(res => console.log(res));
   let routers = injector.get(RouterToken);
   let app = express();
   app.use(cookieParser('imeepos'));
@@ -46,15 +44,13 @@ export const expressEngine = (injector: Injector) => {
     next();
   });
   routers.map(router => {
-    logger.info(`start router ${router.path}`);
     app.use(`/${router.path}/:method`, (req, res, next) => {
-      logger.info(`request router ${router.path}:${req.method.toLowerCase()}`);
       router.fn(req, res, next, injector);
       next();
     });
   });
   let config = injector.get(ExpressConfig);
   app.listen(config.port, config.host, (err: Error) => {
-    logger.info(`app start at http://${config.host}:${config.port}`);
+    console.log(`app start at http://${config.host}:${config.port}`);
   });
 };

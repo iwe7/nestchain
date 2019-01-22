@@ -1,4 +1,4 @@
-import { Provider, Injector, ErrorSubject } from 'ims-core';
+import { Provider, Injector } from 'ims-core';
 import * as ts from 'typescript';
 import * as path from 'path';
 import { ROOT } from 'ims-const';
@@ -140,7 +140,7 @@ export const hostProviders: Provider[] = [
     provide: CompilerOptionsToken,
     useFactory: (injector: Injector) => {
       let tsConfigFileName = injector.get<string>(TsConfigFileToken);
-      let error = injector.get<ErrorSubject<any>>(ErrorSubject);
+      // let error = injector.get<ErrorSubject<any>>(ErrorSubject);
       let projectDirectory = path.dirname(tsConfigFileName);
       let settings = {};
       const settingsResult = ts.convertCompilerOptionsFromJson(
@@ -149,11 +149,11 @@ export const hostProviders: Provider[] = [
       );
       let compilerOptions = settingsResult.options;
       if (settingsResult.errors) {
-        error.next(settingsResult.errors);
+        // error.next(settingsResult.errors);
       }
       let tsConfig = ts.readConfigFile(tsConfigFileName, ts.sys.readFile);
       if (tsConfig.error) {
-        error.next(tsConfig.error);
+        // error.next(tsConfig.error);
       }
       let parsed: ts.ParsedCommandLine = ts.parseJsonConfigFileContent(
         tsConfig.config || {},
@@ -163,7 +163,7 @@ export const hostProviders: Provider[] = [
         path.basename(tsConfigFileName),
       );
       if (parsed.errors) {
-        error.next(parsed.errors);
+        // error.next(parsed.errors);
       }
       let options = parsed.options;
       normalizeCompilerOptions(options);

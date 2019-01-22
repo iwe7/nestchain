@@ -1,7 +1,24 @@
 import { InjectionToken } from 'ims-core';
+export interface MultihashDecode {
+  code: number;
+  name: string;
+  length: number;
+  digest: Buffer;
+}
 export interface Multihashes {
   names: MultihashesNames;
   codes: MultihashesNames;
+
+  toHexString(hash: Buffer): string;
+  fromHexString(str: string): Buffer;
+  toB58String(hash: Buffer): string;
+  fromB58String(str: string | Buffer): Buffer;
+  encode(digest: Buffer, code: MultihashesNames, length?: number): Buffer;
+  decode(buf: Buffer): MultihashDecode;
+  isAppCode(code: number): boolean;
+  isValidCode(code: number): boolean;
+  prefix(multihash: Buffer): any;
+  validate(multihash: Buffer): any;
 }
 export const Multihashes = new InjectionToken<Multihashes>('Multihashes');
 export type MultihashesNames =

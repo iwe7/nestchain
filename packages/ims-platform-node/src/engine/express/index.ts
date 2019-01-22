@@ -1,6 +1,6 @@
 import { expressEngine, RouterToken, ExpressConfig } from './engine';
 import { CompilerImpl } from './compiler';
-import { Compiler, APP_INITIALIZER, Injector } from 'ims-core';
+import { Injector } from 'ims-core';
 export const providers = [
   {
     provide: APP_INITIALIZER,
@@ -23,11 +23,6 @@ export const providers = [
       host: '0.0.0.0',
       port: 3000,
     },
-  },
-  {
-    provide: Compiler,
-    useFactory: (injector: Injector) => new CompilerImpl(injector),
-    deps: [Injector],
   },
 ];
 export * from './compiler';
