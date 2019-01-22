@@ -10,7 +10,7 @@ import {
 } from './provider';
 
 import { InjectionToken } from './injection_token';
-import { LifeSubject } from '../decorator';
+import { LifeSubject } from '../util/index';
 import { Injector } from './injector';
 
 type InjectableProvider =

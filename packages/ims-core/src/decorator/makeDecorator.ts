@@ -1,6 +1,5 @@
-import { isNumber, isUndefined } from 'ims-util';
 import { InjectionToken } from '../di/injection_token';
-import { LifeSubject } from './life';
+import { LifeSubject, isNumber, isUndefined } from '../util/index';
 /**
  * 执行顺讯
  * [(property)...]->[(parameter->method)...]->constructor->class

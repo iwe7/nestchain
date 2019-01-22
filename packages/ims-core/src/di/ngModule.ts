@@ -12,8 +12,7 @@ import {
 } from './provider';
 import { Type, isType } from '../type';
 import { of, from, forkJoin } from 'ims-rxjs';
-import { isArray } from '../util';
-import { LifeSubject } from '../decorator';
+import { isArray, LifeSubject } from '../util';
 
 import { concatMap } from 'ims-rxjs/operators';
 import { InjectionToken } from './injection_token';
