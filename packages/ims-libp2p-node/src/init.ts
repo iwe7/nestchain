@@ -11,9 +11,7 @@ export default [
           if (err) throw err;
           node2.peerInfo.multiaddrs.forEach(ma => console.log(ma.toString()));
         });
-        node2.on('peer:discovery', peer => {
-          console.log(node2.peerBook)
-        });
+        node2.on('peer:discovery', peer => {});
         node2.on('peer:connect', peer => {});
       }
       startP2p.index = 100;

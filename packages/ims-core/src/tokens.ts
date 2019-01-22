@@ -13,7 +13,7 @@ export interface AppInitialization {
   (injector: Injector): Promise<void>;
 }
 export const AppInitialization = new InjectionToken<AppInitialization[]>(
-  'App_Initialization',
+  'AppInitialization',
 );
 
 /**

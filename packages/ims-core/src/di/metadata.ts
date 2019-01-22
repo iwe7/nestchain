@@ -1,8 +1,4 @@
-import {
-  makeDecorator,
-  MetadataFactory,
-  ClassMetadata,
-} from '../decorator/index';
+import * as decorator from '../decorator/index';
 import { InjectionToken } from './injection_token';
 import { LifeSubject } from '../util';
 import { Injector } from './injector';
@@ -10,8 +6,10 @@ import { Injector } from './injector';
 export interface Inject {
   token: any;
 }
-export const InjectToken = new InjectionToken<MetadataFactory>('InjectToken');
-export const Inject = makeDecorator<any>(
+export const InjectToken = new InjectionToken<decorator.MetadataFactory>(
+  'InjectToken',
+);
+export const Inject = decorator.makeDecorator<any>(
   InjectToken,
   def => {
     return {
@@ -19,7 +17,7 @@ export const Inject = makeDecorator<any>(
     };
   },
   {
-    type(life: LifeSubject, def: ClassMetadata<Inject>) {
+    type(life: LifeSubject, def: decorator.ClassMetadata<Inject>) {
       let token = def.metadataDef.token;
       let getProviders = async (injector: Injector) => {
         injector.get(token);
@@ -28,16 +26,22 @@ export const Inject = makeDecorator<any>(
   },
 );
 
-export const OptionalToken = new InjectionToken<MetadataFactory>(
+export const OptionalToken = new InjectionToken<decorator.MetadataFactory>(
   'OptionalToken',
 );
-export const Optional = makeDecorator(OptionalToken);
+export const Optional = decorator.makeDecorator(OptionalToken);
 
-export const SelfToken = new InjectionToken<MetadataFactory>('SelfToken');
-export const Self = makeDecorator(SelfToken);
+export const SelfToken = new InjectionToken<decorator.MetadataFactory>(
+  'SelfToken',
+);
+export const Self = decorator.makeDecorator(SelfToken);
 
-export const SkipSelfToken = new InjectionToken<MetadataFactory>('SkipSelf');
-export const SkipSelf = makeDecorator(SelfToken);
+export const SkipSelfToken = new InjectionToken<decorator.MetadataFactory>(
+  'SkipSelf',
+);
+export const SkipSelf = decorator.makeDecorator(SelfToken);
 
-export const HostToken = new InjectionToken<MetadataFactory>('HostToken');
-export const Host = makeDecorator(SelfToken);
+export const HostToken = new InjectionToken<decorator.MetadataFactory>(
+  'HostToken',
+);
+export const Host = decorator.makeDecorator(SelfToken);

@@ -1,1 +1,1 @@
-export declare const MONGO_CONFIG: any;
+export declare const MONGO_CONFIG: {};

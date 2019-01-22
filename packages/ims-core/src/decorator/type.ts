@@ -14,7 +14,6 @@ export enum MetadataType {
   method,
   property,
 }
-
 export interface BaseMetadata<D = any> {
   metadataType: MetadataType;
   metadataDef?: D;
@@ -56,32 +55,6 @@ export type MetadataDef<T = any> =
   | PropertyMetadata<T>
   | MethodMetadata<T>
   | ParameterMetadata<T>;
-
-export function isClassMetadata<T = any>(
-  def: MetadataDef,
-): def is ClassMetadata<T> {
-  return def.metadataType === MetadataType.class;
-}
-export function isConstructorMetadata<T = any>(
-  def: MetadataDef,
-): def is ConstructorMetadata<T> {
-  return def.metadataType === MetadataType.constructor;
-}
-export function isPropertyMetadata<T = any>(
-  def: MetadataDef,
-): def is PropertyMetadata<T> {
-  return def.metadataType === MetadataType.property;
-}
-export function isMethodMetadata<T = any>(
-  def: MetadataDef,
-): def is MethodMetadata<T> {
-  return def.metadataType === MetadataType.method;
-}
-export function isParameterMetadata<T = any>(
-  def: MetadataDef,
-): def is ParameterMetadata<T> {
-  return def.metadataType === MetadataType.parameter;
-}
 
 export abstract class MetadataFactory {
   abstract type(life: LifeSubject, def: ClassMetadata): any;

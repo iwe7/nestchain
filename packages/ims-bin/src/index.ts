@@ -56,7 +56,7 @@ export class ImsBinModule {}
 
 async function bootstrap() {
   let ref = await bootstrapModule(ImsBinModule);
-  let commands = ref.injector.get(ImsBinToken);
+  let commands = await ref.injector.get(ImsBinToken);
   let flags = parser(process.argv.slice(2));
   const { _, ...opts } = flags;
   if (_.length > 0 && commands) {

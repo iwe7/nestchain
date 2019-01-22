@@ -23,10 +23,21 @@ import {
   getDesignType,
   getDesignReturnType,
 } from './util';
+
 export interface IDecorator<T> extends Function {
   (o?: T): any;
   new (o?: T): any;
 }
+const MakeDecoratorCache: Map<
+  any,
+  {
+    constructorParameter: any[];
+    parameters: any[];
+    propertys: any[];
+    methods: any[];
+  }
+> = new Map();
+
 export function makeDecorator<T>(
   token: InjectionToken<MetadataFactory>,
   getDef?: (def: MetadataDef) => T,
@@ -37,6 +48,7 @@ export function makeDecorator<T>(
   let parameters: ParameterMetadata[] = [];
   let propertys: PropertyMetadata[] = [];
   let methods: MethodMetadata[] = [];
+  // 设置解析器
   let item: any = (metadataDef?: T) => {
     return <T>(
       target: any,
@@ -44,9 +56,20 @@ export function makeDecorator<T>(
       descriptorOrParameterIndex?: TypedPropertyDescriptor<T> | number,
     ) => {
       let res: any;
+
       if (isNumber(descriptorOrParameterIndex)) {
         if (isUndefined(propertyKey)) {
+          if (!MakeDecoratorCache.has(target)) {
+            MakeDecoratorCache.set(target, {
+              constructorParameter,
+              parameters,
+              propertys,
+              methods,
+            });
+          }
+          debugger;
           // constructor
+          let config = MakeDecoratorCache.get(target);
           const types = getDesignParamTypes(target);
           let def: ConstructorMetadata = {
             metadataType: MetadataType.constructor,
@@ -58,9 +81,20 @@ export function makeDecorator<T>(
           };
           def.metadataDef = !!getDef ? getDef(def) : metadataDef;
           // 收集constructor 装饰器
-          constructorParameter.push(def);
+          config.constructorParameter.push(def);
+          MakeDecoratorCache.set(target, config);
         } else {
           // parameter
+          target = target.constructor;
+          if (!MakeDecoratorCache.has(target)) {
+            MakeDecoratorCache.set(target, {
+              constructorParameter,
+              parameters,
+              propertys,
+              methods,
+            });
+          }
+          let config = MakeDecoratorCache.get(target);
           const types = getDesignParamTypes(target, propertyKey);
           let def: ParameterMetadata = {
             metadataType: MetadataType.parameter,
@@ -73,24 +107,44 @@ export function makeDecorator<T>(
           };
           def.metadataDef = !!getDef ? getDef(def) : metadataDef;
           // 收集方法参数装饰器
-          parameters.push(def);
+          config.parameters.push(def);
+          MakeDecoratorCache.set(target, config);
         }
       } else if (isUndefined(descriptorOrParameterIndex)) {
         if (isUndefined(propertyKey)) {
           // class
+          if (!MakeDecoratorCache.has(target)) {
+            MakeDecoratorCache.set(target, {
+              constructorParameter,
+              parameters,
+              propertys,
+              methods,
+            });
+          }
+          let config = MakeDecoratorCache.get(target);
           let def: ClassMetadata = {
             metadataType: MetadataType.class,
             metadataDef,
             target,
             token,
-            parameters: constructorParameter,
-            propertys,
-            methods,
+            parameters: config.constructorParameter,
+            propertys: config.propertys,
+            methods: config.methods,
           };
           def.metadataDef = !!getDef ? getDef(def) : metadataDef;
           res = factory && factory.type(life, def);
         } else {
           // property
+          target = target.constructor;
+          if (!MakeDecoratorCache.has(target)) {
+            MakeDecoratorCache.set(target, {
+              constructorParameter,
+              parameters,
+              propertys,
+              methods,
+            });
+          }
+          let config = MakeDecoratorCache.get(target);
           const propertyType = getDesignType(target, propertyKey);
           let def: PropertyMetadata = {
             metadataType: MetadataType.class,
@@ -101,24 +155,36 @@ export function makeDecorator<T>(
             propertyType,
           };
           def.metadataDef = !!getDef ? getDef(def) : metadataDef;
-          propertys.push(def);
+          config.propertys.push(def);
+          MakeDecoratorCache.set(target, config);
         }
       } else {
         // method
+        target = target.constructor;
+        if (!MakeDecoratorCache.has(target)) {
+          MakeDecoratorCache.set(target, {
+            constructorParameter,
+            parameters,
+            propertys,
+            methods,
+          });
+        }
         const returnType = getDesignReturnType(target, propertyKey);
+        let config = MakeDecoratorCache.get(target);
         let def: MethodMetadata = {
           metadataType: MetadataType.method,
           metadataDef,
           target,
           token,
-          parameters,
+          parameters: config.parameters,
           propertyKey,
           returnType,
         };
         def.metadataDef = !!getDef ? getDef(def) : metadataDef;
         // 清空
-        methods.push(def);
-        parameters = [];
+        config.methods.push(def);
+        config.parameters = [];
+        MakeDecoratorCache.set(target, config);
       }
       return res;
     };

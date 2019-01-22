@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-
 const _getMetadata = (type: string) => (v: any, key?: any) => {
   return Reflect.getMetadata(type, v, key);
 };

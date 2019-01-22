@@ -7,8 +7,8 @@ export const copy = (src: string | string[], dest: string) => {
     let stream: NodeJS.ReadWriteStream = gulp.src(src).pipe(gulp.dest(dest));
     stream.on('end', () => {
       console.log('copy success');
-      observer.next(void 0);
-      observer.complete();
+      observer && observer.next(void 0);
+      observer && observer.complete();
     });
     return new Observable(obs => {
       observer = obs;

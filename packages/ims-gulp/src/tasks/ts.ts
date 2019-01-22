@@ -20,8 +20,8 @@ export const ts = (
     tsResult.dts.pipe(gulp.dest(path.join(dest, '../types')));
     stream.on('end', () => {
       console.log(`tsc end`);
-      observer.next(void 0);
-      observer.complete();
+      observer && observer.next(void 0);
+      observer && observer.complete();
     });
     return new Observable(obs => {
       observer = obs;

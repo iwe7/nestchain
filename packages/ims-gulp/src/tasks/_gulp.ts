@@ -2,7 +2,6 @@ import { scss } from './scss';
 import { ts } from './ts';
 import { copy } from './copy';
 import { forkJoin } from 'ims-rxjs';
-import { shareReplay } from 'rxjs/operators';
 
 export const gulp = (src: string, dest: string) => {
   return forkJoin(
