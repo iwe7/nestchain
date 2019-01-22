@@ -1,18 +1,8 @@
 import { Type } from '../type';
 import { Injector } from './injector';
 import { StaticProvider } from './provider';
-import { InjectionToken } from './injection_token';
 import { concat, from } from 'ims-rxjs';
-export interface AppInitialization {
-  /**
-   * index越大越重要，越靠前
-   */
-  index: number;
-  (injector: Injector): Promise<void>;
-}
-export const AppInitialization = new InjectionToken<AppInitialization[]>(
-  'App_Initialization',
-);
+import { AppInitialization } from '../tokens';
 
 export class ImsRef<T> {
   constructor(

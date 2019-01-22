@@ -1,3 +1,3 @@
-export * from './life'
-export * from './type'
-export * from './util'
+export * from './life';
+export * from './type';
+export * from './util';

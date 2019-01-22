@@ -1,8 +1,20 @@
 import { InjectionToken } from './di/injection_token';
+import { Injector } from './di/injector';
 
 /**
  * AppInitialization 应用初始化时运行
  */
+
+export interface AppInitialization {
+  /**
+   * index越大越重要，越靠前
+   */
+  index: number;
+  (injector: Injector): Promise<void>;
+}
+export const AppInitialization = new InjectionToken<AppInitialization[]>(
+  'App_Initialization',
+);
 
 /**
  * 错误处理
@@ -39,18 +51,3 @@ export interface AppConfig {
   source?: string;
 }
 export const AppConfig = new InjectionToken<AppConfig[]>('AppConfig');
-
-/**
- * other
- */
-export const AppName = new InjectionToken<string>('AppName');
-export const AppStatus = new InjectionToken<string>('AppStatus');
-
-export const AppRoot = new InjectionToken<string>('AppRoot');
-export const SourceRoot = new InjectionToken<string>('SourceRoot');
-export const PlatformName = new InjectionToken<string>('PlatformName');
-export const AppTitle = new InjectionToken<string>('AppTitle');
-export const DevOpen = new InjectionToken<boolean>('DevOpen');
-
-export const DevPort = new InjectionToken<any>('DevPort');
-export const DevWatch = new InjectionToken<boolean>('DevWatch');
