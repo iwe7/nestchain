@@ -1,16 +1,16 @@
 {
   "name": "ims-wxapp",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "> TODO: description",
   "author": "meepobrother <1037483576@qq.com>",
   "homepage": "https://github.com/iwe7/nestchain#readme",
   "license": "ISC",
   "main": "lib/ims-wxapp.js",
   "dependencies": {
-    "ims-core": "^0.0.13",
-    "ims-http": "^0.0.13",
-    "ims-platform-wxapp": "^0.0.13",
-    "ims-util": "^0.0.13"
+    "ims-core": "^0.0.14",
+    "ims-http": "^0.0.14",
+    "ims-platform-wxapp": "^0.0.14",
+    "ims-util": "^0.0.14"
   },
   "files": [
     "lib"
